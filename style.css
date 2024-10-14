@@ -13,19 +13,19 @@ body {
 #randomMovieBtn {
     padding: 20px 40px;
     font-size: 18px;
-    background-color: #ff6347; /* Tomato color */
-    color: white;
+    background-color: #55a3e5; /* Tomato color */
+    color: #ddebf6;
     border: none;
     border-radius: 10px;
     cursor: pointer;
-    font-family: 'Arial', sans-serif;
+    font-family: 'Courier', sans-serif;
     box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2); /* Add some shadow for depth */
     transition: background-color 0.3s ease;
 }
 
 /* Button hover effect */
 #randomMovieBtn:hover {
-    background-color: #ff4500; /* Darker tomato color */
+    background-color: #79abd4; /* Darker tomato color */
 }
 
 /* Styling the movie details area */
