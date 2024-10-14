@@ -6,26 +6,26 @@ body {
     height: 100vh;
     margin: 0;
     font-family: Arial, sans-serif;
-    background-color: #f0f0f0; /* Light background */
+    background-color: #f2d7c7;
 }
 
 /* Styling the button */
 #randomMovieBtn {
     padding: 20px 40px;
     font-size: 18px;
-    background-color: #55a3e5; /* Tomato color */
+    background-color: #55a3e5;
     color: #ddebf6;
     border: none;
     border-radius: 10px;
     cursor: pointer;
     font-family: 'Courier', sans-serif;
-    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2); /* Add some shadow for depth */
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
     transition: background-color 0.3s ease;
 }
 
 /* Button hover effect */
 #randomMovieBtn:hover {
-    background-color: #79abd4; /* Darker tomato color */
+    background-color: #79abd4;
 }
 
 /* Styling the movie details area */
