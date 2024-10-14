@@ -1,13 +1,32 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <link rel="stylesheet" type="text/css" href="style.css">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Random Movie</title>
 </head>
 <body>
-    hi
-    hello hey
-    <button ></button>
+
+    <button id="randomMovieBtn">Random Movie</button>
+    <div id="movieDetails"></div>
+
+    <script>
+        // Your JavaScript code for fetching random movie
+        document.getElementById("randomMovieBtn").addEventListener("click", function() {
+            fetch('/random-movie')
+            .then(response => response.json())
+            .then(data => {
+                let movieDetails = `
+                    <h2>${data.title}</h2>
+                    <p>Genre: ${data.genre}</p>
+                    <p>Release Year: ${data.release_year}</p>
+                    <p>Runtime: ${data.runtime} minutes</p>
+                    <p>${data.description}</p>`;
+                document.getElementById("movieDetails").innerHTML = movieDetails;
+            });
+        });
+    </script>
+
 </body>
 </html>
