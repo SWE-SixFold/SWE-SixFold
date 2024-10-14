@@ -1,6 +1,7 @@
-/* Centering the button */
+/* Centering the button and elements */
 body {
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
     height: 100vh;
@@ -21,10 +22,46 @@ body {
     font-family: 'Courier', sans-serif;
     box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
     transition: background-color 0.3s ease;
+    margin-bottom: 20px; /* Space between button and search bar */
 }
 
 /* Button hover effect */
 #randomMovieBtn:hover {
+    background-color: #79abd4;
+}
+
+/* Centering the search bar */
+#searchBarContainer {
+    display: flex; /* Keep the flex layout for the input and button */
+    gap: 10px;
+    justify-content: center; /* Center the items in the flex container */
+    margin-bottom: 20px; /* Space below the search bar */
+}
+
+/* Input styling */
+#movieSearch {
+    padding: 10px;
+    font-size: 16px;
+    border: 2px solid #ccc;
+    border-radius: 5px;
+    width: 250px; /* Fixed width for the input */
+}
+
+/* Search button styling */
+#searchBtn {
+    padding: 10px 20px;
+    font-size: 16px;
+    background-color: #55a3e5;
+    color: #ddebf6;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-family: 'Courier', sans-serif;
+    transition: background-color 0.3s ease;
+}
+
+/* Search button hover effect */
+#searchBtn:hover {
     background-color: #79abd4;
 }
 
