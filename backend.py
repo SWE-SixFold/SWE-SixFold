@@ -10,6 +10,7 @@ random.choice(string.ascii_letters) #Grab random first letter for searching (Cur
 
 def random_movie():
     roll = client.get(search="The Matrix") #Searches the given string in the API's movie catalog. Currently only searches exact matches.
+    print(roll)
     return roll
 
 random_movie()
