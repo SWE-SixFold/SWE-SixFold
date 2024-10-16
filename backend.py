@@ -1,25 +1,38 @@
-#pip install omdb in terminal
+# to run use terminal in this order
+# python3 -m venv myenv
+# source myenv/bin/activate
+#
+# deactivate (when youre done)
+
+from flask import Flask, render_template, jsonify, redirect, url_for
 import omdb
-omdb.set_default('apikey', '96ae5860')
-from omdb import OMDBClient
-client = OMDBClient(apikey='96ae5860')
 import random
 
-def random_movieid(): #OMDb does not have a random movie method, so the ID might result in a timeout
-    idnum = random.randint(1000000,9999999) #Generate random number
-    randomid=("tt" +str(idnum)) #Create random IMDb ID
-    roll = omdb.imdbid(randomid, timeout=3) #Searches the randomly generated ID in the database.
-    return roll
+app = Flask(__name__)
 
-def view_movie(title: str): #Enter a movie title to get a dictionary of specific information of the movie
-    searchlist = omdb.search_movie(title, page=1)
-    specific = searchlist[1]
-    usedid = specific.get('imdb_id')
-    details = omdb.imdbid(usedid, timeout=3)
-    return details
+# set up OMDb API key
+omdb.set_default('apikey', '96ae5860')
 
-case6 = random_movieid()
-case9 = view_movie("The Matrix")
+# route to render the main page
+@app.route('/')
+def home():
+    return render_template('index.html')
 
-print(case6)
-print(case9)
+# route to handle the random movie functionality
+@app.route('/random-movie')
+def random_movie():
+    # generate a random IMDb ID and fetch movie data
+    idnum = random.randint(1000000, 9999999)
+    random_id = f"tt{idnum}"
+    try:
+        movie = omdb.imdbid(random_id, timeout=3)
+        if movie:
+            return jsonify(movie)
+    except:
+        pass  # try another ID if there's a timeout or error
+
+    # fallback if no valid movie is found
+    return jsonify({'error': 'Movie not found, try again!'})
+
+if __name__ == '__main__':
+    app.run(debug=True)
