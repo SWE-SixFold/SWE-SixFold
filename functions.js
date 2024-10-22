@@ -42,3 +42,33 @@ function feelingLucky() {
             alert('Failed to fetch a random movie, please try again.');
         });
 }
+
+const apiKey = '96ae5860'; // Replace with your OMDB API key
+
+function searchMovie() {
+    const movieTitle = document.getElementById('movieInput').value; // Get movie title from input field
+    const url = `https://www.omdbapi.com/?t=${encodeURIComponent(movieTitle)}&apikey=${apiKey}`;
+
+    fetch(url)
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.json();
+        })
+        .then(data => {
+            const resultDiv = document.getElementById('result');
+            if (data.Response === 'True') {
+                resultDiv.innerHTML = `
+                    <h2>${data.Title} (${data.Year})</h2>
+                    <img src="${data.Poster}" alt="${data.Title}">
+                    <p>${data.Plot}</p>
+                `;
+            } else {
+                resultDiv.innerHTML = `<p>${data.Error}</p>`;
+            }
+        })
+        .catch(error => {
+            console.error('There was a problem with the fetch operation:', error);
+        });
+}

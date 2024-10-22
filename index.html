@@ -42,7 +42,7 @@
         <main>
             <!-- search box with input field -->
             <div class="search-box">
-                <input type="text" placeholder="Search for movies" aria-label="Search for movies"> <!-- search input -->
+                <input type="text" id="movieInput" placeholder="Search for movies" aria-label="Search for movies"> <!-- search input -->
             </div>
 
             <!-- buttons for "search" and "i'm feeling lucky" functionality -->
@@ -51,6 +51,9 @@
                 <button onclick="feelingLucky()">Random</button> <!-- special button for random search -->
                 <button onclick="feelingLucky()">Art History</button> <!-- button for our collab  -->
             </div>
+
+            <!-- Result section to display movie details -->
+            <div id="result"></div>
         </main>
 
         <!-- footer with links related to the website or project info -->
@@ -61,7 +64,7 @@
         </footer>
     </div>
 
-    <!-- link to our JavaScript file (movie.js) to handle interactions and functionality -->
-    <script src="functions.js"></script>
+    <!-- link to our JavaScript file (functions.js) to handle interactions and functionality -->
+    <script src="functions.js" defer></script>
 </body>
 </html>
