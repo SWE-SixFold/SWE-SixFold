@@ -1,41 +1,38 @@
-import sqlite3
+import pymysql
 
-# Connect to the SQLite database (it will create the file if it doesn't exist)
-conn = sqlite3.connect('users.db')
-
-# Create a cursor object to interact with the database
-cursor = conn.cursor()
-
-# Create a table for users
-cursor.execute('''
-    CREATE TABLE IF NOT EXISTS users (
-        id INTEGER PRIMARY KEY AUTOINCREMENT,
-        username TEXT NOT NULL UNIQUE,
-        password TEXT NOT NULL
-    )
-''')
-
-# Function to add a user
-def add_user(username, password):
+def connect_to_mysql():
     try:
-        cursor.execute('INSERT INTO users (username, password) VALUES (?, ?)', (username, password))
-        conn.commit()
-        print(f"User {username} added successfully.")
-    except sqlite3.IntegrityError:
-        print(f"Username {username} already exists.")
+        # Establish the connection
+        connection = pymysql.connect(
+            host='localhost',          # e.g., 'localhost' or IP address
+            user='root',      # Your MySQL username
+            password='10312018',   # Your MySQL password
+            database='sixFold'   # Name of the database you want to connect to
+        )
 
-# Example usage: add a user
-add_user('example_user', 'example_password')
+        print("Successfully connected to the database")
+        return connection
 
-# Function to fetch all users
-def fetch_users():
-    cursor.execute('SELECT * FROM users')
-    users = cursor.fetchall()
-    for user in users:
-        print(user)
+    except pymysql.MySQLError as e:
+        print(f"Error while connecting to MySQL: {e}")
+        return None
 
-# Fetch and print all users
-fetch_users()
+def main():
+    connection = connect_to_mysql()
+    
+    if connection:
+        # Do something with the connection
+        cursor = connection.cursor()
+        
+        # Example: Fetch data from a table
+        cursor.execute("SELECT * FROM users")
+        rows = cursor.fetchall()
+        
+        for row in rows:
+            print(row)
+        
+        cursor.close()
+        connection.close()
 
-# Close the connection
-conn.close()
+if __name__ == "__main__":
+    main()
