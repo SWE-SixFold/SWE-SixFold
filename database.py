@@ -1,6 +1,8 @@
 import pymysql
 from flask import Flask, render_template, request, redirect, url_for, flash
 
+#TODO duplicates
+
 app = Flask(__name__)
 app.secret_key = 'your_secret_key'  # Replace with a strong secret key
 
@@ -25,11 +27,12 @@ def connect_to_mysql():
 def home():
     return render_template('login.html')  # Render the login form
 
+flash("Hi")
 
 @app.route('/login', methods=['POST'])
 def login():
-    username = request.form['username']  # Get username from form
-    password = request.form['password']  # Get password from form
+    username = request.form.get('username') # Get username from form
+    password = request.form.get('password')  # Get password from form
 
     #
     connection = connect_to_mysql()
