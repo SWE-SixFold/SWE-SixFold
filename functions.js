@@ -7,6 +7,8 @@ function toggleMenu() {
     }
 }
 
+
+
 // listens for clicks anywhere on the document to close dropdown when clicking outside
 document.addEventListener('click', function(event) {
     const menu = document.getElementById('dropdownMenu'); // get the dropdown menu
