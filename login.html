@@ -4,15 +4,15 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login Page</title>
-    <link rel="stylesheet" type="text/css" href="style.css"> <!-- Link to your CSS file -->
+    <link rel="stylesheet" type="text/css" href="style.css">
 </head>
 <body>
 
-<!-- Add the 'login-form' class to the form -->
-<form action="action_page.php" method="post" class="login-form">
+<!-- Updated action to point to Flask route -->
+<form action="/login" method="post" class="login-form">
     <div class="container">
         <label for="uname"><b>Username</b></label>
-        <input type="text" placeholder="Enter Username" name="uname" required>
+        <input type="text" placeholder="Enter Username" name="username" required> <!-- changed name to 'username' -->
   
         <label for="psw"><b>Password</b></label>
         <input type="password" placeholder="Enter Password" name="psw" required>
