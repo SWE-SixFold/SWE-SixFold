@@ -1,3 +1,19 @@
 {
-    "liveServer.settings.port": 5501
+  "liveServer.settings.port": 5501,
+  "sqltools.connections": [
+    {
+      "mysqlOptions": {
+        "authProtocol": "default",
+        "enableSsl": "Disabled"
+      },
+      "previewLimit": 50,
+      "server": "localhost",
+      "port": 3306,
+      "driver": "MySQL",
+      "name": "lab3_SQL_connection",
+      "password": "10312018",
+      "username": "root",
+      "database": "mysql"
+    }
+  ]
 }
