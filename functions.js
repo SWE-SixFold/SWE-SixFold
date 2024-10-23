@@ -74,3 +74,27 @@ function searchMovie() {
             console.error('There was a problem with the fetch operation:', error);
         });
 }
+
+// Handle Login and Registration inputs to create accounts. Entering username "user" and password "web_dev" logs you in.
+
+const loginButton = document.getElementById("login-form-submit");
+const loginErrorMsg = document.getElementById("login-error-msg");
+
+loginButton.addEventListener("click", (e) => {
+    e.preventDefault();
+
+    const loginForm = document.getElementById("login-form");
+    const username = loginForm.uname.value;
+    const password = loginForm.psw.value;
+    console.log(username)
+    console.log(password)
+
+    if (username === "user" && password === "web_dev") {
+        console.log("success")
+        alert("You have successfully logged in.");
+        location.reload();
+    } else {
+        console.log("fail")
+        //loginErrorMsg.style.opacity = 1;
+    }
+})
