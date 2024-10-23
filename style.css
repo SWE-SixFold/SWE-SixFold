@@ -149,6 +149,59 @@ body.dark-mode .dropdown-menu a:hover {
     background-color: #005bb5;
 }
 
+/* General container styling for the registration form */
+.register-container {
+    max-width: 400px; /* Maximum width for the form */
+    margin: auto; /* Center the form horizontally */
+    padding: 20px; /* Padding inside the container */
+    background-color: #ffffff; /* White background */
+    border-radius: 8px; /* Rounded corners */
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); /* Slight shadow for depth */
+    text-align: center; /* Center text inside the container */
+}
+
+/* Input fields styling */
+.register-container input[type="text"],
+.register-container input[type="email"],
+.register-container input[type="password"] {
+    width: 100%; /* Full width of the form */
+    padding: 12px; /* Padding inside the input */
+    margin: 10px 0; /* Space between inputs */
+    border: 1px solid #ddd; /* Light border */
+    border-radius: 5px; /* Slightly rounded inputs */
+    font-size: 1rem; /* Font size */
+    box-sizing: border-box; /* Include padding in width calculations */
+}
+
+/* Styling for the register button */
+.register-container button[type="submit"] {
+    background-color: #007aff; /* Blue button */
+    color: #fff; /* White text */
+    padding: 12px 20px; /* Vertical and horizontal padding */
+    border: none; /* Remove border */
+    border-radius: 25px; /* Rounded corners */
+    cursor: pointer; /* Pointer cursor on hover */
+    font-size: 1.1rem; /* Font size */
+    width: 100%; /* Full width */
+    margin-top: 20px; /* Space above the button */
+    transition: background-color 0.3s ease; /* Smooth hover transition */
+}
+
+.register-container button[type="submit"]:hover {
+    background-color: #005bb5; /* Darker blue on hover */
+}
+
+/* Styling for the link to login */
+.register-container a {
+    color: #007aff; /* Blue link */
+    text-decoration: none; /* No underline */
+}
+
+.register-container a:hover {
+    text-decoration: underline; /* Underline on hover */
+}
+
+
 /* center the main content (container) on the screen */
 .container {
     text-align: center;

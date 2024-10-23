@@ -3,33 +3,30 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login Page</title>
-    <link rel="stylesheet" type="text/css" href="style.css"> <!-- Link to your CSS file -->
+    <title>Register Page</title>
+    <link rel="stylesheet" type="text/css" href="style.css">
 </head>
 <body>
 
-<form action="https://your-cloud-server.com/api/register" method="post">
-  <div class="container">
-    <label for="uname"><b>Username</b></label>
-    <input type="text" placeholder="Enter Username" name="uname" required>
-
-    <label for="email"><b>Email</b></label>
-    <input type="email" placeholder="Enter Email" name="email" required>
-
-    <label for="psw"><b>Password</b></label>
-    <input type="password" placeholder="Enter Password" name="psw" required>
-
-    <label for="psw-repeat"><b>Confirm Password</b></label>
-    <input type="password" placeholder="Confirm Password" name="psw-repeat" required>
-
-    <button type="submit">Register</button>
-  </div>
-
-  <div class="container" style="background-color:#f1f1f1">
-    <button type="button" class="cancelbtn">Cancel</button>
-  </div>
-
-  <div class="container" style="text-align:center;">
-    <span>Already have an account? <a href="login.php">Login here</a></span>
-  </div>
+  <div class="register-container">
+    <form action="https://your-cloud-server.com/api/register" method="post">
+      <label for="uname"><b>Username</b></label>
+      <input type="text" placeholder="Enter Username" name="uname" required>
+  
+      <label for="email"><b>Email</b></label>
+      <input type="email" placeholder="Enter Email" name="email" required>
+  
+      <label for="psw"><b>Password</b></label>
+      <input type="password" placeholder="Enter Password" name="psw" required>
+  
+      <label for="psw-repeat"><b>Confirm Password</b></label>
+      <input type="password" placeholder="Confirm Password" name="psw-repeat" required>
+  
+      <button type="submit">Register</button>
+    </form>
+  
+    <div style="text-align:center;">
+      <span>Already have an account? <a href="login.html">Login here</a></span>
+    </div>
+  </div>  
 </form>
