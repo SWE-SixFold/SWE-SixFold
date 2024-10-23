@@ -9,7 +9,7 @@
 <body>
 
 <!-- Updated action to point to Flask route -->
-<form action="/login" method="post" class="login-form">
+<form id="login-form" action="/login" method="post" class="login-form">
     <div class="container">
         <label for="uname"><b>Username</b></label>
         <input type="text" placeholder="Enter Username" name="username" required> <!-- changed name to 'username' -->
@@ -17,7 +17,7 @@
         <label for="psw"><b>Password</b></label>
         <input type="password" placeholder="Enter Password" name="psw" required>
     
-        <button type="button" class="login-button" onclick="location.href='index.html';">Login</button>
+        <button id="login-form-submit" type="button" class="login-button">Login</button>
         
         <label>
             <input type="checkbox" checked="checked" name="remember"> Remember me
