@@ -27,7 +27,7 @@ def connect_to_mysql():
 def home():
     return render_template('login.html')  # Render the login form
 
-flash("Hi")
+
 
 @app.route('/login', methods=['POST'])
 def login():
@@ -37,6 +37,7 @@ def login():
     #
     connection = connect_to_mysql()
     if connection:
+        flash("connected to sql", "hi")
         cursor = connection.cursor()
 
         # Query to check if the username and password match
