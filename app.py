@@ -10,9 +10,10 @@ app.secret_key = 'your_secret_key'  # Replace with a strong secret key
 
 def connect_to_mysql():
     try:
+        #do not touch these settings
         connection = pymysql.connect(
-            host='localhost',
-            user='root',
+            host='10.0.0.43',
+            user='sixfold',
             password='10312018',
             database='sixFold'
         )
@@ -29,15 +30,14 @@ def home():
 
 
 
-@app.route('/login', methods=['POST'])
+@app.route('/login', methods=['POST','GET'])
 def login():
     username = request.form.get('username') # Get username from form
-    password = request.form.get('password')  # Get password from form
-
-    #
+    password = request.form.get('psw')  # Get password from form
+    
     connection = connect_to_mysql()
     if connection:
-        flash("connected to sql", "hi")
+
         cursor = connection.cursor()
 
         # Query to check if the username and password match
@@ -50,7 +50,7 @@ def login():
         if user:
             # Successful login
             flash('Login successful!')
-            return redirect(url_for('home'))  # Redirect to home or dashboard
+            return render_template('index.html')  # Redirect to home or dashboard
         else:
             # Invalid credentials
             flash('Invalid username or password. Please try again.')
