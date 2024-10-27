@@ -56,5 +56,9 @@ def login():
             flash('Invalid username or password. Please try again.')
             return redirect(url_for('home'))
 
+@app.route('/register')
+def register():
+    return render_template('register.html')
+
 if __name__ == "__main__":
     app.run(debug=True)
