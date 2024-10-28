@@ -21,7 +21,7 @@
         "enableSsl": "Disabled"
       },
       "previewLimit": 50,
-      "server": "192.168.12.31",
+      "server": "10.250.66.13",
       "port": 3306,
       "driver": "MySQL",
       "name": "sixfold_db",
