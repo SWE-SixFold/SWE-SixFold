@@ -18,7 +18,7 @@ def connect_to_mysql():
     try:
         #do not touch these settings
         connection = pymysql.connect(
-            host='192.168.12.31',
+            host='10.250.66.13',
             user='sixfold',
             password='10312018',
             database='sixFold'
