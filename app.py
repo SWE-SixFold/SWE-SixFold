@@ -28,8 +28,6 @@ def connect_to_mysql():
 def home():
     return render_template('login.html')  # Render the login form
 
-
-
 @app.route('/login', methods=['POST','GET'])
 def login():
     username = request.form.get('username') # Get username from form
@@ -54,11 +52,15 @@ def login():
         else:
             # Invalid credentials
             flash('Invalid username or password. Please try again.')
-            return redirect(url_for('home'))
+            
 
 @app.route('/register')
 def register():
     return render_template('register.html')
+
+@app.route('/register', methods=['POST', 'GET'])
+def user_registration():
+    pass
 
 if __name__ == "__main__":
     app.run(debug=True)
