@@ -1,7 +1,13 @@
 import pymysql
 from flask import Flask, render_template, request, redirect, url_for, flash
+import pymysql.cursors
 
-#TODO duplicates
+"""
+TODO 
+    things I need to add: what if same username, 
+    how to check confirm password on html thing, 
+    how to make sure page only works with people signed in and how  
+"""
 
 app = Flask(__name__)
 app.secret_key = 'your_secret_key'  # Replace with a strong secret key
@@ -12,7 +18,7 @@ def connect_to_mysql():
     try:
         #do not touch these settings
         connection = pymysql.connect(
-            host='10.0.0.43',
+            host='192.168.12.31',
             user='sixfold',
             password='10312018',
             database='sixFold'
@@ -30,7 +36,7 @@ def home():
 
 @app.route('/login', methods=['POST','GET'])
 def login():
-    username = request.form.get('username') # Get username from form
+    username = request.form.get('username') # Get username from name='name' from form
     password = request.form.get('psw')  # Get password from form
     
     connection = connect_to_mysql()
@@ -51,16 +57,38 @@ def login():
             return render_template('index.html')  # Redirect to home or dashboard
         else:
             # Invalid credentials
-            flash('Invalid username or password. Please try again.')
-            
+            #flash('Invalid username or password. Please try again.')
+            return redirect(url_for('home'))
 
 @app.route('/register')
 def register():
     return render_template('register.html')
 
 @app.route('/register', methods=['POST', 'GET'])
-def user_registration():
-    pass
+def register_user():
+
+
+    #get info
+    username = request.form.get('username')
+    password = request.form.get('psw')
+        
+    #make connection to database
+    connection = connect_to_mysql()
+
+    if connection:
+        
+        cursor = connection.cursor()
+
+        insert_query = "INSERT INTO users (username, password) VALUES (%s, %s)"
+        cursor.execute(insert_query, (username, password))
+
+
+
+        connection.commit()
+        cursor.close()
+        connection.close()
+    
+    return redirect(url_for('home'))
 
 if __name__ == "__main__":
     app.run(debug=True)
