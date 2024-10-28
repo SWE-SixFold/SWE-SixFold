@@ -67,7 +67,6 @@ def register():
 @app.route('/register', methods=['POST', 'GET'])
 def register_user():
 
-
     #get info
     username = request.form.get('username')
     password = request.form.get('psw')
@@ -81,8 +80,6 @@ def register_user():
 
         insert_query = "INSERT INTO users (username, password) VALUES (%s, %s)"
         cursor.execute(insert_query, (username, password))
-
-
 
         connection.commit()
         cursor.close()
