@@ -77,6 +77,8 @@ function searchMovie() {
 
 // Handle Login and Registration inputs to create accounts. Entering username "user" and password "web_dev" logs you in.
 
+/*
+
 const loginButton = document.getElementById("login-form-submit");
 
 loginButton.addEventListener("click", (e) => {
@@ -92,4 +94,4 @@ loginButton.addEventListener("click", (e) => {
     } else {
         alert("Login failed. Please try again.");
     }
-})
+}) */
