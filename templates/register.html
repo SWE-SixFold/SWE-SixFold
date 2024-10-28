@@ -9,18 +9,21 @@
 <body>
 
   <div class="register-container">
-    <form action="https://your-cloud-server.com/api/register" method="post">
+    <form action="{{ url_for('register_user') }}" method="post">
       <label for="uname"><b>Username</b></label>
-      <input type="text" placeholder="Enter Username" name="uname" required>
+      <input name="username" type="text" placeholder="Enter Username" required>
   
+      <!-- ****temporarily taking it off because we are not using email yet*****
       <label for="email"><b>Email</b></label>
-      <input type="email" placeholder="Enter Email" name="email" required>
+      <input id="email" type="email" placeholder="Enter Email" name="email" required>
+      -->
+
+      <label for="password"><b>Password</b></label>
+      <input id="psw" type="password" placeholder="Enter Password" name="psw" required>
   
-      <label for="psw"><b>Password</b></label>
-      <input type="password" placeholder="Enter Password" name="psw" required>
-  
+      
       <label for="psw-repeat"><b>Confirm Password</b></label>
-      <input type="password" placeholder="Confirm Password" name="psw-repeat" required>
+      <input id="conf_psw" type="password" placeholder="Confirm Password" name="psw-repeat" required>
   
       <button type="submit">Register</button>
     </form>
