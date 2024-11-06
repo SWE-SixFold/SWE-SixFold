@@ -13,6 +13,8 @@ TODO
 app = Flask(__name__)
 app.secret_key = 'your_secret_key'  # Replace with a strong secret key
 
+pokemon = ["a", "b", "c"]
+
 # Connect to SQL function
 def connect_to_mysql():
     try:
@@ -59,6 +61,10 @@ def login():
 @app.route('/register')
 def register():
     return render_template('register.html')
+
+@app.route('/results')
+def results():
+    return render_template('results.html', len = len(pokemon), pokemon = pokemon) #render_template('results.html')
 
 @app.route('/register', methods=['POST', 'GET'])
 def register_user():
