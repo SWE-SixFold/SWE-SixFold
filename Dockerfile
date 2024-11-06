@@ -1,21 +1,20 @@
-# Use the official Python image from Docker Hub
+# Use official Python runtime as a parent image
 FROM python:3.9-slim
 
-# Set the working directory in the container to /app
+# Set the working directory in the container
 WORKDIR /app
 
-# Copy the entire app directory into the container
-COPY . /app/app
+# Copy the current directory contents into the container
+COPY . /app
 
-# Install dependencies from requirements.txt
-COPY requirements.txt /app/requirements.txt
-RUN pip install --no-cache-dir -r /app/requirements.txt
+# Install dependencies
+RUN pip install --no-cache-dir -r requirements.txt
 
-# Set environment variable for Google credentials
-ENV GOOGLE_APPLICATION_CREDENTIALS=/app/serviceAccountKey.json
-
-# Expose the port that Flask will run on
+# Make port 8080 available to the world outside the container
 EXPOSE 8080
 
-# Run the Flask app
-CMD ["python", "/app/app.py"]  # Ensure the path points to /app/app.py
+# Define environment variable for Flask
+ENV GOOGLE_APPLICATION_CREDENTIALS=/app/serviceAccountKey.json
+
+# Run app.py when the container launches
+CMD ["gunicorn", "-b", "0.0.0.0:8080", "app:app"]

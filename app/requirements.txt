@@ -1,0 +1,5 @@
+flask
+firebase-admin
+omdb
+google-cloud-firestore
+gunicorn
