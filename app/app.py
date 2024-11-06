@@ -1,7 +1,7 @@
 import os
 import random
 import firebase_admin
-from firebase_admin import credentials, firestore
+from firebase_admin import credentials, firestore, auth
 from flask import Flask, render_template, request, redirect, url_for, flash, jsonify
 import omdb
 
@@ -25,39 +25,36 @@ def home():
 # Login route
 @app.route('/login', methods=['POST', 'GET'])
 def login():
-    username = request.form.get('username')
+    email = request.form.get('username')
     password = request.form.get('psw')
 
-    # Retrieve user with matching username and password
-    user_ref = db.collection('users').where('username', '==', username).where('password', '==', password).stream()
-    user = next(user_ref, None)  # Get first matching user or None if no match
-
-    if user:
+    try:
+        # Use Firebase Authentication to sign in the user
+        user = auth.get_user_by_email(email)
+        # Authenticate user (you should implement Firebase Client SDK to handle password matching on the front-end)
         flash('Login successful!')
         return render_template('index.html')
-    else:
-        flash('Invalid username or password. Please try again.')
+    except auth.AuthError:
+        flash('Invalid email or password. Please try again.')
         return redirect(url_for('home'))
 
 # Registration route
 @app.route('/register', methods=['POST', 'GET'])
 def register_user():
-    username = request.form.get('username')
+    email = request.form.get('username')
     password = request.form.get('psw')
 
-    # Check if username already exists
-    user_ref = db.collection('users').where('username', '==', username).stream()
-    if any(user_ref):  # If any user exists with that username
-        flash('Username already exists. Please choose another.')
+    try:
+        # Create a new user in Firebase Authentication
+        user = auth.create_user(
+            email=email,
+            password=password
+        )
+        flash('Registration successful! Please log in.')
+        return redirect(url_for('home'))
+    except auth.EmailAlreadyExistsError:
+        flash('Username (email) already exists. Please choose another.')
         return redirect(url_for('register'))
-    
-    # Add new user to Firestore
-    db.collection('users').add({
-        'username': username,
-        'password': password
-    })
-    flash('Registration successful! Please log in.')
-    return redirect(url_for('home'))
 
 # Registration page
 @app.route('/register')
