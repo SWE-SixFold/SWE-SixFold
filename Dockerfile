@@ -17,4 +17,4 @@ EXPOSE 8080
 ENV GOOGLE_APPLICATION_CREDENTIALS=/app/serviceAccountKey.json
 
 # Run app.py when the container launches
-CMD ["gunicorn", "-b", "0.0.0.0:8080", "app:app"]
+CMD ["gunicorn", "-b", "0.0.0.0:8080", "app.app:app"]
