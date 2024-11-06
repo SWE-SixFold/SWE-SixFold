@@ -1,6 +1,6 @@
 import os
 import pymysql
-from flask import Flask, render_template, request, redirect, url_for, flash
+from flask import Flask, render_template, request, redirect, url_for, flash, session
 import pymysql.cursors
 
 """
@@ -35,9 +35,9 @@ def connect_to_mysql():
 def home():
     return render_template('login.html')  # Render the login form
 
-@app.route('/login', methods=['POST','GET'])
+@app.route('/login', methods=['POST', 'GET'])
 def login():
-    username = request.form.get('username')  # Get username from name='name' from form
+    username = request.form.get('username')  # Get username from form
     password = request.form.get('psw')  # Get password from form
     
     connection = connect_to_mysql()
@@ -50,13 +50,23 @@ def login():
         connection.close()
 
         if user:
-            # Successful login
+            # Store username in session
+            session['username'] = username
             flash('Login successful!')
             return render_template('index.html')  # Redirect to home or dashboard
         else:
             # Invalid credentials
             flash('Invalid username or password. Please try again.')
             return redirect(url_for('home'))
+
+@app.route('/logout')
+def logout():
+    # Remove the username from the session
+    session.pop('username', None)
+    flash('You have been logged out.')
+    print("YOU LOGGED OUT")
+    return redirect(url_for('home'))
+
 
 @app.route('/register')
 def register():
