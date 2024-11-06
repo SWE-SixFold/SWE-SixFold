@@ -1,0 +1,6 @@
+__pycache__
+.git
+.env
+serviceAccountKey.json  # Ensure the service account key is not added to the container
+*.pyc
+*.pyo

@@ -7,15 +7,15 @@ import omdb
 
 # Initialize Flask app
 app = Flask(__name__)
-app.secret_key = 'sssecret'  # Replace with a strong secret key
+app.secret_key = os.getenv('FLASK_SECRET_KEY', 'default_secret')  # Use environment variable for secret key
 
-# Initialize Firestore
-cred = credentials.Certificate(os.environ.get("GOOGLE_APPLICATION_CREDENTIALS"))
+# Initialize Firebase Admin SDK
+cred = credentials.ApplicationDefault()  # Automatically uses the Google Cloud environment's default credentials
 firebase_admin.initialize_app(cred)
 db = firestore.client()
 
 # OMDb API setup
-omdb.set_default('apikey', '96ae5860')
+omdb.set_default('apikey', os.getenv('OMDB_API_KEY', '96ae5860'))  # Use environment variable for API key
 
 # Home / login page
 @app.route('/')
@@ -73,12 +73,13 @@ def random_movie():
         movie = omdb.imdbid(random_id, timeout=3)
         if movie:
             return jsonify(movie)
-    except:
-        pass
+    except Exception as e:
+        return jsonify({'error': f'Movie not found or error: {str(e)}'})
 
     # Error if no movie found
     return jsonify({'error': 'Movie not found, try again!'})
 
 if __name__ == "__main__":
-    port = int(os.environ.get("PORT", 8080))
+    # Cloud Run automatically sets the PORT environment variable
+    port = int(os.getenv('PORT', 8080))
     app.run(debug=True, host="0.0.0.0", port=port)
