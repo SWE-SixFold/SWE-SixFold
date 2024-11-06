@@ -2,6 +2,7 @@ import os
 import pymysql
 from flask import Flask, render_template, request, redirect, url_for, flash, session
 import pymysql.cursors
+import omdb
 
 """
 TODO 
@@ -12,8 +13,6 @@ TODO
 
 app = Flask(__name__)
 app.secret_key = 'your_secret_key'  # Replace with a strong secret key
-
-pokemon = ["a", "b", "c"]
 
 # Connect to SQL function
 def connect_to_mysql():
@@ -53,7 +52,12 @@ def login():
             # Store username in session
             session['username'] = username
             flash('Login successful!')
-            return render_template('index.html')  # Redirect to home or dashboard
+            if session['username'] == "testuser":
+                image_url = "https://media.tenor.com/ciegZ6-LGR4AAAAe/cool-link-shades.png"
+                return render_template('index.html', image_url = image_url)  # Redirect to home or dashboard
+            else:
+                image_url = "static/images/Default_pfp.svg.png"
+                return render_template('index.html', image_url = image_url)
         else:
             # Invalid credentials
             flash('Invalid username or password. Please try again.')
@@ -67,14 +71,33 @@ def logout():
     print("YOU LOGGED OUT")
     return redirect(url_for('home'))
 
-
 @app.route('/register')
 def register():
     return render_template('register.html')
 
-@app.route('/results')
+
+@app.route('/results', methods=['POST','GET'])
 def results():
-    return render_template('results.html', len = len(pokemon), pokemon = pokemon) #render_template('results.html')
+
+    title = request.args.get("movieTitle")
+
+    key = "96ae5860"
+
+    #setting up api to request info from api
+    omdb.set_default('apikey', key)
+
+    #will search all related movies with that title, you can include parameters like year, and other stuff (read doc)
+    movies = omdb.search_movie(title)
+
+    posters = []
+
+    for movie in range(0, len(movies)):
+        posters.append((movies[movie]['poster']))
+
+    return render_template('results.html', posters = posters)
+
+
+
 
 @app.route('/register', methods=['POST', 'GET'])
 def register_user():

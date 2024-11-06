@@ -18,7 +18,7 @@
 
         <!-- profile icon that opens a dropdown menu with options -->
         <div class="profile-icon" onclick="toggleMenu()">
-            <img src="static/images/Default_pfp.svg.png" alt="Profile"> <!-- profile picture placeholder -->
+            <img src="{{ image_url }}" alt="Profile"> <!-- profile picture placeholder -->
             
             <!-- dropdown menu with options (appears when profile icon is clicked) -->
             <div class="dropdown-menu" id="dropdownMenu">
@@ -40,23 +40,21 @@
 
         <!-- search bar section for movie search functionality -->
         <main>
-            <!-- search box with input field -->
-            <div class="search-box">
-                <input type="text" id="movieInput" placeholder="Search for movies" aria-label="Search for movies"> <!-- search input -->
-            </div>
 
             <!-- buttons for "search" and "i'm feeling lucky" functionality -->
-            <div class="button-group">
-                <button onclick="searchMovie()">Search</button> <!-- main search button -->
-                <button onclick="feelingLucky()">Random</button> <!-- special button for random search -->
-                <button onclick="feelingLucky()">Art History</button> <!-- button for our collab  -->
-                <form action="{{ url_for('results') }}" method="get">
-                    <div class="button-group">
-                        <button type="submit">Result</button>
-                    </div>
+
+            <form method="GET" action="{{ url_for('results') }}">
+                <div class="search-box">
+                    <input type="text" id="movieInput" name="movieTitle" placeholder="Search for movies" aria-label="Search for movies">
+                </div>
+                <div class="button-group">
+                    <button type="submit">Search</button>
+                    <button onclick="feelingLucky()">Random</button> <!-- special button for random search -->
+                    <button onclick="feelingLucky()">Art History</button> <!-- button for our collab  -->
                     
-                </form>
-            </div>
+                </div>
+                
+            </form>
 
             <!-- Result section to display movie details -->
             <div id="result"></div>
@@ -69,6 +67,9 @@
             <a href="#">Contact</a> <!-- link to a contact page for our socials-->
         </footer>
     </div>
+
+
+    
 
     <!-- link to our JavaScript file (functions.js) to handle interactions and functionality -->
     <script src="static/functions.js" defer></script>

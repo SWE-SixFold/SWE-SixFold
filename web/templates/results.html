@@ -7,15 +7,16 @@
     <link rel="stylesheet" href="static/style.css">
 </head>
 <body class="results">
-    <!--Button to trigger a form submit to redirect-->
-    <ol>
+    <h1>Results</h1>
 
-        {%for i in range (0, len)%}
+    <div class="gallery">
 
-            <li>{{pokemon[i]}}</li>
-        
+        {%for poster in posters%}
+            <div class="image-item">
+                <img src="{{ poster }}" alt="poster">
+            </div>
         {%endfor%}
 
-    </ol>
+    </div>
 </body>
 </html>
