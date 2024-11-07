@@ -5,6 +5,9 @@ from firebase_admin import firestore, credentials, auth  # Import auth for Fireb
 from flask import Flask, render_template, request, redirect, url_for, flash, jsonify
 import omdb
 
+# Set Project ID
+os.environ["GOOGLE_CLOUD_PROJECT"] = "swe-sixfold"
+
 # Initialize Flask app
 app = Flask(__name__)
 app.secret_key = os.getenv('FLASK_SECRET_KEY', 'default_secret')  # Use environment variable for secret key
