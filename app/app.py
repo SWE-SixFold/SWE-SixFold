@@ -1,7 +1,7 @@
 import os
 import random
 import firebase_admin
-from firebase_admin import credentials, firestore, auth
+from firebase_admin import firestore, credentials, auth  # Import auth for Firebase Authentication
 from flask import Flask, render_template, request, redirect, url_for, flash, jsonify
 import omdb
 
@@ -10,8 +10,7 @@ app = Flask(__name__)
 app.secret_key = os.getenv('FLASK_SECRET_KEY', 'default_secret')  # Use environment variable for secret key
 
 # Initialize Firebase Admin SDK
-cred = credentials.ApplicationDefault()  # Automatically uses the Google Cloud environment's default credentials
-firebase_admin.initialize_app(cred)
+firebase_admin.initialize_app()
 db = firestore.client()
 
 # OMDb API setup
@@ -22,19 +21,18 @@ omdb.set_default('apikey', os.getenv('OMDB_API_KEY', '96ae5860'))  # Use environ
 def home():
     return render_template('login.html')
 
-# Login route
-@app.route('/login', methods=['POST', 'GET'])
+# Login route (for email existence check only; password check should be on the client side)
+@app.route('/login', methods=['POST'])
 def login():
     email = request.form.get('username')
-    password = request.form.get('psw')
+    password = request.form.get('psw')  # Password would be verified on the client side
 
     try:
-        # Use Firebase Authentication to sign in the user
+        # Check if the email exists in Firebase Authentication
         user = auth.get_user_by_email(email)
-        # Authenticate user (you should implement Firebase Client SDK to handle password matching on the front-end)
         flash('Login successful!')
         return render_template('index.html')
-    except auth.AuthError:
+    except firebase_admin.auth.UserNotFoundError:
         flash('Invalid email or password. Please try again.')
         return redirect(url_for('home'))
 
@@ -52,7 +50,7 @@ def register_user():
         )
         flash('Registration successful! Please log in.')
         return redirect(url_for('home'))
-    except auth.EmailAlreadyExistsError:
+    except firebase_admin.auth.EmailAlreadyExistsError:
         flash('Username (email) already exists. Please choose another.')
         return redirect(url_for('register'))
 
