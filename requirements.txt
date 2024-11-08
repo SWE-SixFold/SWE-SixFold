@@ -1,5 +1,6 @@
-flask
-firebase-admin
-omdb
-google-cloud-firestore
+Flask
+Flask-PyMongo
+pyrebase4
 gunicorn
+firebase-admin
+requests

@@ -3,68 +3,68 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Movie Search</title>
-
-    <!-- link to our stylesheet (style.css) for editing the looks of the page -->
-    <link rel="stylesheet" href="static/style.css">
+    <title>SWE-Sixfold</title>
+    <script type="module" src="{{ url_for('static', filename='js/firebase-init.js') }}"></script>
+    <!-- Link to stylesheet -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
-    <!-- dark mode and profile icons in the top right corner -->
+    <!-- Dark mode and profile icons in the top right corner -->
     <div class="top-icons">
-        <!-- dark mode toggle button - switches between light and dark themes -->
+        <!-- Dark mode toggle button -->
         <div class="dark-mode-icon" onclick="toggleDarkMode()">
-            <img src="static/images/dark.png" alt="Dark Mode"> <!-- icon image for dark mode -->
+            <img src="{{ url_for('static', filename='images/dark.png') }}" alt="Dark Mode">
         </div>
 
-        <!-- profile icon that opens a dropdown menu with options -->
+        <!-- Profile icon that opens a dropdown menu -->
         <div class="profile-icon" onclick="toggleMenu()">
-            <img src="static/images/Default_pfp.svg.png" alt="Profile"> <!-- profile picture placeholder -->
+            <img src="{{ url_for('static', filename='images/Default_pfp.svg.png') }}" alt="Profile">
             
-            <!-- dropdown menu with options (appears when profile icon is clicked) -->
+            <!-- Dropdown menu with options -->
             <div class="dropdown-menu" id="dropdownMenu">
-                <a href="login.html">Thing 1(login/logout)</a> <!-- example link -->
-                <a href="#">Thing 2(manager access)</a> <!--  placeholder  -->
-                <a href="#">Thing 3(notes)</a> <!--  placeholder  -->
-                <a href="#">Thing 4(settings)</a> <!--  placeholder  -->
-                <a href="#">Thing 5(settings)</a> <!--  placeholder  -->
+                <a href="login.html">Login/Logout</a>
+                <a href="#">Manager Access</a>
+                <a href="#">Notes</a>
+                <a href="#">Settings</a>
+                <a href="#">Another Setting</a>
             </div>
         </div>
     </div>
 
-    <!-- main content container for centering everything on the page -->
+    <!-- Main content container -->
     <div class="container">
-        <!-- website name/logo -->
+        <!-- Website logo -->
         <header>
-            <h1 class="logo">CineSage</h1> <!-- main title (bold) -->
+            <h1 class="logo">CineSage</h1>
         </header>
 
-        <!-- search bar section for movie search functionality -->
+        <!-- Movie search section -->
         <main>
-            <!-- search box with input field -->
+            <!-- Search box with input field -->
             <div class="search-box">
-                <input type="text" id="movieInput" placeholder="Search for movies" aria-label="Search for movies"> <!-- search input -->
+                <input type="text" id="movieInput" placeholder="Search for movies" aria-label="Search for movies">
             </div>
 
-            <!-- buttons for "search" and "i'm feeling lucky" functionality -->
+            <!-- Buttons for search and random movie -->
             <div class="button-group">
-                <button onclick="searchMovie()">Search</button> <!-- main search button -->
-                <button onclick="feelingLucky()">Random</button> <!-- special button for random search -->
-                <button onclick="feelingLucky()">Art History</button> <!-- button for our collab  -->
+                <button onclick="searchMovie()">Search</button>
+                <button onclick="fetchRandomMovie()">Random</button>
+                <button onclick="feelingLucky()">Art History</button>
             </div>
 
-            <!-- Result section to display movie details -->
-            <div id="result"></div>
+            <!-- Section for displaying movie details -->
+            <div id="movie-display"></div>
         </main>
 
-        <!-- footer with links related to the website or project info -->
+        <!-- Footer with links -->
         <footer>
-            <a href="#">About</a> <!-- link to an "about" page maybe pics or linkdin site or github -->
-            <a href="#">Privacy</a> <!-- link to privacy policy mention the api use and non profit class proj etc -->
-            <a href="#">Contact</a> <!-- link to a contact page for our socials-->
+            <a href="#">About</a>
+            <a href="#">Privacy</a>
+            <a href="#">Contact</a>
         </footer>
     </div>
 
-    <!-- link to our JavaScript file (functions.js) to handle interactions and functionality -->
-    <script src="static/functions.js" defer></script>
+    <!-- JavaScript file for interactivity -->
+    <script src="{{ url_for('static', filename='functions.js') }}" defer></script>
 </body>
 </html>

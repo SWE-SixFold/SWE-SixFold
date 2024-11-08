@@ -77,6 +77,7 @@ SWE-SixFold/
 ├── Dockerfile                   # Dockerfile for building the image
 ├── requirements.txt             # Python package dependencies
 └── README.md                    # Documentation for the project
+```
 
 ## Usage
 
