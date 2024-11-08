@@ -4,11 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login Page</title>
-    <link rel="stylesheet" type="text/css" href="static/style.css">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
 
-<!-- Login form (updated for Firebase authentication) -->
+<!-- Login form for Firebase authentication -->
 <form id="login-form" method="POST" class="login-form">
     <div class="container">
         <label for="email"><b>Email</b></label>
@@ -33,12 +33,12 @@
     </div>
 </form>
 
-<!-- Include Firebase SDK -->
+<!-- Include Firebase SDKs -->
 <script src="https://www.gstatic.com/firebasejs/9.7.0/firebase-app.js"></script>
 <script src="https://www.gstatic.com/firebasejs/9.7.0/firebase-auth.js"></script>
 
 <script>
-    // Your Firebase web app's Firebase configuration
+    // Firebase configuration (replace these with your Firebase project settings)
     const firebaseConfig = {
         apiKey: "your-api-key",
         authDomain: "your-auth-domain",
@@ -53,18 +53,18 @@
     firebase.initializeApp(firebaseConfig);
     const auth = firebase.auth();
 
-    // Listen for form submission
+    // Handle form submission
     document.getElementById('login-form').addEventListener('submit', function(e) {
         e.preventDefault();
 
         const email = document.getElementById('email').value;
         const password = document.getElementById('password').value;
 
-        // Sign in using Firebase Authentication
+        // Firebase sign-in
         auth.signInWithEmailAndPassword(email, password)
             .then(function(userCredential) {
-                // Redirect to the home page after successful login
-                window.location.href = '/home'; // or wherever you want to redirect
+                // Redirect to home page after successful login
+                window.location.href = '/home';
             })
             .catch(function(error) {
                 alert("Login failed: " + error.message);
@@ -72,6 +72,6 @@
     });
 </script>
 
-<script src="static/functions.js" defer></script>
+<script src="{{ url_for('static', filename='functions.js') }}" defer></script>
 </body>
 </html>

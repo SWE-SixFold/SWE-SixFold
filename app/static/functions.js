@@ -1,19 +1,19 @@
-// Handles the random movie button click
-const randomButton = document.querySelector('.button-group button:last-child');
+// Select elements
+const randomButton = document.getElementById('randomMovieButton');
+const searchButton = document.getElementById('searchMovieButton');
+const searchInput = document.getElementById('movieInput');
 const movieDisplayArea = document.getElementById('movie-display'); // Container to display the movie results
 
-randomButton.addEventListener('click', () => {
-    fetchRandomMovie(); // Fetch a random movie and display it
-});
+// Add event listener for random movie button
+randomButton.addEventListener('click', fetchRandomMovie);
 
-// Handles the movie search button click
-const searchButton = document.querySelector('.button-group button:first-child');
-const searchInput = document.querySelector('.search-box input[type="text"]');
-
+// Add event listener for search button
 searchButton.addEventListener('click', () => {
     const query = searchInput.value.trim();
     if (query) {
-        searchMovies(query); // Search movies based on the query entered
+        searchMovie(query); // Search movies based on the query entered
+    } else {
+        movieDisplayArea.innerHTML = "<p>Please enter a movie title.</p>";
     }
 });
 
@@ -22,6 +22,7 @@ if (localStorage.getItem("darkMode") === "enabled") {
     document.body.classList.add("dark-mode");
 }
 
+// Dark mode toggle function
 function toggleDarkMode() {
     document.body.classList.toggle("dark-mode");
     // Save the preference to local storage
@@ -32,22 +33,18 @@ function toggleDarkMode() {
     }
 }
 
-// Search Movie by Title
-function searchMovie() {
-    const query = document.getElementById('movieInput').value.trim(); // Get the movie input
-
-    if (!query) {
-        document.getElementById("movie-display").innerHTML = "<p>Please enter a movie title.</p>";
-        return; // Exit if the input is empty
-    }
-
+// Search Movie by Title function
+function searchMovie(query) {
     fetch(`/search-movie?query=${encodeURIComponent(query)}`)
-        .then(response => response.json())
+        .then(response => {
+            if (!response.ok) throw new Error('Network response was not ok');
+            return response.json();
+        })
         .then(data => {
             if (data.error) {
-                document.getElementById("movie-display").innerHTML = `<p>${data.error}</p>`;
+                movieDisplayArea.innerHTML = `<p>${data.error}</p>`;
             } else {
-                document.getElementById("movie-display").innerHTML = `
+                movieDisplayArea.innerHTML = `
                     <h2>${data.title}</h2>
                     <p>Year: ${data.year}</p>
                     <p>Plot: ${data.plot}</p>
@@ -57,20 +54,23 @@ function searchMovie() {
         })
         .catch(error => {
             console.error('Error fetching movie:', error);
-            document.getElementById("movie-display").innerHTML = `<p>Failed to load movie data.</p>`;
+            movieDisplayArea.innerHTML = `<p>Failed to load movie data.</p>`;
         });
 }
 
-
+// Fetch Random Movie function
 function fetchRandomMovie() {
     fetch('/random')
-        .then(response => response.json())
+        .then(response => {
+            if (!response.ok) throw new Error('Network response was not ok');
+            return response.json();
+        })
         .then(data => {
             console.log('Random movie data received:', data); // Log the received data
             if (data.error) {
-                document.getElementById("movie-display").innerHTML = `<p>${data.error}</p>`;
+                movieDisplayArea.innerHTML = `<p>${data.error}</p>`;
             } else {
-                document.getElementById("movie-display").innerHTML = `
+                movieDisplayArea.innerHTML = `
                     <h2>${data.title}</h2>
                     <p>Year: ${data.year}</p>
                     <img src="${data.poster_path}" alt="Movie Poster">
@@ -80,6 +80,6 @@ function fetchRandomMovie() {
         })
         .catch(error => {
             console.error('Error fetching random movie:', error);
-            document.getElementById("movie-display").innerHTML = `<p>Failed to load movie data.</p>`;
+            movieDisplayArea.innerHTML = `<p>Failed to load movie data.</p>`;
         });
 }

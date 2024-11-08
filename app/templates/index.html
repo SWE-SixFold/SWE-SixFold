@@ -22,7 +22,8 @@
             
             <!-- Dropdown menu with options -->
             <div class="dropdown-menu" id="dropdownMenu">
-                <a href="login.html">Login/Logout</a>
+                <a href="{{ url_for('login') }}">Login</a>
+                <a href="{{ url_for('register') }}">Register</a>
                 <a href="#">Manager Access</a>
                 <a href="#">Notes</a>
                 <a href="#">Settings</a>
@@ -47,8 +48,8 @@
 
             <!-- Buttons for search and random movie -->
             <div class="button-group">
-                <button onclick="searchMovie()">Search</button>
-                <button onclick="fetchRandomMovie()">Random</button>
+                <button id="searchMovieButton">Search</button>
+                <button id="randomMovieButton">Random</button>
                 <button onclick="feelingLucky()">Art History</button>
             </div>
 
@@ -64,7 +65,7 @@
         </footer>
     </div>
 
-    <!-- JavaScript file for interactivity -->
+    <!-- JavaScript files for interactivity -->
     <script src="{{ url_for('static', filename='functions.js') }}" defer></script>
 </body>
 </html>

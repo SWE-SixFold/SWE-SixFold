@@ -48,8 +48,13 @@ def login_required(f):
         return f(*args, **kwargs)
     return decorated_function
 
-# Home route
+# Root route to redirect to home
 @app.route('/')
+def root():
+    return redirect(url_for('home'))
+
+# Home page route
+@app.route('/home')
 def home():
     return render_template('index.html')
 
@@ -74,8 +79,8 @@ def login():
         password = request.form['psw']
         try:
             user = auth.sign_in_with_email_and_password(username, password)
-            session['user'] = user['localId']  # Store user ID in session
-            return redirect(url_for('home'))
+            session['user'] = user['localId']
+            return redirect(url_for('home'))  # Ensure it redirects to home or index
         except Exception as e:
             return f'Error: {str(e)}'
     return render_template('login.html')
