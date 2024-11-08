@@ -9,6 +9,7 @@
 <body>
 
   <div class="register-container">
+<<<<<<< HEAD
     <form id="register-form" method="POST">
       <label for="uname"><b>Username</b></label>
       <input name="username" id="username" type="text" placeholder="Enter Username" required>
@@ -16,10 +17,24 @@
       <!-- Email input is handled by Firebase -->
       <label for="email"><b>Email</b></label>
       <input id="email" type="email" placeholder="Enter Email" name="email" required>
+=======
+    <form action="{{ url_for('register_user') }}" method="post">
+      <label for="uname"><b>Username</b></label>
+      <input name="username" type="text" placeholder="Enter Username" required>
+  
+      <!-- ****temporarily taking it off because we are not using email yet*****
+      <label for="email"><b>Email</b></label>
+      <input id="email" type="email" placeholder="Enter Email" name="email" required>
+      -->
+>>>>>>> 120632e8c2a424c011bc2e69debccf4495e627ab
 
       <label for="password"><b>Password</b></label>
       <input id="psw" type="password" placeholder="Enter Password" name="psw" required>
   
+<<<<<<< HEAD
+=======
+      
+>>>>>>> 120632e8c2a424c011bc2e69debccf4495e627ab
       <label for="psw-repeat"><b>Confirm Password</b></label>
       <input id="conf_psw" type="password" placeholder="Confirm Password" name="psw-repeat" required>
   
@@ -30,6 +45,7 @@
       <span>Already have an account? <a href="{{ url_for('home') }}">Login here</a></span>
     </div>
   </div>  
+<<<<<<< HEAD
 
   <!-- Include Firebase SDK -->
   <script src="https://www.gstatic.com/firebasejs/9.7.0/firebase-app.js"></script>
@@ -80,3 +96,6 @@
 
 </body>
 </html>
+=======
+</form>
+>>>>>>> 120632e8c2a424c011bc2e69debccf4495e627ab

@@ -1,6 +1,14 @@
+<<<<<<< HEAD
 Flask
 Flask-PyMongo
 pyrebase4
 gunicorn
 firebase-admin
 requests
+=======
+flask
+firebase-admin
+omdb
+google-cloud-firestore
+gunicorn
+>>>>>>> 120632e8c2a424c011bc2e69debccf4495e627ab
