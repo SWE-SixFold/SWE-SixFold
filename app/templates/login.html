@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login Page</title>
+<<<<<<< HEAD
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
@@ -19,11 +20,32 @@
 
         <button type="submit" class="login-button">Login</button>
 
+=======
+    <link rel="stylesheet" type="text/css" href="static/style.css">
+</head>
+<body>
+
+<!-- Updated action to point to Flask route -->
+<form id="login-form" action="{{ url_for('login') }}" method="post" class="login-form">
+    <div class="container">
+        <label for="uname"><b>Username</b></label>
+        <input id="username" type="text" placeholder="Enter Username" name="username" required> <!-- changed name to 'username' -->
+  
+        <label for="psw"><b>Password</b></label>
+        <input id="password" type="password" placeholder="Enter Password" name="psw" required>
+    
+        <button id="login-form-submit" type="submit" class="login-button">Login</button>
+        
+>>>>>>> 120632e8c2a424c011bc2e69debccf4495e627ab
         <label>
             <input type="checkbox" checked="checked" name="remember"> Remember me
         </label>
     </div>
+<<<<<<< HEAD
 
+=======
+  
+>>>>>>> 120632e8c2a424c011bc2e69debccf4495e627ab
     <div class="container">
         <button type="button" class="forgot-password" onclick="location.href='forgot_password.html';">Forgot password?</button>
     </div>
@@ -32,7 +54,13 @@
         <span>Don't have an account? <a href="{{ url_for('register') }}">Sign up</a></span>
     </div>
 </form>
+<<<<<<< HEAD
 
 <script src="{{ url_for('static', filename='functions.js') }}" defer></script>
 </body>
 </html>
+=======
+    <script src="static/functions.js" defer></script>
+</body>
+</html>
+>>>>>>> 120632e8c2a424c011bc2e69debccf4495e627ab

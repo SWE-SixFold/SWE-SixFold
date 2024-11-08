@@ -1,4 +1,7 @@
-require('dotenv').config(); // Loads environment variables from .env
+// Firebase initialization
+require('dotenv').config();  // Load environment variables
+const firebase = require("firebase/app");  // Firebase module
+require("firebase/auth");  // Import Firebase Authentication
 
 const firebaseConfig = {
     apiKey: process.env.FIREBASE_API_KEY,
@@ -8,7 +11,6 @@ const firebaseConfig = {
     messagingSenderId: process.env.FIREBASE_MESSAGING_SENDER_ID,
     appId: process.env.FIREBASE_APP_ID,
 };
-
 
 // Initialize Firebase
 firebase.initializeApp(firebaseConfig);
@@ -21,21 +23,21 @@ var signUpButton = document.getElementById("signUpButton");
 
 // Firebase authentication: Sign in
 signInButton.addEventListener("click", function() {
-  firebase.auth().signInWithEmailAndPassword(email.value, password.value)
-    .then(function(userCredential) {
-      alert("Login successful!");
-      window.location.href = "/protected-resources.html"; // Redirect to protected page
-    })
-    .catch(function(error) {
-      alert("Login failed: " + error.message);
-    });
+    firebase.auth().signInWithEmailAndPassword(email.value, password.value)
+        .then(function(userCredential) {
+            alert("Login successful!");
+            window.location.href = "/home";  // Redirect to home page after login
+        })
+        .catch(function(error) {
+            alert("Login failed: " + error.message);
+        });
 });
 
 // Firebase authentication: Sign up
 signUpButton.addEventListener("click", function() {
     const emailValue = email.value.trim();  // Trim the email value
     const passwordValue = password.value.trim();  // Trim the password value
-    
+
     // Validate email format
     if (!emailValue || !passwordValue) {
         alert("Email and password cannot be empty.");
@@ -46,7 +48,7 @@ signUpButton.addEventListener("click", function() {
     firebase.auth().createUserWithEmailAndPassword(emailValue, passwordValue)
         .then(function(userCredential) {
             alert("Registration successful!");
-            window.location.href = "/protected-resources.html"; // Redirect to protected page
+            window.location.href = "/home";  // Redirect to home page after registration
         })
         .catch(function(error) {
             alert("Registration failed: " + error.message);
@@ -139,3 +141,21 @@ function fetchRandomMovie() {
             movieDisplayArea.innerHTML = `<p>Failed to load movie data.</p>`;
         });
 }
+
+// Dropdown Menu Toggle function
+function toggleMenu() {
+    const menu = document.getElementById('dropdownMenu'); // Get the dropdown menu by its ID
+    if (menu) {
+        menu.style.display = menu.style.display === 'block' ? 'none' : 'block';
+    }
+}
+
+// Close dropdown menu when clicked outside
+document.addEventListener('click', function(event) {
+    const menu = document.getElementById('dropdownMenu'); // Get the dropdown menu
+    const profileIcon = document.querySelector('.profile-icon'); // Get the profile icon area
+
+    if (menu && !profileIcon.contains(event.target)) {
+        menu.style.display = 'none';
+    }
+});
