@@ -23,7 +23,7 @@ db = firestore.client()
 app = Flask(__name__)
 app.secret_key = os.urandom(24)
 
-# Firebase Authentication
+# Firebase Authentication Configuration
 firebase_config = {
     'apiKey': os.getenv('FIREBASE_API_KEY'),
     'authDomain': os.getenv('FIREBASE_AUTH_DOMAIN'),
@@ -43,7 +43,7 @@ OMDB_API_KEY = os.getenv('OMDB_API_KEY')
 def login_required(f):
     @wraps(f)
     def decorated_function(*args, **kwargs):
-        if 'user' not in session:
+        if 'id_token' not in session:
             return redirect(url_for('login'))
         return f(*args, **kwargs)
     return decorated_function
@@ -57,11 +57,8 @@ def index():
 
 # Home route
 @app.route('/home')
+@login_required  # Protect home route with login_required decorator
 def home():
-    # Check if the user is logged in by checking for the presence of an id_token
-    if 'id_token' not in session:
-        return redirect(url_for('login'))  # If not logged in, redirect to login page
-    
     try:
         # Get user info using the ID token
         user_info = auth.get_account_info(session['id_token'])
@@ -69,10 +66,9 @@ def home():
     except:
         return redirect(url_for('login'))  # If token is invalid or expired, redirect to login page
 
-
 # Email validation
 def is_valid_email(email):
-    email_regex = r'^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$'
+    email_regex = r'^[a-zA-Z0-9_.+-]+@[a-zA0-9.-]+\.[a-zA-Z]{2,}$'
     return re.match(email_regex, email) is not None
 
 # Registration route
@@ -121,7 +117,7 @@ def login():
             flash("Login successful!", "success")
 
             # Redirect to homepage after successful login
-            return redirect(url_for('index'))  # Update this to redirect to 'index'
+            return redirect(url_for('index'))  # Redirect to 'index' page
 
         except Exception as e:
             flash(f"Login failed: {str(e)}", "error")
@@ -132,7 +128,7 @@ def login():
 # Logout route
 @app.route('/logout')
 def logout():
-    session.pop('user', None)  # Remove user from session
+    session.pop('id_token', None)  # Remove the id_token from session to log out
     return redirect(url_for('home'))
 
 # Search movie route
@@ -181,5 +177,3 @@ def page_not_found(e):
 
 if __name__ == '__main__':
     app.run(debug=True)
-
-print(session)  # Check session contents to ensure 'id_token' is there
