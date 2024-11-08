@@ -22,12 +22,14 @@
             
             <!-- Dropdown menu with options -->
             <div class="dropdown-menu" id="dropdownMenu">
-                <a href="{{ url_for('login') }}">Login</a>
-                <a href="{{ url_for('register') }}">Register</a>
-                <a href="#">Manager Access</a>
-                <a href="#">Notes</a>
-                <a href="#">Settings</a>
-                <a href="#">Another Setting</a>
+                {% if 'id_token' in session %}  <!-- Check if the user is logged in -->
+                    <a href="{{ url_for('profile') }}">Profile</a>
+                    <a href="{{ url_for('settings') }}">Settings</a>
+                    <a href="{{ url_for('logout') }}">Logout</a>
+                {% else %}
+                    <a href="{{ url_for('login') }}">Login</a>
+                    <a href="{{ url_for('register') }}">Register</a>
+                {% endif %}
             </div>
         </div>
     </div>

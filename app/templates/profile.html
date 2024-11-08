@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Profile</title>
+    <link rel="stylesheet" href="static/style.css">
+</head>
+<body>
+    <div class="profile-container">
+        <h1>{{ user['email'] }}'s Profile</h1>
+        
+        <div class="favorite-movies">
+            <h2>Your Favorite Movies</h2>
+            <div id="movie-collection">
+                <!-- Favorite movies will be loaded here -->
+                {% for movie in favorite_movies %}
+                <div class="movie">
+                    <img src="{{ movie.poster }}" alt="{{ movie.title }} poster" />
+                    <h3>{{ movie.title }} ({{ movie.year }})</h3>
+                    <button onclick="removeFromFavorites('{{ movie.id }}')">Remove from Favorites</button>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+
+        <div class="movie-search">
+            <h2>Search for Movies</h2>
+            <form id="search-form">
+                <input type="text" id="movie-query" placeholder="Enter movie title" required />
+                <button type="submit">Search</button>
+            </form>
+            <div id="search-results">
+                <!-- Search results will be shown here -->
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Handle adding a movie to favorites
+        function addToFavorites(movieId, title, year, poster) {
+            fetch('/add-favorite', {
+                method: 'POST',
+                body: JSON.stringify({ movieId, title, year, poster }),
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    alert('Movie added to favorites!');
+                    window.location.reload();
+                } else {
+                    alert('Failed to add movie.');
+                }
+            });
+        }
+
+        // Handle removing a movie from favorites
+        function removeFromFavorites(movieId) {
+            fetch(`/remove-favorite/${movieId}`, {
+                method: 'DELETE',
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    alert('Movie removed from favorites!');
+                    window.location.reload();
+                } else {
+                    alert('Failed to remove movie.');
+                }
+            });
+        }
+
+        // Handle movie search
+        document.getElementById('search-form').addEventListener('submit', function (event) {
+            event.preventDefault();
+            const query = document.getElementById('movie-query').value;
+
+            fetch(`/search-movie?query=${query}`)
+            .then(response => response.json())
+            .then(data => {
+                const resultsDiv = document.getElementById('search-results');
+                resultsDiv.innerHTML = '';
+                if (data.error) {
+                    resultsDiv.innerHTML = '<p>No movies found.</p>';
+                } else {
+                    const movieDiv = document.createElement('div');
+                    movieDiv.classList.add('movie');
+                    movieDiv.innerHTML = `
+                        <img src="${data.poster}" alt="${data.title} poster" />
+                        <h3>${data.title} (${data.year})</h3>
+                        <p>${data.plot}</p>
+                        <button onclick="addToFavorites('${data.id}', '${data.title}', '${data.year}', '${data.poster}')">Add to Favorites</button>
+                    `;
+                    resultsDiv.appendChild(movieDiv);
+                }
+            });
+        });
+    </script>
+</body>
+</html>
