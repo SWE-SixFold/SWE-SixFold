@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 Flask
 pyrebase4
 requests
