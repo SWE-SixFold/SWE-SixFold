@@ -3,3 +3,4 @@ pyrebase4
 requests
 firebase-admin
 python-dotenv
+gunicorn

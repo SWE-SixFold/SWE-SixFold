@@ -96,7 +96,7 @@ body.dark-mode .dropdown-menu a:hover {
 }
 
 /* input fields styling */
-.login-form input[type="text"],
+.login-form input[type="email"],
 .login-form input[type="password"] {
     width: 100%; /* full width of the form */
     padding: 12px;
