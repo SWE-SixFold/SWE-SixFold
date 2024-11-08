@@ -10,14 +10,10 @@
 
   <div class="register-container">
     <form id="register-form" method="POST">
-      <label for="uname"><b>Username</b></label>
-      <input name="username" id="username" type="text" placeholder="Enter Username" required>
-  
-      <!-- Email input is handled by Firebase -->
       <label for="email"><b>Email</b></label>
-      <input id="email" type="email" placeholder="Enter Email" name="email" required>
+      <input name="email" id="email" type="email" placeholder="Enter Email" required>
 
-      <label for="password"><b>Password</b></label>
+      <label for="psw"><b>Password</b></label>
       <input id="psw" type="password" placeholder="Enter Password" name="psw" required>
   
       <label for="psw-repeat"><b>Confirm Password</b></label>
@@ -27,56 +23,9 @@
     </form>
   
     <div style="text-align:center;">
-      <span>Already have an account? <a href="{{ url_for('home') }}">Login here</a></span>
+      <span>Already have an account? <a href="{{ url_for('login') }}">Login here</a></span>
     </div>
   </div>  
-
-  <!-- Include Firebase SDK -->
-  <script src="https://www.gstatic.com/firebasejs/9.7.0/firebase-app.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/9.7.0/firebase-auth.js"></script>
-
-  <script>
-    // Your Firebase web app's Firebase configuration
-    const firebaseConfig = {
-        apiKey: "your-api-key",
-        authDomain: "your-auth-domain",
-        projectId: "your-project-id",
-        storageBucket: "your-storage-bucket",
-        messagingSenderId: "your-sender-id",
-        appId: "your-app-id",
-        measurementId: "your-measurement-id"
-    };
-
-    // Initialize Firebase
-    firebase.initializeApp(firebaseConfig);
-    const auth = firebase.auth();
-
-    // Listen for form submission
-    document.getElementById('register-form').addEventListener('submit', function(e) {
-        e.preventDefault();
-
-        const email = document.getElementById('email').value;
-        const password = document.getElementById('psw').value;
-        const confirmPassword = document.getElementById('conf_psw').value;
-
-        // Check if the passwords match
-        if (password !== confirmPassword) {
-            alert("Passwords do not match!");
-            return;
-        }
-
-        // Create a new user using Firebase Authentication
-        auth.createUserWithEmailAndPassword(email, password)
-            .then(function(userCredential) {
-                // User is successfully registered
-                alert("Registration successful!");
-                window.location.href = '/login'; // Redirect to login page
-            })
-            .catch(function(error) {
-                alert("Registration failed: " + error.message);
-            });
-    });
-  </script>
 
 </body>
 </html>

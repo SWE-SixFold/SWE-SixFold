@@ -33,45 +33,6 @@
     </div>
 </form>
 
-<!-- Include Firebase SDKs -->
-<script src="https://www.gstatic.com/firebasejs/9.7.0/firebase-app.js"></script>
-<script src="https://www.gstatic.com/firebasejs/9.7.0/firebase-auth.js"></script>
-
-<script>
-    // Firebase configuration (replace these with your Firebase project settings)
-    const firebaseConfig = {
-        apiKey: "your-api-key",
-        authDomain: "your-auth-domain",
-        projectId: "your-project-id",
-        storageBucket: "your-storage-bucket",
-        messagingSenderId: "your-sender-id",
-        appId: "your-app-id",
-        measurementId: "your-measurement-id"
-    };
-
-    // Initialize Firebase
-    firebase.initializeApp(firebaseConfig);
-    const auth = firebase.auth();
-
-    // Handle form submission
-    document.getElementById('login-form').addEventListener('submit', function(e) {
-        e.preventDefault();
-
-        const email = document.getElementById('email').value;
-        const password = document.getElementById('password').value;
-
-        // Firebase sign-in
-        auth.signInWithEmailAndPassword(email, password)
-            .then(function(userCredential) {
-                // Redirect to home page after successful login
-                window.location.href = '/home';
-            })
-            .catch(function(error) {
-                alert("Login failed: " + error.message);
-            });
-    });
-</script>
-
 <script src="{{ url_for('static', filename='functions.js') }}" defer></script>
 </body>
 </html>

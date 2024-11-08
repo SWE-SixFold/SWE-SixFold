@@ -1,10 +1,11 @@
 import os
 import random
-from flask import Flask, render_template, request, redirect, url_for, session, jsonify
+from flask import Flask, render_template, request, redirect, url_for, session, jsonify, flash
 import pyrebase
 import requests
 from firebase_admin import credentials, initialize_app, auth, firestore
 import firebase_admin
+import re
 from functools import wraps
 from dotenv import load_dotenv
 
@@ -31,7 +32,6 @@ firebase_config = {
     'storageBucket': os.getenv('FIREBASE_STORAGE_BUCKET'),
     'messagingSenderId': os.getenv('FIREBASE_MESSAGING_SENDER_ID'),
     'appId': os.getenv('FIREBASE_APP_ID'),
-    'measurementId': os.getenv('FIREBASE_MEASUREMENT_ID'),
 }
 firebase = pyrebase.initialize_app(firebase_config)
 auth = firebase.auth()
@@ -50,42 +50,86 @@ def login_required(f):
 
 # Root route to redirect to home
 @app.route('/')
-def root():
-    return redirect(url_for('home'))
+def index():
+    if 'id_token' not in session:
+        return redirect(url_for('login'))  # If not logged in, redirect to login page
+    return render_template('index.html')  # Serve the index.html page
 
-# Home page route
+# Home route
 @app.route('/home')
 def home():
-    return render_template('index.html')
+    # Check if the user is logged in by checking for the presence of an id_token
+    if 'id_token' not in session:
+        return redirect(url_for('login'))  # If not logged in, redirect to login page
+    
+    try:
+        # Get user info using the ID token
+        user_info = auth.get_account_info(session['id_token'])
+        return render_template('home.html', user=user_info)
+    except:
+        return redirect(url_for('login'))  # If token is invalid or expired, redirect to login page
 
-# Register page
+
+# Email validation
+def is_valid_email(email):
+    email_regex = r'^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$'
+    return re.match(email_regex, email) is not None
+
+# Registration route
 @app.route('/register', methods=['GET', 'POST'])
 def register():
     if request.method == 'POST':
-        username = request.form['username']
+        # Get form data
+        email = request.form['email'].strip()
         password = request.form['psw']
-        try:
-            user = auth.create_user_with_email_and_password(username, password)
-            return redirect(url_for('login'))
-        except Exception as e:
-            return f'Error: {str(e)}'
-    return render_template('register.html')
+        confirm_password = request.form['psw-repeat']
 
-# Login page
+        # Check if email is valid
+        if not is_valid_email(email):
+            flash("Invalid email format", "error")
+            return redirect(url_for('register'))
+
+        # Check if the passwords match
+        if password != confirm_password:
+            flash("Passwords do not match", "error")
+            return redirect(url_for('register'))
+
+        try:
+            # Create user in Firebase
+            user = auth.create_user_with_email_and_password(email, password)
+            flash("Registration successful! Please log in.", "success")
+            return redirect(url_for('login'))  # Redirect to login page after successful registration
+        except Exception as e:
+            flash(f"Error: {str(e)}", "error")
+            return redirect(url_for('register'))
+    
+    return render_template('register.html')  # Render the registration form
+
+# Login route
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     if request.method == 'POST':
-        username = request.form['username']
+        email = request.form['email'].strip()
         password = request.form['psw']
-        try:
-            user = auth.sign_in_with_email_and_password(username, password)
-            session['user'] = user['localId']
-            return redirect(url_for('home'))  # Ensure it redirects to home or index
-        except Exception as e:
-            return f'Error: {str(e)}'
-    return render_template('login.html')
 
-# Logout
+        try:
+            # Log in the user with Firebase Authentication
+            user = auth.sign_in_with_email_and_password(email, password)
+            
+            # Store the user's ID token in the session
+            session['id_token'] = user['idToken']
+            flash("Login successful!", "success")
+
+            # Redirect to homepage after successful login
+            return redirect(url_for('index'))  # Update this to redirect to 'index'
+
+        except Exception as e:
+            flash(f"Login failed: {str(e)}", "error")
+            return redirect(url_for('login'))
+
+    return render_template('login.html')  # Render the login form
+
+# Logout route
 @app.route('/logout')
 def logout():
     session.pop('user', None)  # Remove user from session
@@ -137,3 +181,5 @@ def page_not_found(e):
 
 if __name__ == '__main__':
     app.run(debug=True)
+
+print(session)  # Check session contents to ensure 'id_token' is there

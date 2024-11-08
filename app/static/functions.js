@@ -1,3 +1,59 @@
+require('dotenv').config(); // Loads environment variables from .env
+
+const firebaseConfig = {
+    apiKey: process.env.FIREBASE_API_KEY,
+    authDomain: process.env.FIREBASE_AUTH_DOMAIN,
+    projectId: process.env.FIREBASE_PROJECT_ID,
+    storageBucket: process.env.FIREBASE_STORAGE_BUCKET,
+    messagingSenderId: process.env.FIREBASE_MESSAGING_SENDER_ID,
+    appId: process.env.FIREBASE_APP_ID,
+};
+
+
+// Initialize Firebase
+firebase.initializeApp(firebaseConfig);
+
+// Select elements for Firebase authentication
+var email = document.getElementById("email");
+var password = document.getElementById("password");
+var signInButton = document.getElementById("signInButton");
+var signUpButton = document.getElementById("signUpButton");
+
+// Firebase authentication: Sign in
+signInButton.addEventListener("click", function() {
+  firebase.auth().signInWithEmailAndPassword(email.value, password.value)
+    .then(function(userCredential) {
+      alert("Login successful!");
+      window.location.href = "/protected-resources.html"; // Redirect to protected page
+    })
+    .catch(function(error) {
+      alert("Login failed: " + error.message);
+    });
+});
+
+// Firebase authentication: Sign up
+signUpButton.addEventListener("click", function() {
+    const emailValue = email.value.trim();  // Trim the email value
+    const passwordValue = password.value.trim();  // Trim the password value
+    
+    // Validate email format
+    if (!emailValue || !passwordValue) {
+        alert("Email and password cannot be empty.");
+        return;
+    }
+
+    // Sign up the user using Firebase's createUserWithEmailAndPassword method
+    firebase.auth().createUserWithEmailAndPassword(emailValue, passwordValue)
+        .then(function(userCredential) {
+            alert("Registration successful!");
+            window.location.href = "/protected-resources.html"; // Redirect to protected page
+        })
+        .catch(function(error) {
+            alert("Registration failed: " + error.message);
+        });
+});
+
+// Movie functionality
 // Select elements
 const randomButton = document.getElementById('randomMovieButton');
 const searchButton = document.getElementById('searchMovieButton');

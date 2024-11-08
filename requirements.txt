@@ -1,6 +1,5 @@
 Flask
-Flask-PyMongo
 pyrebase4
-gunicorn
-firebase-admin
 requests
+firebase-admin
+python-dotenv
