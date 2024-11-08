@@ -8,6 +8,16 @@
 </head>
 <body class="results">
 
+    <form method="GET" action="{{ url_for('results') }}">
+        <div class="search-box">
+            <input type="text" id="movieInput" name="movieTitle" placeholder="Search for movies" aria-label="Search for movies">
+            <div class="button-group">
+                <button type="submit">Search</button>
+            </div>
+        </div>
+
+        
+    </form>
     <h1>Results</h1>
 
     <div class="gallery">

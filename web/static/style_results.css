@@ -51,3 +51,79 @@ h1 {
     margin-bottom: 20px;
     color: #333;
 }
+
+/* button group - holds the search and lucky buttons */
+.button-group {
+    display: flex;
+    gap: 10px; /* space between buttons */
+    justify-content: center; /* center buttons */
+}
+
+/* base styling for both buttons */
+.button-group button {
+    border: none;
+    padding: 12px 0;
+    width: 150px;
+    border-radius: 25px; /* rounded buttons */
+    font-size: 1.1rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease; /* smooth hover transition */
+}
+
+/* blue search button */
+.button-group button:first-child {
+    background-color: #007aff; /* blue background */
+    color: #ffffff; /* white text */
+}
+
+.button-group button:first-child:hover {
+    background-color: #55c2da; /* lighter blue on hover */
+}
+
+/* button color for random button middle */
+.button-group button:last-child {
+    background-color: #33b249; /* green */
+    color: #ffffff; /* white text */
+}
+
+.button-group button:last-child:hover {
+    background-color: #75b8a5; /* lighter green on hover */
+}
+
+
+/* green for collab button */
+.button-group button:last-child {
+    background-color: #33b249; /* green */
+    color: #ffffff; /* white text */
+}
+
+.button-group button:last-child:hover {
+    background-color: #75b8a5; /* lighter green on hover */
+}
+
+/* search box styling for normal mode */
+.search-box {
+    display: flex;
+    align-items: center;
+    border: 1px solid #ddd; /* light border */
+    border-radius: 50px; /* rounded edges */
+    padding: 12px 16px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); /* slight shadow */
+    width: 100%;
+    margin-bottom: 20px;
+    background-color: transparent; /* no background in normal mode */
+    transition: border-color 0.5s ease, background-color 0.5s ease; /* smooth transition for dark mode */
+}
+
+/* styling for the input inside search box */
+.search-box input[type="text"] {
+    border: none;
+    outline: none;
+    padding: 12px;
+    width: 100%; /* full width */
+    font-size: 1.1rem;
+    border-radius: 25px; /* rounded corners */
+    color: #333; /* text color in normal mode */
+    background-color: transparent; /* no background in normal mode */
+    transition: color 0.5s ease; /* fade effect for dark mode */
+}
