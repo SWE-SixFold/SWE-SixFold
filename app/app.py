@@ -16,8 +16,24 @@ from email.mime.text import MIMEText
 load_dotenv()
 
 # Initialize Firebase Admin
-cred = credentials.Certificate(os.getenv('FIREBASE_CREDENTIALS_PATH'))  # Load path from .env
-firebase_admin.initialize_app(cred)
+cred_path = os.getenv('FIREBASE_CREDENTIALS_PATH')
+
+try:
+    # Check if the credential path exists and is set
+    if cred_path:
+        cred = credentials.Certificate(cred_path)
+    else:
+        # Fall back to Application Default Credentials (ADC)
+        cred = credentials.ApplicationDefault()
+
+    # Initialize Firebase with the chosen credential
+    firebase_admin.initialize_app(cred)
+    print("Firebase initialized successfully.")
+
+except ValueError as e:
+    print(f"Error initializing Firebase: {e}")
+except Exception as e:
+    print(f"Unexpected error: {e}")
 
 # Initialize Firestore
 db = firestore.client()
