@@ -1,0 +1,48 @@
+/* General Body Style */
+body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    background-color: #f9f9f9;
+    color: #333;
+    transition: background-color 0.5s ease, color 0.5s ease;
+    margin: 0;
+    padding: 0;
+}
+
+/* Main Container Style for Vertical Centering on Main Page Only */
+.main-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh; /* Full viewport height */
+    flex-direction: column;
+    padding: 20px;
+    text-align: center;
+}
+
+/* General styling for links, headings, etc. */
+a {
+    color: #007aff;
+    text-decoration: none;
+    transition: color 0.3s;
+}
+
+a:hover {
+    color: #005bb5;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    color: #333;
+    margin-top: 0;
+}
+
+p {
+    color: #555;
+}
+
+/* Add general container styling if needed across the site */
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+    text-align: center;
+}

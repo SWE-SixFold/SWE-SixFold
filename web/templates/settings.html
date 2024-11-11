@@ -1,31 +1,80 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
-    <title>Settings - CineSage</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manage Account - CineSage</title>
+    <link rel="stylesheet" href="reset.css">
+    <link rel="stylesheet" href="global.css">
+    <link rel="stylesheet" href="header.css">
+    <link rel="stylesheet" href="dropdown.css">
+    <link rel="stylesheet" href="forms.css">
+    <link rel="stylesheet" href="buttons.css">
+    <link rel="stylesheet" href="dark-mode.css">
+    <link rel="stylesheet" href="footer.css">
     <link rel="stylesheet" href="settings.css">
 </head>
-<body>
-    <!-- Settings Container -->
-    <div class="settings-container" id="settingsContainer">
-        <button onclick="window.location.href='index.html'" class="back-button">Back to Profile</button>
 
-        <h2>Settings</h2>
-        <form id="settings-form" action="#" method="post">
-            <div class="input-container">
-                <input type="text" placeholder="Update Username" name="username" required>
-                <span class="icon">👤</span>
+<body>
+    <!-- Top Icons Section for Consistent Navigation -->
+    <div class="top-icons">
+        <div class="dark-mode-icon" onclick="toggleDarkMode()">
+            <img src="static/images/dark.png" alt="Dark Mode">
+        </div>
+        <div class="profile-icon" onclick="toggleMenu()">
+            <img src="{{ image_url }}" alt="Profile">
+            <div class="dropdown-menu" id="dropdownMenu">
+                <a href="index.html">Home</a>
+                <a href="profile.html">Profile</a>
+                <a href="#">History</a>
+                <a href="#">Notes</a>
+                <a href="{{ url_for('logout') }}">Log Out</a>
             </div>
-            <div class="input-container">
-                <input type="email" placeholder="Update Email" name="email" required>
-                <span class="icon">📧</span>
-            </div>
-            <div class="input-container">
-                <input type="password" placeholder="Change Password" name="password">
-                <span class="icon">🔒</span>
-            </div>
-            <button type="submit" class="settings-button">Save Changes</button>
-        </form>
+        </div>
     </div>
+
+    <!-- Main Container for Account Management -->
+    <div class="container">
+        <h1>Settings</h1>
+
+        <!-- Profile Picture Section -->
+        <section class="profile-picture-section">
+            <h2>Update Profile Picture</h2>
+            <div class="profile-picture-preview">
+                <img id="profilePicturePreview" src="default-profile.jpg" alt="Profile Picture" class="profile-icon">
+            </div>
+            <input type="file" id="profilePictureInput" accept="image/*" class="upload-input">
+            <button id="saveProfilePictureBtn" class="btn">Save Profile Picture</button>
+        </section>
+        <!-- Bio Section -->
+        <section class="bio-section">
+            <h2>Edit Bio</h2>
+            <textarea id="bioInput" placeholder="Write something about yourself..." rows="5" class="bio-textarea"></textarea>
+            <button id="saveBioBtn" class="btn">Save Bio</button>
+
+        </section>
+        <!-- Username Email Password Changing -->
+            <h2>Personal Info</h2>
+                <form id="settings-form" action="#" method="post">
+                    <div class="input-container">
+                        <input type="text" placeholder="Update Username" name="username" required>
+                        <span class="icon">👤</span>
+                    </div>
+                    <div class="input-container">
+                        <input type="email" placeholder="Update Email" name="email" required>
+                        <span class="icon">📧</span>
+                    </div>
+                    <div class="input-container">
+                        <input type="password" placeholder="Change Password" name="password">
+                        <span class="icon">🔒</span>
+                    </div>
+                    <button type="submit" class="settings-button">Save Changes</button>
+                </form>
+    </div>
+
+    <script src="settings.js"></script>
+    <script src="functions.js"></script>
+
 </body>
 </html>

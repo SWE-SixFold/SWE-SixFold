@@ -1,0 +1,27 @@
+/* dark-mode.css */
+body.dark-mode {
+    background-color: #1e1e1e;
+    color: #ffffff;
+}
+
+body.dark-mode header .logo,
+body.dark-mode .dropdown-menu a {
+    color: #ffffff;
+}
+
+body.dark-mode .dropdown-menu {
+    background-color: #333; /* dark background for contrast */
+}
+
+body.dark-mode .dropdown-menu a:hover {
+    background-color: #555; /* darker hover color in dark mode */
+}
+
+body.dark-mode .search-box {
+    border: 1px solid #555;
+    background-color: #2e2e2e;
+}
+
+body.dark-mode .search-box input[type="text"] {
+    color: #ffffff;
+}

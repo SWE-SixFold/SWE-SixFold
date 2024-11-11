@@ -1,75 +1,78 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
+    <!-- Meta and Title -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Movie Search</title>
+    <title>CineSage - Movie Search</title>
 
-    <!-- link to our stylesheet (style.css) for editing the looks of the page -->
-    <link rel="stylesheet" href="static/style.css">
+    <!-- CSS Files -->
+    <link rel="stylesheet" href="reset.css">
+    <link rel="stylesheet" href="global.css">
+    <link rel="stylesheet" href="header.css">
+    <link rel="stylesheet" href="dropdown.css">
+    <link rel="stylesheet" href="forms.css">
+    <link rel="stylesheet" href="overlays.css">
+    <link rel="stylesheet" href="buttons.css">
+    <link rel="stylesheet" href="dark-mode.css">
+    <link rel="stylesheet" href="footer.css">
+    <link rel="stylesheet" href="search.css">
+    <link rel="stylesheet" href="login.css"> 
+
+    <!-- JavaScript Files -->
+    <script src="static/functions.js" defer></script>
 </head>
+
 <body>
-<!-- Add this section inside <body> for the Movie Search page -->
+    <!-- Top Icons Section -->
     <div class="top-icons">
-        <!-- dark mode toggle button -->
         <div class="dark-mode-icon" onclick="toggleDarkMode()">
             <img src="static/images/dark.png" alt="Dark Mode">
         </div>
-    
-        <!-- profile icon that opens a dropdown menu -->
         <div class="profile-icon" onclick="toggleMenu()">
             <img src="{{ image_url }}" alt="Profile">
             <div class="dropdown-menu" id="dropdownMenu">
-                <a href="login.html">Manage Account</a> <!-- example link -->
-                <a href="#">History</a> <!--  placeholder  -->
-                <a href="#">Notes</a> <!--  placeholder  -->
-                <a href="{{ url_for('settings') }}">Settings</a> <!--  placeholder  -->
-                <a href="{{ url_for('logout') }}">Log Out</a> <!--  placeholder  -->
+                <a href="profile.html">Profile</a>
+                <a href="#" onclick="showLoginModal()">LoginButton(temp)</a>
+                <a href="#">History</a>
+                <a href="#">Notes</a>
+                <a href="settings.html">Settings</a> <!-- onclick="showLoginModal() -->
+                <a href="{{ url_for('logout') }}">Log Out</a>
             </div>
         </div>
-    </div>    
+    </div>
 
-    <!-- main content container for centering everything on the page -->
-    <div class="container">
-        <!-- website name/logo -->
+    <!-- Main Container for Centered Content -->
+    <div class="main-container">
         <header>
-            <h1 class="logo">CineSage</h1> <!-- main title (bold) -->
+            <h1 class="logo">CineSage</h1>
         </header>
-
-        <!-- search bar section for movie search functionality -->
         <main>
-
-            <!-- buttons for "search" and "i'm feeling lucky" functionality -->
-
             <form method="GET" action="{{ url_for('results') }}">
                 <div class="search-box">
                     <input type="text" id="movieInput" name="movieTitle" placeholder="Search for movies" aria-label="Search for movies">
                 </div>
                 <div class="button-group">
                     <button type="submit">Search</button>
-                    <button onclick="feelingLucky()">Random</button> <!-- special button for random search -->
-                    <button onclick="feelingLucky()">Art History</button> <!-- button for our collab  -->
-                    
+                    <button type="button" onclick="feelingLucky()">Random</button>
+                    <button type="button" onclick="feelingLucky()">Art History</button>
                 </div>
-                
             </form>
-
-            <!-- Result section to display movie details -->
             <div id="result"></div>
         </main>
-
-        <!-- footer with links related to the website or project info -->
         <footer>
-            <a href="#">About</a> <!-- link to an "about" page maybe pics or linkdin site or github -->
-            <a href="#">Privacy</a> <!-- link to privacy policy mention the api use and non profit class proj etc -->
-            <a href="#">Contact</a> <!-- link to a contact page for our socials-->
+            <a href="#">About</a>
+            <a href="#">Privacy</a>
+            <a href="#">Contact</a>
         </footer>
     </div>
 
-
-    
-
-    <!-- link to our JavaScript file (functions.js) to handle interactions and functionality -->
-    <script src="static/functions.js" defer></script>
+    <!-- Frosted Background and Login Modal -->
+    <div class="frosted-background" id="frostedBackground"></div>
+    <div class="login-modal" id="loginModal">
+        <iframe src="login.html" frameborder="0" class="login-iframe"></iframe>
+    </div>
 </body>
+
 </html>

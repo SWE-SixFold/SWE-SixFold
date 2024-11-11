@@ -1,0 +1,214 @@
+/* Profile Container */
+.profile-container {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+/* Profile Header */
+.profile-header {
+    text-align: center;
+    padding: 20px;
+    background-color: #f8f9fa;
+    border-radius: 8px;
+    margin: 20px auto;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Background Image */
+.background-image {
+    height: 200px;
+    background-color: #e0e0e0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 8px;
+    color: #888;
+    font-size: 1.2rem;
+}
+
+/* Profile Image */
+.profile-image {
+    width: 120px;
+    height: 120px;
+    background-color: #e0e0e0;
+    margin: auto;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #888;
+    font-size: 1rem;
+    border: 4px solid #fff;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    margin-top: -60px;
+}
+
+/* Profile Info */
+.profile-info h1 {
+    font-size: 2rem;
+    margin: 15px 0 5px;
+    color: #333;
+}
+
+.profile-info p {
+    color: #555;
+    font-size: 0.9rem;
+}
+
+/* Centered Navigation Links */
+.profile-nav ul {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    margin-top: 20px;
+}
+
+.profile-nav ul li {
+    list-style: none;
+}
+
+.profile-nav ul li a {
+    color: #007aff;
+    text-decoration: none;
+    font-weight: 500;
+    font-size: 1rem;
+    text-align: center;
+}
+
+.profile-nav ul li a:hover {
+    text-decoration: underline;
+}
+
+/* User Stats */
+.user-stats {
+    display: flex;
+    justify-content: center;
+    gap: 40px;
+    margin: 20px 0;
+}
+
+.stat-box {
+    padding: 10px 20px;
+    background-color: #e0e0e0;
+    border-radius: 8px;
+    color: #555;
+    font-size: 1rem;
+    text-align: center;
+    min-width: 120px;
+}
+
+/* Bio Section */
+.bio {
+    max-width: 800px;
+    margin: 20px auto;
+    padding: 20px;
+    background-color: #f8f9fa;
+    border-radius: 8px;
+    text-align: center;
+    color: #666;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Saved Movies Section */
+.saved-movies-section {
+    max-width: 1200px; /* Wider to extend outside the profile container */
+    margin: 20px auto;
+}
+
+.saved-movies-section h2 {
+    text-align: center;
+    margin-bottom: 20px;
+    color: #333;
+}
+
+.movies-gallery {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); /* Larger movie card */
+    gap: 15px; /* Reduce gap to make the gallery more cohesive */
+    padding: 0 20px;
+    max-width: 1100px;
+    margin: 0 auto;
+}
+
+.movie-card {
+    height: 400px; 
+    background-color: #e0e0e0;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    color: #888;
+    font-size: 1rem;
+    transition: transform 0.2s ease; 
+}
+
+.movie-card:hover {
+    transform: scale(1.05);
+
+/* Top Icons */
+.top-icons {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    display: flex;
+    gap: 15px;
+    align-items: center;
+}
+
+.dark-mode-icon img,
+.profile-icon img {
+    width: 30px;
+    height: 30px;
+    cursor: pointer;
+    border-radius: 50%;
+}
+
+/* Dropdown Menu */
+.dropdown-menu {
+    display: none;
+    position: absolute;
+    top: 50px;
+    right: 0;
+    background-color: #fff;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    z-index: 100;
+    width: 150px;
+}
+
+.dropdown-menu a {
+    display: block;
+    padding: 12px 16px;
+    color: #333;
+    text-decoration: none;
+    font-size: 0.9rem;
+}
+
+.dropdown-menu a:hover {
+    background-color: #f0f0f0;
+}
+
+/* Responsive Design Adjustments */
+@media (min-width: 1200px) {
+    .profile-container {
+        max-width: 1200px;
+    }
+}
+
+@media (max-width: 768px) {
+    .profile-nav ul {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .user-stats {
+        flex-direction: column;
+        gap: 20px;
+    }
+
+    .movies-gallery {
+        grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    }
+}

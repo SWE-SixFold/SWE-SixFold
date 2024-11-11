@@ -1,0 +1,32 @@
+/* Frosted Background Overlay */
+.frosted-background {
+    display: none; /* hidden */
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    backdrop-filter: blur(5px);
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 100;
+}
+
+.login-iframe {
+    width: 100%;
+    border: none;
+}
+
+/* Ensure the modal can adjust its size */
+.login-modal {
+    display: none; /* hidden */
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 101;
+    width: 420px; /* good enough */
+    max-width: 90%;
+    background: none;
+    border: none;
+    overflow: visible; /* no overflow */
+}
