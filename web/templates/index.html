@@ -9,18 +9,16 @@
     <link rel="stylesheet" href="static/style.css">
 </head>
 <body>
-    <!-- dark mode and profile icons in the top right corner -->
+<!-- Add this section inside <body> for the Movie Search page -->
     <div class="top-icons">
-        <!-- dark mode toggle button - switches between light and dark themes -->
+        <!-- dark mode toggle button -->
         <div class="dark-mode-icon" onclick="toggleDarkMode()">
-            <img src="static/images/dark.png" alt="Dark Mode"> <!-- icon image for dark mode -->
+            <img src="static/images/dark.png" alt="Dark Mode">
         </div>
-
-        <!-- profile icon that opens a dropdown menu with options -->
+    
+        <!-- profile icon that opens a dropdown menu -->
         <div class="profile-icon" onclick="toggleMenu()">
-            <img src="{{ image_url }}" alt="Profile"> <!-- profile picture placeholder -->
-            
-            <!-- dropdown menu with options (appears when profile icon is clicked) -->
+            <img src="{{ image_url }}" alt="Profile">
             <div class="dropdown-menu" id="dropdownMenu">
                 <a href="login.html">Manage Account</a> <!-- example link -->
                 <a href="#">History</a> <!--  placeholder  -->
@@ -29,7 +27,7 @@
                 <a href="{{ url_for('logout') }}">Log Out</a> <!--  placeholder  -->
             </div>
         </div>
-    </div>
+    </div>    
 
     <!-- main content container for centering everything on the page -->
     <div class="container">

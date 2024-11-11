@@ -19,7 +19,7 @@ def connect_to_mysql():
     try:
         # Do not touch these settings
         connection = pymysql.connect(
-            host='10.250.84.253',
+            host='10.250.87.64',
             user='sixfold',
             password='10312018',
             database='sixFold'
@@ -92,7 +92,9 @@ def results():
     posters = []
 
     for movie in range(0, len(movies)):
-        posters.append((movies[movie]['poster']))
+        image = (movies[movie]['poster'])
+        if image != "N/A":
+            posters.append(image)
 
     return render_template('results.html', posters = posters)
 

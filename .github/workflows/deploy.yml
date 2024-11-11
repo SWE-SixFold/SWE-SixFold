@@ -1,0 +1,31 @@
+name: Deploy to Firebase
+
+on:
+  push:
+    branches:
+      - main  # You can change this to another branch if needed
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest  # This specifies that the job will run on the latest Ubuntu environment
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2  # This checks out your code to the workflow environment
+
+    - name: Set Firebase Admin SDK key as environment variable
+      run: |
+        echo "FIREBASE_ADMIN_SDK_KEY=${{ secrets.FIREBASE_ADMIN_SDK_KEY }}" >> $GITHUB_ENV
+        # This writes your Firebase Admin SDK key to an environment variable
+
+    - name: Install Firebase CLI
+      run: |
+        curl -sL https://firebase.tools | bash
+        # This installs the Firebase CLI tool for deploying
+
+    - name: Deploy to Firebase
+      run: |
+        echo $FIREBASE_ADMIN_SDK_KEY > firebase-admin-sdk.json
+        # Write the secret key to a file to use with Firebase
+        firebase deploy --token ${{ secrets.FIREBASE_TOKEN }} --project ${{ secrets.FIREBASE_PROJECT_ID }}
+        # Deploy to Firebase using Firebase CLI and your Firebase project ID
