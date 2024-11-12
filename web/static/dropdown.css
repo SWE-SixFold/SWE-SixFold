@@ -23,3 +23,18 @@
 .dropdown-menu a:hover {
     background-color: #f0f0f0;
 }
+
+.genre-dropdown {
+    display: inline-block;
+    margin-left: 10px;
+    margin-bottom: 20px;
+}
+
+.genre-dropdown select {
+    padding: 8px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    font-size: 0.9rem;
+    background-color: #fff;
+    cursor: pointer;
+}

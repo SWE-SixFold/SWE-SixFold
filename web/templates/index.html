@@ -53,6 +53,23 @@
                 <div class="search-box">
                     <input type="text" id="movieInput" name="movieTitle" placeholder="Search for movies" aria-label="Search for movies">
                 </div>
+
+                <!-- Genre Filter Dropdown -->
+                <div class="genre-dropdown">
+                    <select id="genre" name="genre">
+                        <option value="">All Genres</option>
+                        <option value="action">Action</option>
+                        <option value="comedy">Comedy</option>
+                        <option value="drama">Drama</option>
+                        <option value="fantasy">Adventure</option>
+                        <option value="horror">Horror</option>
+                        <option value="romance">Romance</option>
+                        <option value="sci-fi">Sci-Fi</option>
+                        <option value="thriller">Thriller</option>
+                        <!-- Add more genres as needed -->
+                    </select>
+                </div>
+                
                 <div class="button-group">
                     <button type="submit">Search</button>
                     <button type="button" onclick="feelingLucky()">Random</button>
