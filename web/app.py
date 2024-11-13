@@ -19,7 +19,7 @@ def connect_to_mysql():
     try:
         # Do not touch these settings
         connection = pymysql.connect(
-            host='10.250.87.64',
+            host='172.20.10.2',
             user='sixfold',
             password='10312018',
             database='sixFold'
@@ -32,7 +32,7 @@ def connect_to_mysql():
 # Check on login HTML
 @app.route('/')
 def home():
-    return render_template('login.html')  # Render the login form
+    return render_template('index.html')  # Render the login form
 
 @app.route('/login', methods=['POST', 'GET'])
 def login():
@@ -99,7 +99,9 @@ def results():
     return render_template('results.html', posters = posters)
 
 
-
+@app.route('/settings')
+def settings():
+    return render_template('settings.html')
 
 @app.route('/register', methods=['POST', 'GET'])
 def register_user():
