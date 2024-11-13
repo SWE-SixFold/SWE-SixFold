@@ -130,3 +130,6 @@ dmypy.json
 
 # templates
 .github/templates/*
+
+# key
+swe-sixfold-firebase-adminsdk-ceb23-14f07f09f7.json
