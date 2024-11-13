@@ -53,7 +53,7 @@ def login():
         return jsonify({"success": True, "user": user.email}), 200
     except Exception as e:
         return jsonify({"error": str(e)}), 400
-
+    
 # Logout route
 @app.route("/logout")
 def logout():
