@@ -1,0 +1,6 @@
+__pycache__
+.git
+.env
+swe-sixfold-firebase-adminsdk-ceb23-14f07f09f7.json  # Ensure the service account key is not added to the container
+*.pyc
+*.pyo

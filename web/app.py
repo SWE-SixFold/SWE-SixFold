@@ -1,126 +1,84 @@
+# app.py
+
+from flask import Flask, render_template, request, jsonify, redirect, url_for, session
+from firebase_admin import credentials, initialize_app, auth, firestore
+import requests
+import random
 import os
-import pymysql
-from flask import Flask, render_template, request, redirect, url_for, flash, session
-import pymysql.cursors
-import omdb
 
-"""
-TODO 
-    things I need to add: what if same username, 
-    how to check confirm password on html thing, 
-    how to make sure page only works with people signed in and how  
-"""
+app = Flask(__name__, static_folder ='static')
+app.secret_key = os.getenv("SECRET_KEY")
 
-app = Flask(__name__)
-app.secret_key = 'your_secret_key'  # Replace with a strong secret key
+# Initialize Firebase
+cred = credentials.Certificate("swe-sixfold-firebase-adminsdk-ceb23-14f07f09f7.json")
+firebase_app = initialize_app(cred)
+db = firestore.client()
 
-# Connect to SQL function
-def connect_to_mysql():
-    try:
-        # Do not touch these settings
-        connection = pymysql.connect(
-            host='10.250.87.64',
-            user='sixfold',
-            password='10312018',
-            database='sixFold'
-        )
-        return connection
-    except pymysql.MySQLError as e:
-        print(f"Error while connecting to MySQL: {e}")
-        return None
+OMDB_API_KEY = os.getenv("OMDB_API_KEY")
 
-# Check on login HTML
-@app.route('/')
-def home():
-    return render_template('login.html')  # Render the login form
+# Route to serve the main landing page (index.html)
+@app.route("/")
+def index():
+    image_url = url_for('static', filename='images/profile-placeholder.png')
+    return render_template("index.html", image_url=image_url)
 
-@app.route('/login', methods=['POST', 'GET'])
-def login():
-    username = request.form.get('username')  # Get username from form
-    password = request.form.get('psw')  # Get password from form
-    
-    connection = connect_to_mysql()
-    if connection:
-        cursor = connection.cursor()
-        # Query to check if the username and password match
-        cursor.execute("SELECT * FROM users WHERE username = %s AND password = %s", (username, password))
-        user = cursor.fetchone()  # Fetch one matching record
-        cursor.close()
-        connection.close()
-
-        if user:
-            # Store username in session
-            session['username'] = username
-            flash('Login successful!')
-            if session['username'] == "testuser":
-                image_url = "https://media.tenor.com/ciegZ6-LGR4AAAAe/cool-link-shades.png"
-                return render_template('index.html', image_url = image_url)  # Redirect to home or dashboard
-            else:
-                image_url = "static/images/Default_pfp.svg.png"
-                return render_template('index.html', image_url = image_url)
-        else:
-            # Invalid credentials
-            flash('Invalid username or password. Please try again.')
-            return redirect(url_for('home'))
-
-@app.route('/logout')
-def logout():
-    # Remove the username from the session
-    session.pop('username', None)
-    flash('You have been logged out.')
-    print("YOU LOGGED OUT")
-    return redirect(url_for('home'))
-
-@app.route('/register')
-def register():
-    return render_template('register.html')
-
-
-@app.route('/results', methods=['POST','GET'])
+# Route for searching movies with OMDb API
+@app.route("/results", methods=["GET"])
 def results():
+    movie_title = request.args.get("movieTitle")
+    genre = request.args.get("genre")
 
-    title = request.args.get("movieTitle")
+    if not movie_title:
+        return jsonify({"error": "No movie title provided"}), 400
 
-    key = "96ae5860"
+    omdb_url = f"http://www.omdbapi.com/?apikey={OMDB_API_KEY}&s={movie_title}"
+    if genre:
+        omdb_url += f"&genre={genre}"
 
-    #setting up api to request info from api
-    omdb.set_default('apikey', key)
+    response = requests.get(omdb_url)
+    if response.status_code == 200:
+        movies = response.json().get("Search", [])
+        return render_template("results.html", movies=movies)
+    else:
+        return jsonify({"error": "Failed to fetch movies"}), 500
 
-    #will search all related movies with that title, you can include parameters like year, and other stuff (read doc)
-    movies = omdb.search_movie(title)
+# Login route (connects to Firebase auth)
+@app.route("/login", methods=["POST"])
+def login():
+    email = request.json.get("email")
+    password = request.json.get("password")
+    try:
+        user = auth.get_user_by_email(email)
+        session["user"] = user.email
+        return jsonify({"success": True, "user": user.email}), 200
+    except Exception as e:
+        return jsonify({"error": str(e)}), 400
 
-    posters = []
+# Logout route
+@app.route("/logout")
+def logout():
+    session.pop("user", None)
+    return redirect(url_for("index"))
 
-    for movie in range(0, len(movies)):
-        image = (movies[movie]['poster'])
-        if image != "N/A":
-            posters.append(image)
+random_keywords = ["adventure", "action", "comedy", "drama", "fantasy", "horror", "romance", "thriller"]
 
-    return render_template('results.html', posters = posters)
+# Random Button using keyword
+@app.route("/random-movie", methods=["GET"])
+def random_movie():
+    # Pick a random keyword from the list
+    keyword = random.choice(random_keywords)
 
+    # Search OMDb API using the random keyword
+    omdb_url = f"http://www.omdbapi.com/?apikey={OMDB_API_KEY}&s={keyword}"
+    response = requests.get(omdb_url)
 
-
-
-@app.route('/register', methods=['POST', 'GET'])
-def register_user():
-    # Get info
-    username = request.form.get('username')
-    password = request.form.get('psw')
-        
-    # Make connection to database
-    connection = connect_to_mysql()
-
-    if connection:
-        cursor = connection.cursor()
-        insert_query = "INSERT INTO users (username, password) VALUES (%s, %s)"
-        cursor.execute(insert_query, (username, password))
-        connection.commit()
-        cursor.close()
-        connection.close()
+    if response.status_code == 200:
+        movies = response.json().get("Search", [])
+        return render_template("results.html", movies=movies)
+    else:
+        return jsonify({"error": "Failed to fetch random movies"}), 500
     
-    return redirect(url_for('home'))
-
+# Run the Flask app
 if __name__ == "__main__":
-    # Get the PORT environment variable or use a default port
-    port = int(os.environ.get("PORT", 8080))
-    app.run(debug=True, host="0.0.0.0", port=port)
+    app.run(host="0.0.0.0", port=int(os.environ.get("PORT", 8080)))
+

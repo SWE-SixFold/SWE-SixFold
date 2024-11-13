@@ -1,43 +1,44 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <!-- Meta and Title -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>CineSage - Movie Search</title>
 
-    <!-- CSS Files -->
-    <link rel="stylesheet" href="reset.css">
-    <link rel="stylesheet" href="global.css">
-    <link rel="stylesheet" href="header.css">
-    <link rel="stylesheet" href="dropdown.css">
-    <link rel="stylesheet" href="forms.css">
-    <link rel="stylesheet" href="overlays.css">
-    <link rel="stylesheet" href="buttons.css">
-    <link rel="stylesheet" href="dark-mode.css">
-    <link rel="stylesheet" href="footer.css">
-    <link rel="stylesheet" href="search.css">
-    <link rel="stylesheet" href="login.css"> 
+    <!-- CSS Files (directly in static folder) -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='reset.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='global.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='header.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='dropdown.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='forms.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='overlays.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='buttons.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='dark-mode.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='footer.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='search.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='login.css') }}">
 
     <!-- JavaScript Files -->
-    <script src="static/functions.js" defer></script>
+    <script src="{{ url_for('static', filename='functions.js') }}" defer></script>
 </head>
 
 <body>
     <!-- Top Icons Section -->
     <div class="top-icons">
+        <!-- Dark Mode Icon -->
         <div class="dark-mode-icon" onclick="toggleDarkMode()">
-            <img src="static/images/dark.png" alt="Dark Mode">
+            <img src="{{ url_for('static', filename='images/dark.png') }}" alt="Dark Mode">
         </div>
+        <!-- Profile Icon -->
         <div class="profile-icon" onclick="toggleMenu()">
-            <img src="{{ image_url }}" alt="Profile">
+            <img src="{{ url_for('static', filename='images/Default_pfp.svg.png') }}" alt="Profile">
             <div class="dropdown-menu" id="dropdownMenu">
                 <a href="profile.html">Profile</a>
-                <a href="#" onclick="showLoginModal()">LoginButton(temp)</a>
+                <a href="#" onclick="showLoginModal()">Login</a>
                 <a href="#">History</a>
                 <a href="#">Notes</a>
-                <a href="settings.html">Settings</a> <!-- onclick="showLoginModal() -->
+                <a href="settings.html">Settings</a>
                 <a href="{{ url_for('logout') }}">Log Out</a>
             </div>
         </div>
@@ -48,7 +49,9 @@
         <header>
             <h1 class="logo">CineSage</h1>
         </header>
+
         <main>
+            <!-- Movie Search Form -->
             <form method="GET" action="{{ url_for('results') }}">
                 <div class="search-box">
                     <input type="text" id="movieInput" name="movieTitle" placeholder="Search for movies" aria-label="Search for movies">
@@ -66,18 +69,21 @@
                         <option value="romance">Romance</option>
                         <option value="sci-fi">Sci-Fi</option>
                         <option value="thriller">Thriller</option>
-                        <!-- Add more genres as needed -->
                     </select>
                 </div>
-                
+
+                <!-- Button Group -->
                 <div class="button-group">
                     <button type="submit">Search</button>
                     <button type="button" onclick="feelingLucky()">Random</button>
                     <button type="button" onclick="feelingLucky()">Art History</button>
                 </div>
             </form>
+
+            <!-- Results Section for Displaying Movies -->
             <div id="result"></div>
         </main>
+
         <footer>
             <a href="#">About</a>
             <a href="#">Privacy</a>
@@ -90,6 +96,44 @@
     <div class="login-modal" id="loginModal">
         <iframe src="login.html" frameborder="0" class="login-iframe"></iframe>
     </div>
-</body>
 
+    <!-- JavaScript for Random Movie Search -->
+    <script>
+        function feelingLucky() {
+            fetch('/api/random')
+                .then(response => response.json())
+                .then(data => {
+                    if (data.error) {
+                        alert("Could not find any random movies. Try again!");
+                    } else {
+                        displayMovies(data);
+                    }
+                })
+                .catch(error => {
+                    console.error("Error fetching random movies:", error);
+                });
+        }
+
+        function displayMovies(movies) {
+            const resultDiv = document.getElementById("result");
+            resultDiv.innerHTML = "";  // Clear previous results
+
+            // Loop through movies to create consistent display
+            movies.forEach(movie => {
+                const movieCard = document.createElement("div");
+                movieCard.classList.add("movie-card");
+
+                movieCard.innerHTML = `
+                    <img src="${movie.Poster}" alt="${movie.Title}">
+                    <h2>${movie.Title}</h2>
+                    <p>Year: ${movie.Year}</p>
+                    <p>Type: ${movie.Type}</p>
+                    <a href="https://www.imdb.com/title/${movie.imdbID}" target="_blank">View on IMDb</a>
+                `;
+
+                resultDiv.appendChild(movieCard);
+            });
+        }
+    </script>
+</body>
 </html>
