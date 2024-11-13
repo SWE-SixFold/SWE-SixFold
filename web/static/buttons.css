@@ -1,0 +1,70 @@
+/* buttons.css */
+.login-button,
+.register-container button[type="submit"],
+.forgot-password {
+    background-color: #007aff;
+    color: #fff;
+    padding: 12px 20px;
+    border: none;
+    border-radius: 25px;
+    font-size: 0.9rem;
+    text-align: center;
+    transition: background-color 0.3s ease;
+}
+
+.login-button:hover,
+.register-container button[type="submit"]:hover,
+.forgot-password:hover {
+    background-color: #005bb5;
+}
+
+.button-group button {
+    border: none;
+    padding: 12px 0;
+    width: 150px;
+    border-radius: 25px;
+    font-size: 1.1rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.button-group button:first-child {
+    background-color: #007aff;
+    color: #ffffff !important; 
+}
+
+.button-group button:first-child:hover {
+    background-color: #55c2da;
+}
+
+.button-group button:last-child {
+    background-color: #33b249;
+    color: #ffffff !important; 
+}
+
+.button-group button:last-child:hover {
+    background-color: #75b8a5;
+}
+
+.button-group-button {
+    display: inline-block;
+    padding: 12px 20px;
+    border-radius: 25px;
+    font-size: 1.1rem;
+    cursor: pointer;
+    background-color: #007aff; 
+    color: #ffffff !important; 
+    text-decoration: none;
+    text-align: center;
+    transition: background-color 0.3s ease;
+}
+
+.button-group-button:hover {
+    background-color: #005bb5; 
+}
+
+.btn-success {
+    background-color: #28a745; 
+    color: white;
+    pointer-events: none; 
+}
