@@ -98,7 +98,12 @@ def results():
 
     return render_template('results.html', posters = posters)
 
-#hi si
+#hi
+
+@app.route('/profile')
+def profile():
+    return render_template('profile.html')
+
 @app.route('/settings')
 def settings():
     return render_template('settings.html')
