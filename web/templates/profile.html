@@ -26,9 +26,10 @@
                 <a href="{{ url_for('profile') }}">Profile</a>
                 <a href="#" onclick="showLoginModal()">LoginButton(temp)</a>
                 <a href="#">History</a>
-                <a href="#">Notes</a>
+                
                 <a href="{{ url_for('settings') }}">Settings</a> <!-- onclick="showLoginModal() -->
                 <a href="{{ url_for('logout') }}">Log Out</a>
+                <a href="{{ url_for('home') }}">Back to Home</a>
             </div>
         </div>
     </div>
@@ -37,7 +38,7 @@
     <div class="profile-container">
         <!-- Header Section -->
         <div class="profile-header">
-            <div class="background-image">Background Image Placeholder</div>
+            
             <div class="profile-info">
                 <div class="profile-image">Profile Picture Placeholder</div>
                 <h1 id="username">John Doe</h1>
@@ -49,9 +50,9 @@
         <!-- Navigation Links -->
         <div class="profile-nav">
             <ul>
-                <li><a href="#">Favorite Movies</a></li>
+                <li><a href="#fav-section">Favorite Movies</a></li>
                 <li><a href="#">Notes</a></li>
-                <li><a href="#">Saved Movies</a></li>
+                <li><a href="#wl-section">Watchlist</a></li>
             </ul>
         </div>
 
@@ -65,13 +66,28 @@
         <div class="bio" id="bio">Bio Placeholder</div>
 
         <!-- Saved Movies Section -->
-        <div class="saved-movies-section">
-            <h2>Saved Movies</h2>
+        <div class="saved-movies-section" id="wl-section">
+            <h2>Watchlist
+                <button onclick="clearWatchlist()" class="clear-button">Clear Watchlist</button>
+            </h2>
             <div class="movies-gallery" id="moviesGallery">
-                <div class="movie-card">Saved Movie Placeholder</div>
-                <div class="movie-card">Saved Movie Placeholder</div>
-                <div class="movie-card">Saved Movie Placeholder</div>
-                <div class="movie-card">Saved Movie Placeholder</div>
+                <div class="movie-card">Watchlist</div>
+                <div class="movie-card">Watchlist</div>
+                <div class="movie-card">Watchlist</div>
+                <div class="movie-card">Watchlist</div>
+            </div>
+        </div>
+
+        <!-- Fav Movies Section -->
+        <div class="saved-movies-section" id="fav-section">
+            <h2>Favorites
+                <button onclick="clearFavorites()" class="clear-button">Clear Favorites List</button>
+            </h2>
+            <div class="movies-gallery" id="moviesGallery">
+                <div class="movie-card">Favorites</div>
+                <div class="movie-card">Favorites</div>
+                <div class="movie-card">Favorites</div>
+                <div class="movie-card">Favorites</div>
             </div>
         </div>
     </div>

@@ -155,5 +155,29 @@ function loadFavoriteMovies() {
     });
 }
 
+// Define the idle timeout duration (in milliseconds)
+const idleTimeout = 20 * 60 * 1000; // 20 minutes
+
+let idleTimer;
+
+// Function to reset the idle timer
+function resetIdleTimer() {
+    clearTimeout(idleTimer);
+    idleTimer = setTimeout(logoutUser, idleTimeout);
+}
+
+// Function to log out the user
+function logoutUser() {
+    alert("You have been logged out due to inactivity.");
+    window.location.href = "/logout"; // Redirect to logout route or URL
+}
+
+// Event listeners for user activity
+window.onload = resetIdleTimer;
+window.onmousemove = resetIdleTimer;
+window.onkeypress = resetIdleTimer;
+window.onscroll = resetIdleTimer;
+window.onclick = resetIdleTimer;
+
 // Run on page load
 document.addEventListener("DOMContentLoaded", loadFavoriteMovies);

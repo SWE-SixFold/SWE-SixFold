@@ -31,12 +31,12 @@
             <img src="static/images/dark.png" alt="Dark Mode">
         </div>
         <div class="profile-icon" onclick="toggleMenu()">
-            <img src="{{ image_url }}" alt="Profile">
+            <img src="{{ image_url }}" alt="Menu">
             <div class="dropdown-menu" id="dropdownMenu">
-                <a href="{{ url_for('profile') }}">Profile</a>
+                <a href="{{ url_for('profile') }}">Manage Profile</a>
                 <a href="#" onclick="showLoginModal()">LoginButton(temp)</a>
                 <a href="#">History</a>
-                <a href="#">Notes</a>
+                
                 <a href="{{ url_for('settings') }}">Settings</a> <!-- onclick="showLoginModal() -->
                 <a href="{{ url_for('logout') }}">Log Out</a>
             </div>

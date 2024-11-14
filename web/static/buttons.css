@@ -68,3 +68,19 @@
     color: white;
     pointer-events: none; 
 }
+
+.clear-button {
+    font-size: 0.9rem;
+    padding: 5px 10px;
+    margin-left: 15px;
+    background-color: #ffffff;
+    color: #ff4141;
+    border: 1px solid rgb(255, 163, 163);
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.clear-button:hover {
+    background-color: #fbf3f3;
+}
