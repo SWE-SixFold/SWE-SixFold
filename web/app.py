@@ -8,7 +8,7 @@ import omdb
 TODO 
     things I need to add: what if same username, 
     how to check confirm password on html thing, 
-    how to make sure page only works with people signed in and how  
+    how to make sure page only works with people signed in and how
 """
 
 app = Flask(__name__)

@@ -23,12 +23,12 @@
         <div class="profile-icon" onclick="toggleMenu()">
             <img src="{{ image_url }}" alt="Profile">
             <div class="dropdown-menu" id="dropdownMenu">
-                <a href="index.html">Home</a>
-                <a href="#">View Favorites</a>
-                <a href="#">Watch History</a>
-                <a href="#">Recommendations</a>
-                <a href="settings.html">Settings</a>
-                <a href="#">Log Out</a>
+                <a href="{{ url_for('profile') }}">Profile</a>
+                <a href="#" onclick="showLoginModal()">LoginButton(temp)</a>
+                <a href="#">History</a>
+                <a href="#">Notes</a>
+                <a href="{{ url_for('settings') }}">Settings</a> <!-- onclick="showLoginModal() -->
+                <a href="{{ url_for('logout') }}">Log Out</a>
             </div>
         </div>
     </div>
@@ -77,7 +77,8 @@
     </div>
 
     <!-- JavaScript for Dark Mode and Dropdown -->
-    <script src="functions.js" defer></script>
+    <script src="static/settings.js"></script>
+    <script src="static/functions.js" defer></script>
 </body>
 
 </html>
