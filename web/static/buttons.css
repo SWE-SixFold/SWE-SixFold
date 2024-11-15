@@ -84,3 +84,11 @@
 .clear-button:hover {
     background-color: #fbf3f3;
 }
+
+.details-buttons,
+.note-box .button-group {
+    display: flex;
+    justify-content: center; 
+    gap: 15px; 
+    margin-bottom: 20px;
+}

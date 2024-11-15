@@ -10,38 +10,7 @@ body {
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
     background-color: #f9f9f9;
     color: #333;
-    padding: 20px; /* Adds padding around the body */
-}
-
-/* Gallery grid layout */
-.gallery {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-    gap: 16px;
-    max-width: 100%;
-    box-sizing: border-box;
-    margin: auto;
-    padding-top: 20px;
-}
-
-/* Poster item styling */
-.image-item {
-    overflow: hidden;
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-}
-
-/* Image styling */
-.image-item img {
-    width: 100%;
-    height: auto;
-    object-fit: cover;
-    transition: transform 0.3s ease;
-}
-
-/* Hover effect */
-.image-item:hover img {
-    transform: scale(1.05);
+    padding: 20px;
 }
 
 /* Header styling */
@@ -52,78 +21,227 @@ h1 {
     color: #333;
 }
 
-/* button group - holds the search and lucky buttons */
-.button-group {
-    display: flex;
-    gap: 10px; /* space between buttons */
-    justify-content: center; /* center buttons */
-}
-
-/* base styling for both buttons */
-.button-group button {
-    border: none;
-    padding: 12px 0;
-    width: 150px;
-    border-radius: 25px; /* rounded buttons */
-    font-size: 1.1rem;
-    cursor: pointer;
-    transition: background-color 0.3s ease; /* smooth hover transition */
-}
-
-/* blue search button */
-.button-group button:first-child {
-    background-color: #007aff; /* blue background */
-    color: #ffffff; /* white text */
-}
-
-.button-group button:first-child:hover {
-    background-color: #55c2da; /* lighter blue on hover */
-}
-
-/* button color for random button middle */
-.button-group button:last-child {
-    background-color: #33b249; /* green */
-    color: #ffffff; /* white text */
-}
-
-.button-group button:last-child:hover {
-    background-color: #75b8a5; /* lighter green on hover */
-}
-
-
-/* green for collab button */
-.button-group button:last-child {
-    background-color: #33b249; /* green */
-    color: #ffffff; /* white text */
-}
-
-.button-group button:last-child:hover {
-    background-color: #75b8a5; /* lighter green on hover */
-}
-
-/* search box styling for normal mode */
+/* Search box styling */
 .search-box {
     display: flex;
     align-items: center;
-    border: 1px solid #ddd; /* light border */
-    border-radius: 50px; /* rounded edges */
+    border: 1px solid #ddd;
+    border-radius: 50px;
     padding: 12px 16px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); /* slight shadow */
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
     width: 100%;
     margin-bottom: 20px;
-    background-color: transparent; /* no background in normal mode */
-    transition: border-color 0.5s ease, background-color 0.5s ease; /* smooth transition for dark mode */
+    background-color: white;
 }
 
-/* styling for the input inside search box */
 .search-box input[type="text"] {
     border: none;
     outline: none;
     padding: 12px;
-    width: 100%; /* full width */
+    width: 100%;
     font-size: 1.1rem;
-    border-radius: 25px; /* rounded corners */
-    color: #333; /* text color in normal mode */
-    background-color: transparent; /* no background in normal mode */
-    transition: color 0.5s ease; /* fade effect for dark mode */
+    color: #333;
+    background-color: transparent;
+}
+
+/* Gallery grid layout */
+.gallery {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 16px;
+    max-width: 100%;
+    margin: auto;
+    padding-top: 20px;
+}
+
+/* Poster item styling */
+.image-item {
+    position: relative;
+    overflow: hidden;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    transition: transform 0.3s ease;
+    cursor: pointer;
+}
+
+.image-item img {
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+}
+
+.image-item:hover img {
+    transform: scale(1.05);
+}
+
+/* Expanded details box */
+.details-box {
+    position: absolute;
+    max-width: 400px;
+    width: 100%;
+    background-color: rgba(255, 255, 255, 0.95);
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+    padding: 20px;
+    z-index: 1000;
+    display: none;
+    overflow: auto;
+}
+
+.details-box.visible {
+    display: block;
+}
+
+/* Poster image within the expanded box */
+.expanded-poster {
+    display: block;
+    margin: 0 auto;
+    width: 100%;
+    max-width: 300px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+}
+
+/* Header sections within the expanded box */
+.details-header {
+    display: flex;
+    justify-content: space-around;
+    margin-bottom: 20px;
+}
+
+.details-section h3 {
+    font-size: 1.1rem;
+    margin-bottom: 8px;
+}
+
+.details-section a {
+    color: #007aff;
+    text-decoration: none;
+    font-size: 0.9rem;
+}
+
+.details-section a:hover {
+    text-decoration: underline;
+}
+
+/* Synopsis section */
+.synopsis {
+    margin-bottom: 20px;
+}
+
+.synopsis h3 {
+    font-size: 1.1rem;
+    margin-bottom: 10px;
+}
+
+.synopsis p {
+    font-size: 1rem;
+    line-height: 1.5;
+    max-height: 60px; /* Limit the height to make room for "Read more" link */
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.read-more-link {
+    color: #007aff;
+    font-size: 0.9rem;
+    text-decoration: none;
+    display: inline-block;
+    margin-top: 5px;
+}
+
+.read-more-link:hover {
+    text-decoration: underline;
+}
+
+/* Buttons in details box */
+.details-buttons {
+    display: flex;
+    gap: 15px;
+    justify-content: center;
+    margin-bottom: 20px;
+}
+
+.button-group-button {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 25px;
+    background-color: #007aff;
+    color: white;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: background-color 0.3s ease;
+}
+
+.button-group-button:hover {
+    background-color: #005bb5;
+}
+
+/* Close button styling */
+.close-button {
+    padding: 10px 20px;
+    background-color: #ff4d4d;
+    color: white;
+    border: none;
+    border-radius: 25px;
+    cursor: pointer;
+    display: block;
+    margin: 10px auto 0;
+    font-size: 1rem;
+}
+
+.close-button:hover {
+    background-color: #ff1a1a;
+}
+
+/* Note box styling */
+.note-box {
+    display: none;
+    flex-direction: column;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+.note-box.visible {
+    display: flex;
+}
+
+.note-box textarea {
+    width: 100%;
+    height: 100px;
+    border-radius: 8px;
+    padding: 10px;
+    border: 1px solid #ddd;
+    font-size: 1rem;
+    resize: none;
+}
+
+.save-note-button, .discard-note-button {
+    padding: 10px 20px;
+    border-radius: 25px;
+    cursor: pointer;
+    font-size: 1rem;
+}
+
+.save-note-button {
+    background-color: #007aff;
+    color: white;
+    border: none;
+    transition: background-color 0.3s ease;
+}
+
+.save-note-button:hover {
+    background-color: #005bb5;
+}
+
+.discard-note-button {
+    background-color: #33b249;
+    color: white;
+    border: none;
+    transition: background-color 0.3s ease;
+}
+
+.discard-note-button:hover {
+    background-color: #239537;
 }

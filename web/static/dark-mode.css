@@ -120,3 +120,54 @@ body.dark-mode .clear-button {
 body.dark-mode .clear-button:hover {
     background-color: #444;
 }
+
+/* Dark mode for details box */
+body.dark-mode .details-box {
+    background-color: #2e2e2e;
+    color: #ffffff;
+    border: 1px solid #444;
+}
+
+body.dark-mode .details-header h3,
+body.dark-mode .synopsis h3 {
+    color: #ffffff;
+}
+
+body.dark-mode .details-section a,
+body.dark-mode .synopsis a {
+    color: #55c2da; 
+}
+
+body.dark-mode .details-section a:hover,
+body.dark-mode .synopsis a:hover {
+    color: #a0d8f1; 
+    text-decoration: underline;
+}
+
+/* Dark mode for the note box */
+body.dark-mode .note-box textarea {
+    background-color: #3a3a3a;
+    color: #ffffff;
+    border: 1px solid #555;
+}
+
+/* Dark mode for buttons */
+body.dark-mode .button-group-button {
+    background-color: #555; 
+    color: #ffffff;
+    border: none;
+}
+
+body.dark-mode .button-group-button:hover {
+    background-color: #777; 
+}
+
+body.dark-mode .clear-button {
+    background-color: #444;
+    color: #ff4141;
+    border: 1px solid rgb(255, 163, 163);
+}
+
+body.dark-mode .clear-button:hover {
+    background-color: #555;
+}

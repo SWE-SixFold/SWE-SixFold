@@ -5,10 +5,37 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Results</title>
     <link rel="stylesheet" href="static/style_results.css">
+    <link rel="stylesheet" href="static/buttons.css">
+    <link rel="stylesheet" href="static/dark-mode.css">
+    <link rel="stylesheet" href="static/search.css">
+    <link rel="stylesheet" href="static/overlays.css">
+    <link rel="stylesheet" href="static/header.css">
     <link rel="stylesheet" href="static/dropdown.css">
+
+
+    <!-- JavaScript files for functionality -->
+    <script src="static/functions.js" defer></script>
+    <script src="static/details.js" defer></script> 
 </head>
 <body class="results">
 
+    <!-- Top Icons Section -->
+    <div class="top-icons">
+        <div class="dark-mode-icon" onclick="toggleDarkMode()">
+            <img src="static/images/dark.png" alt="Dark Mode">
+        </div>
+        <div class="profile-icon" onclick="toggleMenu()">
+            <img src="{{ image_url }}" alt="Menu">
+            <div class="dropdown-menu" id="dropdownMenu">
+                <a href="{{ url_for('profile') }}">Manage Profile</a>
+                <a href="#">History</a>
+                <a href="{{ url_for('settings') }}">Settings</a>
+                <a href="{{ url_for('logout') }}">Log Out</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Search Form -->
     <form method="GET" action="{{ url_for('results') }}">
         <div class="search-box">
             <input type="text" id="movieInput" name="movieTitle" placeholder="Search for movies" aria-label="Search for movies">
@@ -16,32 +43,63 @@
                 <button type="submit">Search</button>
             </div>
         </div>
-        <!-- Genre Filter Dropdown -->
-        <div class="genre-dropdown">
-            <select id="genre" name="genre">
-                <option value="">All Genres</option>
-                <option value="action">Action</option>
-                <option value="comedy">Comedy</option>
-                <option value="drama">Drama</option>
-                <option value="fantasy">Fantasy</option>
-                <option value="horror">Horror</option>
-                <option value="romance">Romance</option>
-                <option value="sci-fi">Sci-Fi</option>
-                <option value="thriller">Thriller</option>
-            </select>
-        </div>
-
-        <a href="https://www.imdb.com/title/{idasdfasdfasdf}}/?ref_=fn_al_tt_1"></a>
-
     </form>
+    
     <h1>Results</h1>
 
+    <!-- Movie Gallery -->
     <div class="gallery">
-        {% for poster in posters %}
-            <div class="image-item">
-                <img src="{{ poster }}" alt="poster">
+        {% for movie in movies %}
+            <div class="image-item" onclick='expandDetails(event, "{{ movie.poster|e }}", "{{ movie.title|e }}", "{{ movie.ratings|e }}", "{{ movie.plot|e }}", "{{ movie.imdb_url|e }}")'>
+                <img src="{{ movie.poster }}" alt="{{ movie.title }} Poster">
+                <h2>{{ movie.title }}</h2>
             </div>
         {% endfor %}
     </div>
+
+    <!-- Expanded Details Box -->
+    <div id="details-box" class="details-box hidden">
+        <img id="expanded-poster" class="expanded-poster" alt="Expanded Poster">
+        
+        <div class="details-header">
+            <div class="details-section">
+                <h3>Ratings</h3>
+                <p id="movie-rating"></p>
+                <a id="imdb-link" href="#" target="_blank">IMDb</a>
+            </div>
+            <div class="details-section">
+                <h3>Showtimes</h3>
+                <a href="https://www.imdb.com/" target="_blank">Find Showtimes</a>
+            </div>
+            <div class="details-section">
+                <h3>Related Movies</h3>
+                <a href="https://www.imdb.com/" target="_blank">See More</a>
+            </div>
+        </div>
+
+        <div class="synopsis">
+            <h3>Synopsis</h3>
+            <p id="movie-synopsis" class="truncated-synopsis"></p>
+            <a id="synopsis-imdb-link" href="#" target="_blank" class="read-more-link hidden">Read more on IMDb</a>
+        </div>
+
+        <div class="details-buttons">
+            <button class="button-group-button" onclick="addToWatchlist()">Save to Watchlist</button>
+            <button class="button-group-button" onclick="addToFavorites()">Add to Favorites</button>
+            <button class="button-group-button" onclick="toggleNoteBox()">Add Note</button>
+        </div>
+
+        <!-- Note Box -->
+        <div id="note-box" class="note-box hidden">
+            <textarea id="note-input" placeholder="Write your note here..."></textarea>
+            <div class="button-group">
+                <button class="save-note-button" onclick="saveNote()">Save Note</button>
+                <button class="discard-note-button" onclick="discardNote()">Discard Note</button>
+            </div>
+        </div>
+
+        <button class="close-button" onclick="closeDetails()">Close</button>
+    </div>
+
 </body>
 </html>

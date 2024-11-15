@@ -89,14 +89,23 @@ def results():
     #will search all related movies with that title, you can include parameters like year, and other stuff (read doc)
     movies = omdb.search_movie(title)
 
-    posters = []
+    movie_details_list = []
 
-    for movie in range(0, len(movies)):
-        image = (movies[movie]['poster'])
-        if image != "N/A":
-            posters.append(image)
+    for movie in movies:
+        movie_details = omdb.imdbid(movie['imdb_id'])
+        movie_info = {
+            'title': movie_details.get('title', 'Unknown Title'),
+            'poster': movie_details.get('poster', 'N/A'),
+            'ratings': movie_details.get('imdb_rating', 'N/A'),
+            'plot': movie_details.get('plot', 'No synopsis available'),
+            'imdb_url': f"https://www.imdb.com/title/{movie['imdb_id']}/",
+            'related_movies_url': 'https://www.imdb.com/',  # Placeholder, imdb doesnt show related movies with api
+            'showtimes_url': 'https://www.imdb.com/'  # Placeholder, they dont offer showtimes either via api
+        }
+        if movie_info['poster'] != "N/A":
+            movie_details_list.append(movie_info)
 
-    return render_template('results.html', posters = posters)
+    return render_template('results.html', movies=movie_details_list)
 
 #hi
 
