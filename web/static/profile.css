@@ -220,3 +220,31 @@
         grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
     }
 }
+
+/* Notes Section Styling */
+.notes-gallery {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+.note-card {
+    background-color: #f0f0f0;
+    padding: 10px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    font-size: 0.9rem;
+    color: #333;
+    cursor: pointer;
+    line-height: 1.4;
+}
+
+.note-card:hover {
+    background-color: #e0e0e0;
+}
+
+.note-card strong {
+    font-size: 1rem;
+    color: #007BFF;  /* A blue color to make movie titles stand out */
+}
