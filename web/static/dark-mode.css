@@ -1,22 +1,36 @@
-/* dark-mode.css */
+/* darkmode.css */
+/* reformatted for easier editing */
 body.dark-mode {
     background-color: #1e1e1e;
     color: #ffffff;
+    transition: background-color 0.3s, color 0.3s;
 }
 
 body.dark-mode header .logo,
-body.dark-mode .dropdown-menu a {
+body.dark-mode .dropdown-menu a,
+body.dark-mode h1,
+body.dark-mode h2,
+body.dark-mode label,
+body.dark-mode p,
+body.dark-mode span.icon,
+body.dark-mode .container,
+body.dark-mode .profile-info h1,
+body.dark-mode .profile-info p,
+body.dark-mode .saved-movies-section h2 {
     color: #ffffff;
+    transition: color 0.3s;
 }
 
+/* Dropdown menu styles */
 body.dark-mode .dropdown-menu {
-    background-color: #333; /* dark background for contrast */
+    background-color: #333;
 }
 
 body.dark-mode .dropdown-menu a:hover {
-    background-color: #555; /* darker hover color in dark mode */
+    background-color: #555;
 }
 
+/* Search box styles */
 body.dark-mode .search-box {
     border: 1px solid #555;
     background-color: #2e2e2e;
@@ -24,4 +38,85 @@ body.dark-mode .search-box {
 
 body.dark-mode .search-box input[type="text"] {
     color: #ffffff;
+}
+
+/* Input fields */
+body .input-container input[type="text"],
+body .input-container input[type="password"],
+body .bio-textarea,
+body .upload-input {
+    transition: background-color 0.3s, color 0.3s, border-color 0.3s;
+}
+
+body.dark-mode .input-container input[type="text"],
+body.dark-mode .input-container input[type="password"],
+body.dark-mode .bio-textarea,
+body.dark-mode .upload-input {
+    background-color: #3a3a3a;
+    color: #ffffff;
+    border: 1px solid #555;
+}
+
+body.dark-mode .input-container span.icon {
+    color: #ffffff;
+}
+
+/* Profile picture preview */
+body.dark-mode .profile-picture-preview img {
+    border: 2px solid #444;
+}
+
+/* Container styles */
+body.dark-mode .container,
+body.dark-mode .profile-container,
+body.dark-mode .saved-movies-section {
+    background-color: #2e2e2e;
+    color: #ffffff;
+    border: 1px solid #444;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+/* Profile header */
+body.dark-mode .profile-header {
+    background-color: #3a3a3a;
+    border-bottom: 1px solid #555;
+}
+
+/* Profile navigation links */
+body.dark-mode .profile-nav ul {
+    background-color: transparent; 
+    border: none; 
+    padding: 0;
+}
+
+body.dark-mode .profile-nav ul li {
+    display: inline-block; 
+    margin: 0 10px; 
+}
+
+body.dark-mode .profile-nav ul li a {
+    background-color: transparent; 
+    color: #ffffff; 
+    padding: 0; 
+    border: none; 
+}
+
+/* User stats section */
+body.dark-mode .user-stats .stat-box,
+body.dark-mode .movie-card,
+body.dark-mode .bio {
+    background-color: #3a3a3a;
+    color: #ffffff;
+    border: 1px solid #555;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+body.dark-mode .clear-button {
+    background-color: #333;
+    color: #ff4141;
+    border: 1px solid rgb(255, 163, 163);
+}
+
+body.dark-mode .clear-button:hover {
+    background-color: #444;
 }

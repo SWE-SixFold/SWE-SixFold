@@ -181,3 +181,23 @@ window.onclick = resetIdleTimer;
 
 // Run on page load
 document.addEventListener("DOMContentLoaded", loadFavoriteMovies);
+
+/* Function to save darkmode pref to all pages
+function toggleDarkMode() {
+    document.body.classList.toggle('dark-mode');
+
+    // Save the user's dark mode preference
+    if (document.body.classList.contains('dark-mode')) {
+        localStorage.setItem('darkMode', 'enabled');
+    } else {
+        localStorage.setItem('darkMode', 'disabled');
+    }
+}
+
+// Check and apply the dark mode preference on page load
+document.addEventListener('DOMContentLoaded', () => {
+    const darkModePreference = localStorage.getItem('darkMode');
+    if (darkModePreference === 'enabled') {
+        document.body.classList.add('dark-mode');
+    }
+}); */
