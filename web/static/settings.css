@@ -26,3 +26,23 @@
     font-size: 1.2rem;
     color: #666;
 }
+
+.profile-picture-options {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    align-items: center;
+}
+
+.profile-option {
+    width: 80px;
+    height: 80px;
+    object-fit: cover;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: transform 0.3s ease;
+}
+
+.profile-option:hover {
+    transform: scale(1.1);
+}
