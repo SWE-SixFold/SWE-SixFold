@@ -25,8 +25,9 @@
 }
 
 .genre-dropdown {
-    display: inline-block;
+    display: block;
     margin-left: 10px;
+    margin-top: 20px;
     margin-bottom: 20px;
 }
 
