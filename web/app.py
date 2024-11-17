@@ -19,7 +19,7 @@ def connect_to_mysql():
     try:
         # Do not touch these settings
         connection = pymysql.connect(
-            host='172.20.10.2',
+            host='10.0.0.92',
             user='sixfold',
             password='10312018',
             database='sixFold'
@@ -32,38 +32,47 @@ def connect_to_mysql():
 # Check on login HTML
 @app.route('/')
 def home():
-    return render_template('index.html')  # Render the login form
+    # Retrieve username from session or default to 'Guest'
+    username = session.get('username', 'Guest')  
+    return render_template('index   .html', username=username)  # Render login form with username
 
 @app.route('/login', methods=['POST', 'GET'])
 def login():
-    username = request.form.get('username')  # Get username from form
-    password = request.form.get('psw')  # Get password from form
+    # Get form inputs
+    username = request.form.get('username')  
+    password = request.form.get('psw')  
     
-    connection = connect_to_mysql()
+    connection = connect_to_mysql()  # Your function to connect to the database
     if connection:
         cursor = connection.cursor()
-        # Query to check if the username and password match
+        # Query to check if username and password match
         cursor.execute("SELECT * FROM users WHERE username = %s AND password = %s", (username, password))
-        user = cursor.fetchone()  # Fetch one matching record
+        user = cursor.fetchone()  
         cursor.close()
         connection.close()
 
         if user:
-            # Store username in session
+            # Store the username in session
             session['username'] = username
             flash('Login successful!')
+
+            # Check for a special user and render with appropriate image
             if session['username'] == "testuser":
                 image_url = "https://media.tenor.com/ciegZ6-LGR4AAAAe/cool-link-shades.png"
-                return render_template('index.html', image_url = image_url)  # Redirect to home or dashboard
             else:
                 image_url = "static/images/Default_pfp.svg.png"
-                return render_template('index.html', image_url = image_url)
+
+            # Render index.html with username and image URL
+            return render_template('index.html', image_url=image_url, username=username)
         else:
             # Invalid credentials
             flash('Invalid username or password. Please try again.')
-            return redirect(url_for('home'))
-
+            return redirect(url_for('home'))  # Redirect to login page
+    else:
+        flash('Unable to connect to the database.')
+        return redirect(url_for('home'))
 @app.route('/logout')
+
 def logout():
     # Remove the username from the session
     session.pop('username', None)
@@ -78,8 +87,25 @@ def register():
 
 @app.route('/results', methods=['POST','GET'])
 def results():
-
+    username = session.get('username', 'Guest')
     title = request.args.get("movieTitle")
+    
+    connection = connect_to_mysql()
+    cursor = connection.cursor()
+
+    cursor.execute("SELECT id FROM users WHERE username = %s;", (username,))
+    user_id_row = cursor.fetchone()
+
+    user_id = user_id_row[0] if user_id_row else None
+
+    if user_id:
+        cursor.execute("INSERT INTO SearchHistory (user_id, movie_title) VALUES (%s, %s);", (user_id, title))
+        connection.commit()
+    else:
+        print("User Not Found")
+
+    cursor.close()
+    connection.close()
 
     key = "96ae5860"
 
@@ -105,17 +131,48 @@ def results():
         if movie_info['poster'] != "N/A":
             movie_details_list.append(movie_info)
 
-    return render_template('results.html', movies=movie_details_list)
+    return render_template('results.html', movies=movie_details_list, username = username)
 
 #hi
 
 @app.route('/profile')
 def profile():
-    return render_template('profile.html')
+    username = session.get('username', 'Guest')
+    return render_template('profile.html', username = username)
 
 @app.route('/settings')
 def settings():
-    return render_template('settings.html')
+    username = session.get('username', 'Guest')
+    return render_template('settings.html', username = username)
+
+@app.route('/history')
+def history():
+    username = session.get('username', 'Guest')  # Get username from session
+    if username == 'Guest':
+        return "Please log in to view your history."
+
+    # Connect to the database
+    connection = connect_to_mysql()
+    cursor = connection.cursor()
+
+    # Fetch the user ID
+    cursor.execute("SELECT id FROM users WHERE username = %s;", (username,))
+    user_row = cursor.fetchone()  # This will be a tuple, e.g., (1,)
+    user_id = user_row[0] if user_row else None  # Access the first value of the tuple
+
+
+    if not user_id:
+        return "User not found."
+
+    # Fetch search history for the user
+    cursor.execute("SELECT movie_title, search_date FROM SearchHistory WHERE user_id = %s ORDER BY search_date DESC;", (user_id,))
+    history = cursor.fetchall()
+
+    cursor.close()
+    connection.close()
+
+    # Pass the history to the template
+    return render_template('history.html', history=history, username = username)
 
 @app.route('/register', methods=['POST', 'GET'])
 def register_user():
@@ -140,3 +197,4 @@ if __name__ == "__main__":
     # Get the PORT environment variable or use a default port
     port = int(os.environ.get("PORT", 8080))
     app.run(debug=True, host="0.0.0.0", port=port)
+
