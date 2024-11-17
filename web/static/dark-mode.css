@@ -151,17 +151,6 @@ body.dark-mode .note-box textarea {
     border: 1px solid #555;
 }
 
-/* Dark mode for buttons */
-body.dark-mode .button-group-button {
-    background-color: #555; 
-    color: #ffffff;
-    border: none;
-}
-
-body.dark-mode .button-group-button:hover {
-    background-color: #777; 
-}
-
 body.dark-mode .clear-button {
     background-color: #444;
     color: #ff4141;
