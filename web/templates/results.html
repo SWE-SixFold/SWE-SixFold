@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Results</title>
+    <link rel="stylesheet" href="static/reset.css">
+    <link rel="stylesheet" href="static/global.css">
     <link rel="stylesheet" href="static/style_results.css">
     <link rel="stylesheet" href="static/buttons.css">
     <link rel="stylesheet" href="static/search.css">
@@ -83,10 +85,10 @@
                 <p id="movie-rating"></p>
                 <a id="imdb-link" href="#" target="_blank">IMDb</a>
             </div>
-            <div class="details-section">
+          <!--  <div class="details-section">
                 <h3>Showtimes</h3>
                 <a href="https://www.imdb.com/" target="_blank">Find Showtimes</a>
-            </div>
+            </div> -->
             <div class="details-section">
                 <h3>Related Movies</h3>
                 <a href="https://www.imdb.com/" target="_blank">See More</a>
@@ -109,7 +111,7 @@
         <div id="note-box" class="note-box hidden">
             <textarea id="note-input" placeholder="Write your note here..."></textarea>
             <div class="button-group">
-                <button class="save-note-button" onclick="saveNote()">Save Note</button>
+                <button class="button-group-button" onclick="saveNote()">Save Note</button>
                 <button class="discard-note-button" onclick="discardNote()">Discard Note</button>
             </div>
         </div>
