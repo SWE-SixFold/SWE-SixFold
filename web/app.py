@@ -19,8 +19,8 @@ def connect_to_mysql():
     try:
         # Do not touch these settings
         connection = pymysql.connect(
-            host='192.168.12.31.',
-            user='sixfold',
+            host='yourip address',
+            user='sixfold1',
             password='10312018',
             database='sixFold'
         )
@@ -34,7 +34,7 @@ def connect_to_mysql():
 def home():
     # Retrieve username from session or default to 'Guest'
     username = session.get('username', 'Guest')  
-    return render_template('index.html', username=username)  # Render login form with username
+    return render_template('login.html', username=username)  # Render login form with username
 
 @app.route('/login', methods=['POST', 'GET'])
 def login():
