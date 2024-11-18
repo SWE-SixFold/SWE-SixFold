@@ -19,7 +19,7 @@ def connect_to_mysql():
     try:
         # Do not touch these settings
         connection = pymysql.connect(
-            host='10.0.0.92',
+            host='192.168.12.31.',
             user='sixfold',
             password='10312018',
             database='sixFold'
@@ -89,23 +89,24 @@ def register():
 def results():
     username = session.get('username', 'Guest')
     title = request.args.get("movieTitle")
-    
-    connection = connect_to_mysql()
-    cursor = connection.cursor()
 
-    cursor.execute("SELECT id FROM users WHERE username = %s;", (username,))
-    user_id_row = cursor.fetchone()
+    if username != 'Guest':
+        connection = connect_to_mysql()
+        cursor = connection.cursor()
 
-    user_id = user_id_row[0] if user_id_row else None
+        cursor.execute("SELECT id FROM users WHERE username = %s;", (username,))
+        user_id_row = cursor.fetchone()
 
-    if user_id:
-        cursor.execute("INSERT INTO SearchHistory (user_id, movie_title) VALUES (%s, %s);", (user_id, title))
-        connection.commit()
-    else:
-        print("User Not Found")
+        user_id = user_id_row[0] if user_id_row else None
 
-    cursor.close()
-    connection.close()
+        if user_id:
+            cursor.execute("INSERT INTO SearchHistory (user_id, movie_title) VALUES (%s, %s);", (user_id, title))
+            connection.commit()
+        else:
+            print("User Not Found")
+
+        cursor.close()
+        connection.close()
 
     key = "96ae5860"
 
@@ -192,6 +193,17 @@ def register_user():
         connection.close()
     
     return redirect(url_for('home'))
+
+
+@app.route('/favorites')
+def favorites():
+    username = session.get('username', 'Guest')
+    return render_template('favorites.html', username = username)
+
+@app.route('/watchlist')
+def watchlist():
+    username = session.get('username', 'Guest')
+    return render_template('watchlist.html', username = username)
 
 if __name__ == "__main__":
     # Get the PORT environment variable or use a default port
