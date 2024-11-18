@@ -1,6 +1,6 @@
 import os
 import pymysql
-from flask import Flask, render_template, request, redirect, url_for, flash, session
+from flask import Flask, render_template, request, redirect, url_for, flash, session, jsonify
 import pymysql.cursors
 import omdb
 
@@ -19,7 +19,7 @@ def connect_to_mysql():
     try:
         # Do not touch these settings
         connection = pymysql.connect(
-            host='yourip address',
+            host='192.168.12.12',
             user='sixfold1',
             password='10312018',
             database='sixFold'
@@ -34,7 +34,7 @@ def connect_to_mysql():
 def home():
     # Retrieve username from session or default to 'Guest'
     username = session.get('username', 'Guest')  
-    return render_template('login.html', username=username)  # Render login form with username
+    return render_template('index.html', username=username)  # Render login form with username
 
 @app.route('/login', methods=['POST', 'GET'])
 def login():
@@ -174,6 +174,45 @@ def history():
 
     # Pass the history to the template
     return render_template('history.html', history=history, username = username)
+
+@app.route('/save-movie-title', methods=['POST'])
+def save_movie_title():
+    # Get the JSON data sent from the client-side
+    data = request.get_json()  # Parse the incoming JSON data
+    title = data.get('title')  # Get the movie title from the data
+
+    # For now, just log the data (you can also save it to a database)
+    print(f"Movie title received: {title}")
+    
+    # Respond back to the client with a success message
+    return jsonify({"message": f"Movie title '{title}' saved successfully!"})
+
+@app.route('/add-to-watchlist', methods=['POST'])
+def add_to_watchlist():
+    data = request.get_json()  # Get the JSON data sent from the client
+    movie_title = data.get('title')  # Extract the movie title
+    
+    # Save the movie title to the watchlist (e.g., in a database)
+    # For now, just print the title (replace with actual database operation)
+    print(f"Movie '{movie_title}' added to watchlist.")
+    
+    # Respond back to the client
+    return jsonify({"message": f"Movie '{movie_title}' added to watchlist!"})
+
+
+@app.route('/add-to-favorites', methods=['POST'])
+def add_to_favorites():
+    data = request.get_json()  # Get the JSON data sent from the client
+    movie_title = data.get('title')  # Extract the movie title
+    
+    # Save the movie title to the favorites list (e.g., in a database)
+    # For now, just print the title (replace with actual database operation)
+    print(f"Movie '{movie_title}' added to favorites.")
+    
+    # Respond back to the client
+    return jsonify({"message": f"Movie '{movie_title}' added to favorites!"})
+
+
 
 @app.route('/register', methods=['POST', 'GET'])
 def register_user():
