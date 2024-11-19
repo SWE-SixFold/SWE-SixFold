@@ -29,12 +29,60 @@ def connect_to_mysql():
         print(f"Error while connecting to MySQL: {e}")
         return None
 
+def addingMovieToDB(movie_title, db):
+    username = session.get('username', 'Guest')
+    if username != 'Guest':
+        connection = connect_to_mysql()
+        cursor = connection.cursor()
+
+        cursor.execute("SELECT id FROM users WHERE username = %s;", (username,))
+        user_id_row = cursor.fetchone()
+
+        user_id = user_id_row[0] if user_id_row else None
+
+        if user_id:
+            cursor.execute(f"INSERT INTO {db} (user_id, movie_title) VALUES (%s, %s);", (user_id, movie_title))
+            connection.commit()
+            print(f"{movie_title} added to {db}")
+        else:
+            print("user not found")
+        cursor.close()
+        connection.close()
+
+def getMovieInfoFromDB(db):
+    username = session.get('username', 'Guest')
+    if username != 'Guest':
+        connection = connect_to_mysql()
+        cursor = connection.cursor()
+
+        cursor.execute("SELECT id FROM users WHERE username = %s;", (username,))
+        user_id_row = cursor.fetchone()
+
+        user_id = user_id_row[0] if user_id_row else None
+
+        if user_id:
+            cursor.execute(f"SELECT movie_title FROM {db} WHERE user_id = %s", (user_id,))
+            
+            movie_results = cursor.fetchall()
+            print(f"showing Movies from {db}")
+
+            cursor.close()
+            connection.close()
+            
+            return movie_results
+
+        else:
+            print("user not found")
+
+        cursor.close()
+        connection.close()
+
 # Check on login HTML
 @app.route('/')
 def home():
     # Retrieve username from session or default to 'Guest'
     username = session.get('username', 'Guest')  
-    return render_template('index.html', username=username)  # Render login form with username
+    return render_template('login.html', username=username)  # Render login form with username
 
 @app.route('/login', methods=['POST', 'GET'])
 def login():
@@ -90,23 +138,7 @@ def results():
     username = session.get('username', 'Guest')
     title = request.args.get("movieTitle")
 
-    if username != 'Guest':
-        connection = connect_to_mysql()
-        cursor = connection.cursor()
-
-        cursor.execute("SELECT id FROM users WHERE username = %s;", (username,))
-        user_id_row = cursor.fetchone()
-
-        user_id = user_id_row[0] if user_id_row else None
-
-        if user_id:
-            cursor.execute("INSERT INTO SearchHistory (user_id, movie_title) VALUES (%s, %s);", (user_id, title))
-            connection.commit()
-        else:
-            print("User Not Found")
-
-        cursor.close()
-        connection.close()
+    addingMovieToDB(title, "SearchHistory")
 
     key = "96ae5860"
 
@@ -148,53 +180,18 @@ def settings():
 
 @app.route('/history')
 def history():
-    username = session.get('username', 'Guest')  # Get username from session
-    if username == 'Guest':
-        return "Please log in to view your history."
-
-    # Connect to the database
-    connection = connect_to_mysql()
-    cursor = connection.cursor()
-
-    # Fetch the user ID
-    cursor.execute("SELECT id FROM users WHERE username = %s;", (username,))
-    user_row = cursor.fetchone()  # This will be a tuple, e.g., (1,)
-    user_id = user_row[0] if user_row else None  # Access the first value of the tuple
-
-
-    if not user_id:
-        return "User not found."
-
-    # Fetch search history for the user
-    cursor.execute("SELECT movie_title, search_date FROM SearchHistory WHERE user_id = %s ORDER BY search_date DESC;", (user_id,))
-    history = cursor.fetchall()
-
-    cursor.close()
-    connection.close()
+    username = session.get('username', 'Guest')
+    history = getMovieInfoFromDB("SearchHistory")
 
     # Pass the history to the template
     return render_template('history.html', history=history, username = username)
 
-@app.route('/save-movie-title', methods=['POST'])
-def save_movie_title():
-    # Get the JSON data sent from the client-side
-    data = request.get_json()  # Parse the incoming JSON data
-    title = data.get('title')  # Get the movie title from the data
-
-    # For now, just log the data (you can also save it to a database)
-    print(f"Movie title received: {title}")
-    
-    # Respond back to the client with a success message
-    return jsonify({"message": f"Movie title '{title}' saved successfully!"})
-
-@app.route('/add-to-watchlist', methods=['POST'])
+@app.route('/add-to-watchlist', methods=['POST', 'GET'])
 def add_to_watchlist():
     data = request.get_json()  # Get the JSON data sent from the client
     movie_title = data.get('title')  # Extract the movie title
-    
-    # Save the movie title to the watchlist (e.g., in a database)
-    # For now, just print the title (replace with actual database operation)
-    print(f"Movie '{movie_title}' added to watchlist.")
+
+    addingMovieToDB(movie_title, "Watchlist")
     
     # Respond back to the client
     return jsonify({"message": f"Movie '{movie_title}' added to watchlist!"})
@@ -205,9 +202,7 @@ def add_to_favorites():
     data = request.get_json()  # Get the JSON data sent from the client
     movie_title = data.get('title')  # Extract the movie title
     
-    # Save the movie title to the favorites list (e.g., in a database)
-    # For now, just print the title (replace with actual database operation)
-    print(f"Movie '{movie_title}' added to favorites.")
+    addingMovieToDB(movie_title, "FavoriteMovies")
     
     # Respond back to the client
     return jsonify({"message": f"Movie '{movie_title}' added to favorites!"})
