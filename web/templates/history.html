@@ -8,9 +8,9 @@
 <body>
     <h1>Search History</h1>
 
-    {% if history %}
+    {% if historyDB %}
         <ul>
-            {% for row in history %}
+            {% for row in historyDB %}
                 <li>
                     Movie: {{ row[0] }}
                 </li>

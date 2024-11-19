@@ -6,6 +6,20 @@
     <title>Document</title>
 </head>
 <body>
-    <h1></h1>
+    <h1>Favorites</h1>
+
+    <h1>Watchlist</h1>
+
+    {% if favoritesDB %}
+        <ul>
+            {% for row in favoritesDB %}
+                <li>
+                    Movie: {{ row[0] }}
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>No search history available.</p>
+    {% endif %}
 </body>
 </html>

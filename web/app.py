@@ -19,7 +19,7 @@ def connect_to_mysql():
     try:
         # Do not touch these settings
         connection = pymysql.connect(
-            host='192.168.12.12',
+            host='192.168.12.71',
             user='sixfold1',
             password='10312018',
             database='sixFold'
@@ -181,10 +181,10 @@ def settings():
 @app.route('/history')
 def history():
     username = session.get('username', 'Guest')
-    history = getMovieInfoFromDB("SearchHistory")
+    historyDB = getMovieInfoFromDB("SearchHistory")
 
     # Pass the history to the template
-    return render_template('history.html', history=history, username = username)
+    return render_template('history.html', historyDB =historyDB, username = username)
 
 @app.route('/add-to-watchlist', methods=['POST', 'GET'])
 def add_to_watchlist():
@@ -196,6 +196,13 @@ def add_to_watchlist():
     # Respond back to the client
     return jsonify({"message": f"Movie '{movie_title}' added to watchlist!"})
 
+@app.route('/watchlist')
+def watchlist():
+    username = session.get('username', 'Guest')
+    watchListDB = getMovieInfoFromDB("Watchlist")
+
+    return render_template('watchlist.html', watchlistDB = watchListDB, username = username)
+    
 
 @app.route('/add-to-favorites', methods=['POST'])
 def add_to_favorites():
@@ -232,12 +239,8 @@ def register_user():
 @app.route('/favorites')
 def favorites():
     username = session.get('username', 'Guest')
-    return render_template('favorites.html', username = username)
-
-@app.route('/watchlist')
-def watchlist():
-    username = session.get('username', 'Guest')
-    return render_template('watchlist.html', username = username)
+    favoritesDB = getMovieInfoFromDB("FavoriteMovies")
+    return render_template('favorites.html', favoritesDB = favoritesDB ,username = username)
 
 if __name__ == "__main__":
     # Get the PORT environment variable or use a default port
