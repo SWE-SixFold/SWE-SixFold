@@ -9,15 +9,19 @@
     <h1>Search History</h1>
 
     {% if historyDB %}
-        <ul>
-            {% for row in historyDB %}
-                <li>
-                    Movie: {{ row[0] }}
-                </li>
-            {% endfor %}
-        </ul>
-    {% else %}
-        <p>No search history available.</p>
-    {% endif %}
+    <div>
+        {% for movie in historyDB %}
+            <div class="movie-item">
+                <img src="{{ movie.Poster }}" alt="{{ movie.Title }} Poster">
+                <h3>{{ movie.Title }}</h3>
+                <p>{{ movie.Plot }}</p>
+                <a href="{{ movie.IMDb_URL }}" target="_blank">View on IMDb</a>
+            </div>
+        {% endfor %}
+    </div>
+{% else %}
+    <p>No movies found in your history.</p>
+{% endif %}
+
 </body>
 </html>
