@@ -19,7 +19,7 @@ def connect_to_mysql():
     try:
         # Do not touch these settings
         connection = pymysql.connect(
-            host='192.168.12.71',
+            host='10.250.80.119',
             user='sixfold1',
             password='10312018',
             database='sixFold'
@@ -49,7 +49,27 @@ def addingMovieToDB(movie_title, db):
         cursor.close()
         connection.close()
 
-def getMovieInfoFromDB(db):
+def addingMovieID_ToDB(movie_id, db):
+    username = session.get('username', 'Guest')
+    if username != 'Guest':
+        connection = connect_to_mysql()
+        cursor = connection.cursor()
+
+        cursor.execute("SELECT id FROM users WHERE username = %s;", (username,))
+        user_id_row = cursor.fetchone()
+
+        user_id = user_id_row[0] if user_id_row else None
+
+        if user_id:
+            cursor.execute(f"INSERT INTO {db} (user_id, movie_id) VALUES (%s, %s);", (user_id, movie_id))
+            connection.commit()
+            print(f"{movie_id} added to {db}")
+        else:
+            print("user not found")
+        cursor.close()
+        connection.close()
+
+def getMovieTitleInfoFromDB(db):
     username = session.get('username', 'Guest')
     # Return preloaded movies_data for Guest user
     if username == 'Guest':
@@ -69,6 +89,33 @@ def getMovieInfoFromDB(db):
             cursor.close()
             connection.close()
             return movie_results
+        else:
+            cursor.close()
+            connection.close()
+            print("User not found in database.")
+    return []
+
+def getMovieIDInfoFromDB(db):
+    username = session.get('username', 'Guest')
+    # Return preloaded movies_data for Guest user
+    if username == 'Guest':
+        print(f"Guest user viewing {db}. Showing preloaded data.")
+        return movies_data  # Use preloaded data for Guest
+
+    connection = connect_to_mysql()
+    if connection:
+        cursor = connection.cursor()
+        cursor.execute("SELECT id FROM users WHERE username = %s;", (username,))
+        user_id_row = cursor.fetchone()
+        user_id = user_id_row[0] if user_id_row else None
+
+        if user_id:
+            cursor.execute(f"SELECT movie_id FROM {db} WHERE user_id = %s", (user_id,))
+            movie_results = cursor.fetchall()[-1][0]
+            cursor.close()
+            connection.close()
+            return movie_results
+        #TODO return info from db, we need to turn that info movie_id into omdb and get it into a dict
         else:
             cursor.close()
             connection.close()
@@ -174,7 +221,7 @@ movies_data = [
 def home():
     # Retrieve username from session or default to 'Guest'
     username = session.get('username', 'Guest')  
-    return render_template('index.html', username=username)  # Render login form with username
+    return render_template('login.html', username=username)  # Render login form with username
 
 @app.route('/login', methods=['POST', 'GET'])
 def login():
@@ -251,7 +298,8 @@ def results():
             'plot': movie_details.get('plot', 'No synopsis available'),
             'imdb_url': f"https://www.imdb.com/title/{movie['imdb_id']}/",
             'related_movies_url': 'https://www.imdb.com/',  # Placeholder, imdb doesnt show related movies with api
-            'showtimes_url': 'https://www.imdb.com/'  # Placeholder, they dont offer showtimes either via api
+            'showtimes_url': 'https://www.imdb.com/',  # Placeholder, they dont offer showtimes either via api
+            'imdb_id': movie['imdb_id']
         }
         if movie_info['poster'] != "N/A":
             movie_details_list.append(movie_info)
@@ -270,10 +318,12 @@ def settings():
     username = session.get('username', 'Guest')
     return render_template('settings.html', username = username)
 
+#TODO also need to add imdb_id to database
+
 @app.route('/history')
 def history():
     username = session.get('username', 'Guest')
-    historyDB = getMovieInfoFromDB("SearchHistory")  # Fetch History data
+    historyDB = getMovieTitleInfoFromDB("SearchHistory")  # Fetch History data
     return render_template('history.html', historyDB=historyDB, username=username)
 
 @app.route('/add-to-watchlist', methods=['POST', 'GET'])
@@ -289,19 +339,19 @@ def add_to_watchlist():
 @app.route('/watchlist')
 def watchlist():
     username = session.get('username', 'Guest')
-    watchListDB = getMovieInfoFromDB("Watchlist")  # Fetch Watchlist data
+    watchListDB = getMovieTitleInfoFromDB("Watchlist")  # Fetch Watchlist data
     return render_template('watchlist.html', watchlistDB=watchListDB, username=username)
     
 
 @app.route('/add-to-favorites', methods=['POST'])
 def add_to_favorites():
     data = request.get_json()  # Get the JSON data sent from the client
-    movie_title = data.get('title')  # Extract the movie title
+    movie_id = data.get('imdb_id')  # Extract the movie title
     
-    addingMovieToDB(movie_title, "FavoriteMovies")
+    addingMovieID_ToDB(movie_id, "FavoriteMovies")
     
     # Respond back to the client
-    return jsonify({"message": f"Movie '{movie_title}' added to favorites!"})
+    return jsonify({"message": f"Movie Title = {data.get('title')} '{movie_id}' added to favorites!"})
 
 
 
@@ -328,7 +378,8 @@ def register_user():
 @app.route('/favorites')
 def favorites():
     username = session.get('username', 'Guest')
-    favoritesDB = getMovieInfoFromDB("FavoriteMovies")  # Fetch Favorites data
+    favoritesDB = getMovieIDInfoFromDB("FavoriteMovies")  # Fetch Favorites data
+    print(favoritesDB)
     return render_template('favorites.html', favoritesDB=favoritesDB, username=username)
 
 
