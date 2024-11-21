@@ -71,7 +71,7 @@
     <!-- Movie Gallery -->
     <div class="gallery">
         {% for movie in movies %}
-            <div class="image-item" onclick='expandDetails(event, "{{ movie.poster|e }}", "{{ movie.title|e }}", "{{ movie.ratings|e }}", "{{ movie.plot|e }}", "{{ movie.imdb_url|e }}")'>
+            <div class="image-item" onclick='expandDetails(event, "{{ movie.poster|e }}", "{{ movie.title|e }}", "{{ movie.ratings|e }}", "{{ movie.plot|e }}", "{{ movie.imdb_url|e }}", "{{ movie.imdb_id|e }}")'>
                 <img src="{{ movie.poster }}" alt="{{ movie.title }} Poster">
                 <h2>{{ movie.title }}</h2>
             </div>
