@@ -29,5 +29,17 @@
       "username": "root",
       "database": "mysql"
     }
+  ],
+  "python.testing.pytestArgs": [
+    "web"
+  ],
+  "python.testing.unittestEnabled": false,
+  "python.testing.pytestEnabled": true,
+  "python.testing.unittestArgs": [
+    "-v",
+    "-s",
+    "./venv",
+    "-p",
+    "test_*.py"
   ]
 }
