@@ -1,5 +1,5 @@
 // Function to expand the details box with the selected poster
-function expandDetails(event, posterUrl, title, ratings, plot, imdbUrl) {
+function expandDetails(event, posterUrl, title, ratings, plot, imdbUrl, imdb_id) {
     console.log("Poster clicked:", title, ratings, plot, imdbUrl); // Log data for debugging
 
     const detailsBox = document.getElementById("details-box");
@@ -95,7 +95,7 @@ function expandDetails(event, posterUrl, title, ratings, plot, imdbUrl) {
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify({ title: title })
+            body: JSON.stringify({ imdb_id: imdb_id })
         })
         .then(response => response.json())
         .then(data => {
