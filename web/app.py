@@ -19,7 +19,7 @@ def connect_to_mysql():
     try:
         # Do not touch these settings
         connection = pymysql.connect(
-            host='10.250.80.119',
+            host='192.168.12.12',
             user='sixfold1',
             password='10312018',
             database='sixFold'
@@ -214,6 +214,7 @@ movies_data = [
         "Showtimes URL": "https://www.imdb.com/"
     }
 ]
+
 
 
 # Check on login HTML

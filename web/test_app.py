@@ -33,6 +33,7 @@ def connect_to_mysql():
         return None
 
 #Requirement 1
+#test case ID: 1.1
 def test_login():
     username = "testuser"
     password = "testpassword"
@@ -50,6 +51,7 @@ def test_login():
         assert user
         print(f"Log in successful for {username}")
 
+#test case ID: 1.2
 def test_login_wrong_credentials():
     username = "wronguser"
     password = "wrongpassword"
@@ -67,6 +69,7 @@ def test_login_wrong_credentials():
         assert not user
 
 #Requirement 5
+#test case ID: 5.1
 def test_search_existing_movie():
     omdb.set_default('apikey', '96ae5860')
 
@@ -76,6 +79,33 @@ def test_search_existing_movie():
     
     assert movie
 
+#test case ID: 5.2
+def test_movie_details():
+    omdb.set_default('apikey', "96ae5860")
+
+    movies = omdb.search_movie("Home alone")
+
+    movie_details_list = []
+
+    for movie in movies:
+        movie_details = omdb.imdbid(movie['imdb_id'])
+        movie_info = {
+            'title': movie_details.get('title', 'Unknown Title'),
+            'poster': movie_details.get('poster', 'N/A'),
+            'ratings': movie_details.get('imdb_rating', 'N/A'),
+            'plot': movie_details.get('plot', 'No synopsis available'),
+            'imdb_url': f"https://www.imdb.com/title/{movie['imdb_id']}/",
+            'related_movies_url': 'https://www.imdb.com/',  # Placeholder, imdb doesnt show related movies with api
+            'showtimes_url': 'https://www.imdb.com/',  # Placeholder, they dont offer showtimes either via api
+            'imdb_id': movie['imdb_id']
+        }
+
+        if movie_info['poster'] != "N/A":
+            movie_details_list.append(movie_info)
+
+    assert movie_details
+
+#test case ID: 5.3
 def test_search_nonexisting_movie():
     omdb.set_default('apikey', '96ae5860')
 
@@ -83,6 +113,9 @@ def test_search_nonexisting_movie():
 
     movie = omdb.search_movie(test_search_keyword)
     
+    if not test_search_existing_movie:
+        print("No movies match your keyword")
+
     assert not movie
 
 #Requirement 11
@@ -130,6 +163,7 @@ def test_show_favs():
 
 #Requirement 18
 
+#Test case ID: 18.1
 def test_add_to_Watchlist():
     user_id = 1
     movie_title = "movie_title"
@@ -151,6 +185,7 @@ def test_add_to_Watchlist():
 
         cursor.close()
         connection.close()
+
 
 
 '''
