@@ -117,6 +117,10 @@ def profile():
 def settings():
     return render_template('settings.html')
 
+@app.route('/similar')
+def similar():
+    return render_template('similar.html')
+
 @app.route('/register', methods=['POST', 'GET'])
 def register_user():
     # Get info

@@ -32,6 +32,7 @@
                 <a href="#">History</a>
                 <a href="{{ url_for('settings') }}">Settings</a>
                 <a href="{{ url_for('logout') }}">Log Out</a>
+                <a href="{{ url_for('home') }}">Back to Home</a>
             </div>
         </div>
     </div>
@@ -83,13 +84,10 @@
                 <p id="movie-rating"></p>
                 <a id="imdb-link" href="#" target="_blank">IMDb</a>
             </div>
+            
             <div class="details-section">
-                <h3>Showtimes</h3>
-                <a href="https://www.imdb.com/" target="_blank">Find Showtimes</a>
-            </div>
-            <div class="details-section">
-                <h3>Related Movies</h3>
-                <a href="https://www.imdb.com/" target="_blank">See More</a>
+                <h3>Similar Movies</h3>
+                <a href="/similar" target="_blank">See Similar Movies</a>
             </div>
         </div>
 

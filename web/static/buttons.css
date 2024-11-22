@@ -92,3 +92,30 @@
     gap: 15px; 
     margin-bottom: 20px;
 }
+
+/* Styling the Genre Button */
+.genre-button {
+    background-color: #ff7f50; /* Coral color for the button */
+    color: white; /* White text for contrast */
+    border: none; /* No border for a clean look */
+    padding: 10px 20px; /* Spacing for a comfortable size */
+    font-size: 16px; /* Readable font size */
+    font-weight: bold; /* Emphasized text */
+    border-radius: 5px; /* Rounded corners */
+    cursor: pointer; /* Pointer cursor for clickable effect */
+    transition: all 0.3s ease; /* Smooth hover effect */
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2); /* Subtle shadow for depth */
+}
+
+/* Hover Effect */
+.genre-button:hover {
+    background-color: #ff4500; /* Darker coral for hover */
+    transform: scale(1.05); /* Slight enlargement on hover */
+    box-shadow: 0px 6px 8px rgba(0, 0, 0, 0.3); /* Slightly stronger shadow */
+}
+
+/* Focus Effect */
+.genre-button:focus {
+    outline: 2px solid #ff4500; /* Orange outline for focus */
+    outline-offset: 3px; /* Space between the button and outline */
+}
