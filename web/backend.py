@@ -1,6 +1,7 @@
 # to run use terminal in this order
 # python3 -m venv myenv
-# source myenv/bin/activate
+# iOS -source myenv/bin/activate
+# Windows -source myenv\Scripts\activate
 #
 # deactivate (when youre done)
 

@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Results</title>
+    <link rel="stylesheet" href="static/reset.css">
+    <link rel="stylesheet" href="static/global.css">
     <link rel="stylesheet" href="static/style_results.css">
     <link rel="stylesheet" href="static/buttons.css">
     <link rel="stylesheet" href="static/search.css">
@@ -24,6 +26,9 @@
     <div class="top-icons">
         <div class="dark-mode-icon" onclick="toggleDarkMode()">
             <img src="static/images/dark.png" alt="Dark Mode">
+        </div>
+        <div class="username">
+            <p> {{ username }} </p>
         </div>
         <div class="profile-icon" onclick="toggleMenu()">
             <img src="{{ image_url }}" alt="Menu">
@@ -67,7 +72,7 @@
     <!-- Movie Gallery -->
     <div class="gallery">
         {% for movie in movies %}
-            <div class="image-item" onclick='expandDetails(event, "{{ movie.poster|e }}", "{{ movie.title|e }}", "{{ movie.ratings|e }}", "{{ movie.plot|e }}", "{{ movie.imdb_url|e }}")'>
+            <div class="image-item" onclick='expandDetails(event, "{{ movie.poster|e }}", "{{ movie.title|e }}", "{{ movie.ratings|e }}", "{{ movie.plot|e }}", "{{ movie.imdb_url|e }}", "{{ movie.imdb_id|e }}")'>
                 <img src="{{ movie.poster }}" alt="{{ movie.title }} Poster">
                 <h2>{{ movie.title }}</h2>
             </div>
@@ -76,6 +81,9 @@
 
     <!-- Expanded Details Box -->
     <div id="details-box" class="details-box hidden">
+            <!-- This is where the title will be inserted by JavaScript -->
+
+
         <img id="expanded-poster" class="expanded-poster" alt="Expanded Poster">
         
         <div class="details-header">
@@ -98,8 +106,8 @@
         </div>
 
         <div class="details-buttons">
-            <button class="button-group-button" onclick="addToWatchlist()">Save to Watchlist</button>
-            <button class="button-group-button" onclick="addToFavorites()">Add to Favorites</button>
+            <button class="button-group-button" id="save-to-watchlist">Save to Watchlist</button>
+            <button class="button-group-button" id="add-to-favorites">Add to Favorites</button>
             <button class="button-group-button" onclick="toggleNoteBox()">Add Note</button>
         </div>
 
@@ -107,7 +115,7 @@
         <div id="note-box" class="note-box hidden">
             <textarea id="note-input" placeholder="Write your note here..."></textarea>
             <div class="button-group">
-                <button class="save-note-button" onclick="saveNote()">Save Note</button>
+                <button class="button-group-button" onclick="saveNote()">Save Note</button>
                 <button class="discard-note-button" onclick="discardNote()">Discard Note</button>
             </div>
         </div>

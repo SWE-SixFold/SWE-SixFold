@@ -22,6 +22,9 @@
         <div class="dark-mode-icon" onclick="toggleDarkMode()">
             <img src="static/images/dark.png" alt="Dark Mode">
         </div>
+        <div class="username">
+            <p> {{ username }} </p>
+        </div>
         <div class="profile-icon" onclick="toggleMenu()">
             <img src="{{ image_url }}" alt="Profile">
             <div class="dropdown-menu" id="dropdownMenu">
@@ -34,6 +37,7 @@
                 <a href="{{ url_for('home') }}">Back to Home</a>
             </div>
         </div>
+
     </div>
 
     <!-- Main Container for Account Management -->

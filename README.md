@@ -19,6 +19,6 @@ CineSage Members: Carissa Halim, Demonte Walker, Leo Ding, Mikey Fagan, Selvin C
      - Sprint 1: https://docs.google.com/document/d/1zAp7YpmCbrxLR-kOh-se_0egvDC9qDEAkUnTPb7Ib3k/edit?usp=sharing
      - Sprint 2: https://docs.google.com/document/d/1FgOyNJnnfan7D3Xj1EQz4QnrJVvrjzDBfbTmTNX_9H8/edit?usp=sharing
      - Sprint 3: https://docs.google.com/document/d/1Es1Gz330_Cp1CWbsZ03RWFqSm6Xw6C869idWBNP_ovk/edit?usp=sharing
-     - Sprint 4:
-     - Sprint 5:
+     - Sprint 4: https://docs.google.com/document/d/19g0WXXjWmOr1dCekTPX2MLgxXsHeJzSD_JYspoBOoMc/edit?usp=sharing
+     - Sprint 5: https://docs.google.com/document/d/14lenRtjNYecn_UeUIiYWoveJD5j9blBZKkoYqia_Q28/edit?usp=sharing
  - Research/Resources

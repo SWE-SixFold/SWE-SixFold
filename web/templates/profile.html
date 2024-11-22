@@ -20,6 +20,9 @@
         <div class="dark-mode-icon" onclick="toggleDarkMode()">
             <img src="static/images/dark.png" alt="Dark Mode">
         </div>
+        <div class="username">
+            <p> {{ username }} </p>
+        </div>
         <div class="profile-icon" onclick="toggleMenu()">
             <img src="{{ image_url }}" alt="Profile">
             <div class="dropdown-menu" id="dropdownMenu">
@@ -41,7 +44,7 @@
             
             <div class="profile-info">
                 <div class="profile-image">Profile Picture Placeholder</div>
-                <h1 id="username">John Doe</h1>
+                <h1 id="username">{{ username }}</h1>
             </div>
         </div>
 

@@ -31,18 +31,25 @@
     <div class="top-icons">
         <div class="dark-mode-icon" onclick="toggleDarkMode()">
             <img src="static/images/dark.png" alt="Dark Mode">
+            
+        </div>
+        <div class="username">
+            <p> {{ username }} </p>
         </div>
         <div class="profile-icon" onclick="toggleMenu()">
+            
             <img src="{{ image_url }}" alt="Menu">
             <div class="dropdown-menu" id="dropdownMenu">
                 <a href="{{ url_for('profile') }}">Manage Profile</a>
                 <a href="#" onclick="showLoginModal()">LoginButton(temp)</a>
-                <a href="#">History</a>
-                
+                <a href="{{ url_for('history') }}">History</a>
+                <a href="{{ url_for('watchlist') }}">Watchlist</a>
+                <a href="{{ url_for('favorites') }}">Favorites</a>
                 <a href="{{ url_for('settings') }}">Settings</a> <!-- onclick="showLoginModal() -->
                 <a href="{{ url_for('logout') }}">Log Out</a>
             </div>
         </div>
+
     </div>
 
     <!-- Main Container for Centered Content -->
@@ -55,7 +62,7 @@
                 <div class="search-box">
                     <input type="text" id="movieInput" name="movieTitle" placeholder="Search for movies" aria-label="Search for movies">
                 </div>
-
+        
                 <!-- Genre Filter Dropdown -->
                 <div class="genre-dropdown">
                     <select id="genre" name="genre">
@@ -71,7 +78,8 @@
                         <!-- Add more genres as needed -->
                     </select>
                 </div>
-                
+        
+                <!-- Buttons -->
                 <div class="button-group">
                     <button type="submit">Search</button>
                     <button type="button" onclick="feelingLucky()">Random</button>

@@ -1,9 +1,10 @@
 // Function to expand the details box with the selected poster
-function expandDetails(event, posterUrl, title, ratings, plot, imdbUrl) {
+function expandDetails(event, posterUrl, title, ratings, plot, imdbUrl, imdb_id) {
     console.log("Poster clicked:", title, ratings, plot, imdbUrl); // Log data for debugging
 
     const detailsBox = document.getElementById("details-box");
     const noteInput = document.getElementById("note-input");
+    
 
     // Close the details box if it is already visible
     if (detailsBox.classList.contains("visible")) {
@@ -29,6 +30,81 @@ function expandDetails(event, posterUrl, title, ratings, plot, imdbUrl) {
     imdbLink.href = imdbUrl ? imdbUrl : "https://www.imdb.com/";
     synopsisImdbLink.href = imdbUrl ? imdbUrl : "https://www.imdb.com/";
     synopsisImdbLink.classList.toggle("hidden", !plot || plot === "N/A");
+
+    // ** Add Title to Details Box ** //
+    // Create or update the title element in the details box
+    const titleElement = document.createElement("h2"); // Create a new <h2> for the title
+    titleElement.textContent = title; // Set the title text
+
+    // Clear any existing title (if present)
+    const existingTitle = detailsBox.querySelector("h2"); // Look for an existing <h2> in the box
+    if (existingTitle) {
+        existingTitle.remove(); // Remove the old title if found
+    }
+    detailsBox.prepend(titleElement); // Add the new title to the top of the details box
+
+    // ** Fetch Request to send the movie title to Flask ** //
+    fetch('/save-movie-title', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+            title: title,   // Sending the movie title
+            poster: posterUrl,
+            ratings: ratings,
+            plot: plot,
+            imdbUrl: imdbUrl
+        })
+    })
+    .then(response => response.json())
+    .then(data => {
+        console.log("Title saved:", data.message); // Log a success message from Flask
+    })
+    .catch(error => {
+        console.error("Error:", error); // Log any error that occurs
+    });
+    
+    // ** Button Event Listeners ** //
+    const saveToWatchlistBtn = document.getElementById('save-to-watchlist');
+    const addToFavoritesBtn = document.getElementById('add-to-favorites');
+
+
+    // Handle Save to Watchlist button click
+    saveToWatchlistBtn.addEventListener('click', function() {
+        fetch('/add-to-watchlist', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ title: title })
+        })
+        .then(response => response.json())
+        .then(data => {
+            console.log(data.message);
+        })
+        .catch(error => {
+            console.error('Error:', error);
+        });
+    });
+
+    // Handle Add to Favorites button click
+    addToFavoritesBtn.addEventListener('click', function() {
+        fetch('/add-to-favorites', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ imdb_id: imdb_id })
+        })
+        .then(response => response.json())
+        .then(data => {
+            console.log(data.message);
+        })
+        .catch(error => {
+            console.error('Error:', error);
+        });
+    });
 
     // Position the details box near the clicked poster
     const posterRect = event.currentTarget.getBoundingClientRect();
