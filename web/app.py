@@ -221,7 +221,7 @@ movies_data = [
 def home():
     # Retrieve username from session or default to 'Guest'
     username = session.get('username', 'Guest')  
-    return render_template('login.html', username=username)  # Render login form with username
+    return render_template('index.html', username=username)  # Render login form with username
 
 @app.route('/login', methods=['POST', 'GET'])
 def login():
