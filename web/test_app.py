@@ -120,6 +120,7 @@ def test_search_nonexisting_movie():
 
 #Requirement 11
 
+#requirement 11.1
 def test_add_to_Favs():
     user_id = 1
     movie_id = "testID"
@@ -144,6 +145,7 @@ def test_add_to_Favs():
 
 #Requirement 12
 
+#Test case ID: 12.1
 def test_show_favs():
     user_id = 1
 
@@ -185,7 +187,6 @@ def test_add_to_Watchlist():
 
         cursor.close()
         connection.close()
-
 
 
 '''
