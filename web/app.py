@@ -356,6 +356,10 @@ def add_to_favorites():
 
 
 
+@app.route('/similar')
+def similar():
+    return render_template('similar.html')
+
 @app.route('/register', methods=['POST', 'GET'])
 def register_user():
     # Get info
