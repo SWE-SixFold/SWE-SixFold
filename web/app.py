@@ -19,7 +19,7 @@ def connect_to_mysql():
     try:
         # Do not touch these settings
         connection = pymysql.connect(
-            host='192.168.12.12',
+            host='192.168.1.37',
             user='sixfold1',
             password='10312018',
             database='sixFold'
@@ -111,10 +111,18 @@ def getMovieIDInfoFromDB(db):
 
         if user_id:
             cursor.execute(f"SELECT movie_id FROM {db} WHERE user_id = %s", (user_id,))
-            movie_results = cursor.fetchall()[-1][0]
+            movie_results = cursor.fetchall()
             cursor.close()
             connection.close()
-            return movie_results
+
+            movie_ids = [row[0] for row in movie_results]
+
+            movies_data = []
+
+            for id in movie_ids:
+                movies_data.append(omdb.imdbid(id))
+
+            return movies_data
         #TODO return info from db, we need to turn that info movie_id into omdb and get it into a dict
         else:
             cursor.close()
@@ -222,7 +230,7 @@ movies_data = [
 def home():
     # Retrieve username from session or default to 'Guest'
     username = session.get('username', 'Guest')  
-    return render_template('index.html', username=username)  # Render login form with username
+    return render_template('login.html', username=username)  # Render login form with username
 
 @app.route('/login', methods=['POST', 'GET'])
 def login():
@@ -330,19 +338,12 @@ def history():
 @app.route('/add-to-watchlist', methods=['POST', 'GET'])
 def add_to_watchlist():
     data = request.get_json()  # Get the JSON data sent from the client
-    movie_title = data.get('title')  # Extract the movie title
+    movie_id = data.get('imdb_id')  # Extract the movie title
 
-    addingMovieToDB(movie_title, "Watchlist")
+    addingMovieID_ToDB(movie_id, "Watchlist")
     
     # Respond back to the client
-    return jsonify({"message": f"Movie '{movie_title}' added to watchlist!"})
-
-@app.route('/watchlist')
-def watchlist():
-    username = session.get('username', 'Guest')
-    watchListDB = getMovieTitleInfoFromDB("Watchlist")  # Fetch Watchlist data
-    return render_template('watchlist.html', watchlistDB=watchListDB, username=username)
-    
+    return jsonify({"message": f"Movie '{movie_id}' added to watchlist!"})
 
 @app.route('/add-to-favorites', methods=['POST'])
 def add_to_favorites():
@@ -354,8 +355,12 @@ def add_to_favorites():
     # Respond back to the client
     return jsonify({"message": f"Movie Title = {data.get('title')} '{movie_id}' added to favorites!"})
 
-
-
+@app.route('/watchlist')
+def watchlist():
+    username = session.get('username', 'Guest')
+    watchListDB = getMovieIDInfoFromDB("Watchlist")  # Fetch Watchlist data
+    return render_template('watchlist.html', watchlistDB=watchListDB, username=username)
+    
 @app.route('/similar')
 def similar():
     return render_template('similar.html')

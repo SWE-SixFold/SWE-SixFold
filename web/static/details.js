@@ -77,7 +77,7 @@ function expandDetails(event, posterUrl, title, ratings, plot, imdbUrl, imdb_id)
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify({ title: title })
+            body: JSON.stringify({ imdb_id: imdb_id })
         })
         .then(response => response.json())
         .then(data => {
