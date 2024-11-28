@@ -96,6 +96,11 @@ def getMovieTitleInfoFromDB(db):
     return []
 
 def getMovieIDInfoFromDB(db):
+    key = "96ae5860"
+
+    # Setting up API to request info from OMDB
+    omdb.set_default('apikey', key)
+
     username = session.get('username', 'Guest')
     # Return preloaded movies_data for Guest user
     if username == 'Guest':
@@ -120,10 +125,23 @@ def getMovieIDInfoFromDB(db):
             movies_data = []
 
             for id in movie_ids:
-                movies_data.append(omdb.imdbid(id))
+                # Fetch movie details from OMDB
+                movie_details = omdb.imdbid(id)
+                
+                # Format movie details
+                formatted_movie = {
+                    "Title": movie_details.get("title"),
+                    "Poster": movie_details.get("poster"),
+                    "IMDb Rating": movie_details.get("imdb_rating"),
+                    "Plot": movie_details.get("plot"),
+                    "IMDb URL": f"https://www.imdb.com/title/{movie_details.get('imdb_id')}/",
+                    "Related Movies URL": "https://www.imdb.com/",
+                    "Showtimes URL": "https://www.imdb.com/"
+                }
+
+                movies_data.append(formatted_movie)
 
             return movies_data
-        #TODO return info from db, we need to turn that info movie_id into omdb and get it into a dict
         else:
             cursor.close()
             connection.close()
@@ -335,7 +353,7 @@ def history():
     historyDB = getMovieTitleInfoFromDB("SearchHistory")  # Fetch History data
     return render_template('history.html', historyDB=historyDB, username=username)
 
-@app.route('/add-to-watchlist', methods=['POST', 'GET'])
+@app.route('/add-to-        ', methods=['POST', 'GET'])
 def add_to_watchlist():
     data = request.get_json()  # Get the JSON data sent from the client
     movie_id = data.get('imdb_id')  # Extract the movie title
