@@ -72,10 +72,17 @@
                 <button onclick="clearWatchlist()" class="clear-button">Clear Watchlist</button>
             </h2>
             <div class="movies-gallery" id="moviesGallery">
-                <div class="movie-card">Watchlist</div>
-                <div class="movie-card">Watchlist</div>
-                <div class="movie-card">Watchlist</div>
-                <div class="movie-card">Watchlist</div>
+
+                {% if watchlist %}
+                    {% for movie in watchlist %}
+                        <div class="movie-card">
+                            <img src="{{ movie.Poster }}" alt="{{ movie.Title }} poster">
+                        </div>
+                    {% endfor %}
+                {% else %}
+                    <p>No movies found in your watchlist.</p>
+                {% endif %}
+            
             </div>
         </div>
 
@@ -85,10 +92,17 @@
                 <button onclick="clearFavorites()" class="clear-button">Clear Favorites List</button>
             </h2>
             <div class="movies-gallery" id="moviesGallery">
-                <div class="movie-card">Favorites</div>
-                <div class="movie-card">Favorites</div>
-                <div class="movie-card">Favorites</div>
-                <div class="movie-card">Favorites</div>
+
+                {% if favorites %}
+                    {% for movie in favorites %}
+                        <div class="movie-card">
+                            <img src="{{ movie.Poster }}" alt="{{ movie.Title }} poster">
+                        </div>
+                    {% endfor %}
+                {% else %}
+                    <p>No movies found in your favorites.</p>
+                {% endif %}
+            
             </div>
         </div>
             

@@ -337,8 +337,10 @@ def results():
 
 @app.route('/profile')
 def profile():
+    watchlist_movies = getMovieIDInfoFromDB("Watchlist")
+    favorite_movies = getMovieIDInfoFromDB("FavoriteMovies")
     username = session.get('username', 'Guest')
-    return render_template('profile.html', username = username)
+    return render_template('profile.html', username = username, watchlist = watchlist_movies, favorites = favorite_movies)
 
 @app.route('/settings')
 def settings():
@@ -353,7 +355,7 @@ def history():
     historyDB = getMovieTitleInfoFromDB("SearchHistory")  # Fetch History data
     return render_template('history.html', historyDB=historyDB, username=username)
 
-@app.route('/add-to-        ', methods=['POST', 'GET'])
+@app.route('/add-to-watchlist', methods=['POST', 'GET'])
 def add_to_watchlist():
     data = request.get_json()  # Get the JSON data sent from the client
     movie_id = data.get('imdb_id')  # Extract the movie title
