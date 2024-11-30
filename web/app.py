@@ -9,7 +9,6 @@ TODO
     things I need to add: what if same username, 
     how to check confirm password on html thing, 
 
-    clear button
     notes
     bio?
     update username and passwords?
@@ -79,7 +78,7 @@ def clear_movies_from_db(db):
     username = session.get('username', 'Guest')  # Correct method is 'get'
 
     if username == 'Guest':
-        flash("Must be logged in")
+        flash("You must be logged in to perform this action.", "error")
         return render_template("profile.html")
     
     connection = connect_to_mysql()
@@ -274,7 +273,7 @@ def getMovieIDInfoFromDB(db):
 def home():
     # Retrieve username from session or default to 'Guest'
     username = session.get('username', 'Guest')  
-    return render_template('login.html', username=username)  # Render login form with username
+    return render_template('index.html', username=username)  # Render login form with username
 
 @app.route('/login', methods=['POST', 'GET'])
 def login():
