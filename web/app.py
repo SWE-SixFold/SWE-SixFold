@@ -8,7 +8,13 @@ import omdb
 TODO 
     things I need to add: what if same username, 
     how to check confirm password on html thing, 
-    how to make sure page only works with people signed in and how
+
+    clear button
+    notes
+    bio?
+    update username and passwords?
+    recommended????
+    reviews
 """
 
 app = Flask(__name__)
@@ -96,59 +102,8 @@ def getMovieTitleInfoFromDB(db):
     return []
 
 def getMovieIDInfoFromDB(db):
-    key = "96ae5860"
 
-    # Setting up API to request info from OMDB
-    omdb.set_default('apikey', key)
-
-    username = session.get('username', 'Guest')
-    # Return preloaded movies_data for Guest user
-    if username == 'Guest':
-        print(f"Guest user viewing {db}. Showing preloaded data.")
-        return movies_data  # Use preloaded data for Guest
-
-    connection = connect_to_mysql()
-    if connection:
-        cursor = connection.cursor()
-        cursor.execute("SELECT id FROM users WHERE username = %s;", (username,))
-        user_id_row = cursor.fetchone()
-        user_id = user_id_row[0] if user_id_row else None
-
-        if user_id:
-            cursor.execute(f"SELECT movie_id FROM {db} WHERE user_id = %s", (user_id,))
-            movie_results = cursor.fetchall()
-            cursor.close()
-            connection.close()
-
-            movie_ids = [row[0] for row in movie_results]
-
-            movies_data = []
-
-            for id in movie_ids:
-                # Fetch movie details from OMDB
-                movie_details = omdb.imdbid(id)
-                
-                # Format movie details
-                formatted_movie = {
-                    "Title": movie_details.get("title"),
-                    "Poster": movie_details.get("poster"),
-                    "IMDb Rating": movie_details.get("imdb_rating"),
-                    "Plot": movie_details.get("plot"),
-                    "IMDb URL": f"https://www.imdb.com/title/{movie_details.get('imdb_id')}/",
-                    "Related Movies URL": "https://www.imdb.com/",
-                    "Showtimes URL": "https://www.imdb.com/"
-                }
-
-                movies_data.append(formatted_movie)
-
-            return movies_data
-        else:
-            cursor.close()
-            connection.close()
-            print("User not found in database.")
-    return []
-
-movies_data = [
+    movies_data = [
     {
         "Title": "Home Alone",
         "Poster": "https://m.media-amazon.com/images/M/MV5BNzNmNmQ2ZDEtMTc1MS00NjNiLThlMGUtZmQxNTg1Nzg5NWMzXkEyXkFqcGc@._V1_SX300.jpg",
@@ -241,7 +196,57 @@ movies_data = [
     }
 ]
 
+    key = "96ae5860"
 
+    # Setting up API to request info from OMDB
+    omdb.set_default('apikey', key)
+
+    username = session.get('username', 'Guest')
+    # Return preloaded movies_data for Guest user
+    if username == 'Guest':
+        print(f"Guest user viewing {db}. Showing preloaded data.")
+        return movies_data  # Use preloaded data for Guest
+
+    connection = connect_to_mysql()
+    if connection:
+        cursor = connection.cursor()
+        cursor.execute("SELECT id FROM users WHERE username = %s;", (username,))
+        user_id_row = cursor.fetchone()
+        user_id = user_id_row[0] if user_id_row else None
+
+        if user_id:
+            cursor.execute(f"SELECT movie_id FROM {db} WHERE user_id = %s", (user_id,))
+            movie_results = cursor.fetchall()
+            cursor.close()
+            connection.close()
+
+            movie_ids = [row[0] for row in movie_results]
+
+            movies_data = []
+
+            for id in movie_ids:
+                # Fetch movie details from OMDB
+                movie_details = omdb.imdbid(id)
+                
+                # Format movie details
+                formatted_movie = {
+                    "Title": movie_details.get("title"),
+                    "Poster": movie_details.get("poster"),
+                    "IMDb Rating": movie_details.get("imdb_rating"),
+                    "Plot": movie_details.get("plot"),
+                    "IMDb URL": f"https://www.imdb.com/title/{movie_details.get('imdb_id')}/",
+                    "Related Movies URL": "https://www.imdb.com/",
+                    "Showtimes URL": "https://www.imdb.com/"
+                }
+
+                movies_data.append(formatted_movie)
+
+            return movies_data
+        else:
+            cursor.close()
+            connection.close()
+            print("User not found in database.")
+    return []
 
 # Check on login HTML
 @app.route('/')
@@ -298,7 +303,6 @@ def logout():
 def register():
     return render_template('register.html')
 
-
 @app.route('/results', methods=['POST','GET'])
 def results():
     username = session.get('username', 'Guest')
@@ -332,8 +336,6 @@ def results():
             movie_details_list.append(movie_info)
 
     return render_template('results.html', movies=movie_details_list, username = username)
-
-#hi
 
 @app.route('/profile')
 def profile():
@@ -404,7 +406,6 @@ def register_user():
     
     return redirect(url_for('home'))
 
-
 @app.route('/favorites')
 def favorites():
     username = session.get('username', 'Guest')
@@ -412,9 +413,7 @@ def favorites():
     print(favoritesDB)
     return render_template('favorites.html', favoritesDB=favoritesDB, username=username)
 
-
 if __name__ == "__main__":
     # Get the PORT environment variable or use a default port
     port = int(os.environ.get("PORT", 8080))
     app.run(debug=True, host="0.0.0.0", port=port)
-

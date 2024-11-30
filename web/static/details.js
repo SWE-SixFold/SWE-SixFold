@@ -66,7 +66,7 @@ function expandDetails(event, posterUrl, title, ratings, plot, imdbUrl, imdb_id)
     });
     
     // ** Button Event Listeners ** //
-    const saveToWatchlistBtn = document.getElementById('save-to-watchlist');
+    const saveToWatchlistBtn = document.getElementById('add-to-watchlist');
     const addToFavoritesBtn = document.getElementById('add-to-favorites');
 
 
