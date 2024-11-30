@@ -69,7 +69,11 @@
         <!-- Saved Movies Section -->
         <div class="saved-movies-section" id="wl-section">
             <h2>Watchlist
-                <button onclick="clearWatchlist()" class="clear-button">Clear Watchlist</button>
+
+                <form action="{{ url_for('clear_watchlist') }}" method="POST">
+                    <button type="submit" class="clear-button">Clear Watchlist</button>
+                </form>
+
             </h2>
             <div class="movies-gallery" id="moviesGallery">
 
@@ -89,7 +93,9 @@
         <!-- Fav Movies Section -->
         <div class="saved-movies-section" id="fav-section">
             <h2>Favorites
-                <button onclick="clearFavorites()" class="clear-button">Clear Favorites List</button>
+                <form action="{{ url_for('clear_favorites') }}" method="POST">
+                    <button type="submit" class="clear-button">Clear Favorites</button>
+                </form>
             </h2>
             <div class="movies-gallery" id="moviesGallery">
 

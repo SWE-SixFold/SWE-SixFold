@@ -75,6 +75,27 @@ def addingMovieID_ToDB(movie_id, db):
         cursor.close()
         connection.close()
 
+def clear_movies_from_db(db):
+    username = session.get('username', 'Guest')  # Correct method is 'get'
+
+    if username == 'Guest':
+        flash("Must be logged in")
+        return render_template("profile.html")
+    
+    connection = connect_to_mysql()
+    if connection:
+        cursor = connection.cursor()
+        cursor.execute("SELECT id FROM users WHERE username = %s;", (username,))
+        user_id_row = cursor.fetchone()
+        user_id = user_id_row[0] if user_id_row else None
+
+        # Delete movies for the given user_id
+        cursor.execute(f"DELETE FROM {db} WHERE user_id = %s", (user_id,))
+        connection.commit()  # Commit the transaction to apply changes
+        flash("Your movies have been cleared!", "success")
+        cursor.close()
+        connection.close()
+
 def getMovieTitleInfoFromDB(db):
     username = session.get('username', 'Guest')
     # Return preloaded movies_data for Guest user
@@ -376,6 +397,16 @@ def add_to_favorites():
     
     # Respond back to the client
     return jsonify({"message": f"Movie Title = {data.get('title')} '{movie_id}' added to favorites!"})
+
+@app.route('/clear-watchlist', methods=['POST'])
+def clear_watchlist():
+    clear_movies_from_db("Watchlist")
+    return redirect(url_for("profile"))
+
+@app.route('/clear-favorites', methods=['POST'])
+def clear_favorites():
+    clear_movies_from_db("FavoriteMovies")
+    return redirect(url_for("profile"))
 
 @app.route('/watchlist')
 def watchlist():
