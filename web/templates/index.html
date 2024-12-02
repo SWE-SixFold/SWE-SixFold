@@ -89,20 +89,35 @@
                 <div class="recommended-movies-section">
                     <h2>Recommended Movies</h2>
                     <div class="recommended-gallery">
-                        <!-- Example placeholders for movies -->
-                        <div class="recommended-item">
-                            <img src="static/images/movie1.jpg" alt="Movie 1">
-                            <p>Movie Title 1</p>
-                        </div>
-                        <div class="recommended-item">
-                            <img src="static/images/movie2.jpg" alt="Movie 2">
-                            <p>Movie Title 2</p>
-                        </div>
-                        <div class="recommended-item">
-                            <img src="static/images/movie3.jpg" alt="Movie 3">
-                            <p>Movie Title 3</p>
-                        </div>
-                        
+                        {% if watchlist %}
+                            {% for movie in watchlist %}
+                            <div class="recommended-item">
+                                <img src="{{ movie.Poster }}" alt="{{ movie.Title }} Poster">
+                                <p>{{ movie.Title }}</p>
+                            </div>
+                            {% endfor %}
+                        {% else %}
+                            <p>No movies to recommend</p>
+                        {% endif %}
+                    </div>
+                    <h2>Current Theater Movies</h2>
+                    <div class="recommended-gallery">
+                            {% if theater_movies %}
+                                {% for movie in theater_movies %}
+                                <div class="recommended-item">
+                                    <a href="{{ movie.tmdb_link }}" target="_blank">
+                                        {% if movie.poster_url %}
+                                            <img src="{{ movie.poster_url }}" alt="{{ movie.title }} Poster">
+                                        {% else %}
+                                            <p>No Poster Available</p>
+                                        {% endif %}
+                                        <p>{{ movie.title }}</p>
+                                    </a>
+                                </div>
+                                {% endfor %}
+                            {% else %}
+                                <p>No movies currently playing.</p>
+                            {% endif %}
                     </div>
                 </div>
             </form>
@@ -112,6 +127,8 @@
             <a href="https://www.imdb.com/showtimes/set-location" target="_blank">See Current Showtimes</a>
         </footer>
     </div>
+
+
 
     <!-- Frosted Background and Login Modal -->
     <div class="frosted-background" id="frostedBackground"></div>

@@ -1,5 +1,7 @@
 import os
 import pymysql
+import socket
+import requests
 from flask import Flask, render_template, request, redirect, url_for, flash, session, jsonify
 import pymysql.cursors
 import omdb
@@ -24,7 +26,7 @@ def connect_to_mysql():
     try:
         # Do not touch these settings
         connection = pymysql.connect(
-            host='192.168.1.37',
+            host= socket.gethostbyname(socket.gethostname()), #gets local ip address
             user='sixfold1',
             password='10312018',
             database='sixFold'
@@ -271,47 +273,76 @@ def getMovieIDInfoFromDB(db):
 # Check on login HTML
 @app.route('/')
 def home():
-    # Retrieve username from session or default to 'Guest'
-    username = session.get('username', 'Guest')  
-    return render_template('index.html', username=username)  # Render login form with username
+
+    api_key_tmdb = "70650a90bf3d2a8c14f055326a191bbe"
+    image_base_url = "https://image.tmdb.org/t/p/w500"
+
+    # Check if the user is logged in
+    if 'username' not in session:
+        return redirect('/login')  # Redirect to the login page
+
+    username = session.get('username', 'Guest')
+    watchlist_movies = getMovieIDInfoFromDB("Watchlist")[:3]
+    
+    # Fetch the current movies playing in theaters
+    url = f'https://api.themoviedb.org/3/movie/now_playing?api_key={api_key_tmdb}&language=en-US&page=1'
+
+    response = requests.get(url)
+    now_playing = response.json()
+
+    # Prepare a list of movies to pass to the template
+    theater_movies = []
+    for movie in now_playing['results'][:5]:
+        title = movie['title']
+        poster_path = movie['poster_path']
+        movie_id = movie['id']
+        tmdb_link = f"https://www.themoviedb.org/movie/{movie_id}"
+        poster_url = f"{image_base_url}{poster_path}" if poster_path else None
+
+        theater_movies.append({
+            'title': title,
+            'poster_url': poster_url,
+            'tmdb_link': tmdb_link
+        })
+
+    return render_template('index.html', username=username, watchlist=watchlist_movies, theater_movies=theater_movies)
+
 
 @app.route('/login', methods=['POST', 'GET'])
 def login():
-    # Get form inputs
-    username = request.form.get('username')  
-    password = request.form.get('psw')  
-    
-    connection = connect_to_mysql()  # Your function to connect to the database
-    if connection:
-        cursor = connection.cursor()
-        # Query to check if username and password match
-        cursor.execute("SELECT * FROM users WHERE username = %s AND password = %s", (username, password))
-        user = cursor.fetchone()  
-        cursor.close()
-        connection.close()
+    if request.method == 'POST':  # Handle form submission
+        # Get form inputs
+        username = request.form.get('username')  
+        password = request.form.get('psw')  
 
-        if user:
-            # Store the username in session
-            session['username'] = username
-            flash('Login successful!')
+        connection = connect_to_mysql()  # Your function to connect to the database
+        if connection:
+            cursor = connection.cursor()
+            # Query to check if username and password match
+            cursor.execute("SELECT * FROM users WHERE username = %s AND password = %s", (username, password))
+            user = cursor.fetchone()  
+            cursor.close()
+            connection.close()
 
-            # Check for a special user and render with appropriate image
-            if session['username'] == "testuser":
-                image_url = "https://media.tenor.com/ciegZ6-LGR4AAAAe/cool-link-shades.png"
+            if user:
+                # Store the username in session
+                session['username'] = username
+                flash('Login successful!')
+
+                # Redirect to the home page where the `watchlist` is properly handled
+                return redirect(url_for('home'))
             else:
-                image_url = "static/images/Default_pfp.svg.png"
-
-            # Render index.html with username and image URL
-            return render_template('index.html', image_url=image_url, username=username)
+                # Invalid credentials
+                flash('Invalid username or password. Please try again.')
+                return redirect(url_for('login'))  # Stay on the login page
         else:
-            # Invalid credentials
-            flash('Invalid username or password. Please try again.')
-            return redirect(url_for('home'))  # Redirect to login page
-    else:
-        flash('Unable to connect to the database.')
-        return redirect(url_for('home'))
-@app.route('/logout')
+            flash('Unable to connect to the database.')
+            return redirect(url_for('login'))  # Stay on the login page
+    
+    # Render login.html for GET requests
+    return render_template('login.html')
 
+@app.route('/logout')
 def logout():
     # Remove the username from the session
     session.pop('username', None)
@@ -407,6 +438,7 @@ def clear_favorites():
     clear_movies_from_db("FavoriteMovies")
     return redirect(url_for("profile"))
 
+#not needed since its on profile now
 @app.route('/watchlist')
 def watchlist():
     username = session.get('username', 'Guest')
@@ -440,6 +472,8 @@ def register_user():
     
     return redirect(url_for('home'))
 
+
+#not needed since its on profile now
 @app.route('/favorites')
 def favorites():
     username = session.get('username', 'Guest')
