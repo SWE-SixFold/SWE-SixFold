@@ -417,6 +417,10 @@ def watchlist():
 def similar():
     return render_template('similar.html')
 
+@app.route('/noresults')
+def noresults():
+    return render_template('noresults.html')
+
 @app.route('/register', methods=['POST', 'GET'])
 def register_user():
     # Get info
