@@ -35,23 +35,37 @@ def connect_to_mysql():
 
 def addingMovieToDB(movie_title, db):
     username = session.get('username', 'Guest')
+    
+    # Check if the user is logged in
     if username != 'Guest':
         connection = connect_to_mysql()
         cursor = connection.cursor()
 
+        # Get user_id from the username
         cursor.execute("SELECT id FROM users WHERE username = %s;", (username,))
         user_id_row = cursor.fetchone()
-
         user_id = user_id_row[0] if user_id_row else None
 
         if user_id:
-            cursor.execute(f"INSERT INTO {db} (user_id, movie_title) VALUES (%s, %s);", (user_id, movie_title))
-            connection.commit()
-            print(f"{movie_title} added to {db}")
+            # Check if the movie already exists in the database for the user
+            cursor.execute(f"SELECT 1 FROM {db} WHERE user_id = %s AND movie_title = %s LIMIT 1;", (user_id, movie_title))
+            existing_movie = cursor.fetchone()
+
+            if existing_movie:
+                print(f"{movie_title} already exists in the {db} for the user.")
+            else:
+                # Insert the movie if it doesn't exist
+                cursor.execute(f"INSERT INTO {db} (user_id, movie_title) VALUES (%s, %s);", (user_id, movie_title))
+                connection.commit()
+                print(f"{movie_title} added to {db}.")
         else:
-            print("user not found")
+            print("User not found.")
+        
         cursor.close()
         connection.close()
+    else:
+        print("User is not logged in.")
+
 
 def addingMovieID_ToDB(movie_id, db):
     username = session.get('username', 'Guest')
