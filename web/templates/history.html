@@ -41,12 +41,7 @@
     {% if historyDB %}
     <div>
         {% for movie in historyDB %}
-            <div class="movie-item">
-                <img src="{{ movie.Poster }}" alt="{{ movie.Title }} Poster">
-                <h3>{{ movie.Title }}</h3>
-                <p>{{ movie.Plot }}</p>
-                <a href="{{ movie.IMDb_URL }}" target="_blank">View on IMDb</a>
-            </div>
+            <p>{{ movie }}</p>
         {% endfor %}
     </div>
 {% else %}
