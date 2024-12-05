@@ -360,6 +360,42 @@ def getMovieIDInfoFromDB(db):
             print("User not found in database.")
     return []
 
+def getHisotry(db):
+        movies_data = ["Home alone", "Transformers", "Georgia State"]
+
+        key = "96ae5860"
+
+        # Setting up API to request info from OMDB
+        omdb.set_default('apikey', key)
+
+        username = session.get('username', 'Guest')
+        # Return preloaded movies_data for Guest user
+        if username == 'Guest':
+            print(f"Guest user viewing {db}. Showing preloaded data.")
+            return movies_data  # Use preloaded data for Guest
+
+        connection = connect_to_mysql()
+        if connection:
+            cursor = connection.cursor()
+            cursor.execute("SELECT id FROM users WHERE username = %s;", (username,))
+            user_id_row = cursor.fetchone()
+            user_id = user_id_row[0] if user_id_row else None
+
+            if user_id:
+                cursor.execute(f"SELECT movie_title FROM {db} WHERE user_id = %s", (user_id,))
+                movie_results = cursor.fetchall()
+                cursor.close()
+                connection.close()
+
+                movie_titles = [row[0] for row in movie_results]
+                print(movie_titles)
+                return movie_titles
+            else:
+                cursor.close()
+                connection.close()
+                print("User not found in database.")
+        return []
+
 # Check on login HTML
 @app.route('/')
 def home():
@@ -495,7 +531,8 @@ def settings():
 @app.route('/history')
 def history():
     username = session.get('username', 'Guest')
-    historyDB = getMovieTitleInfoFromDB("SearchHistory")  # Fetch History data
+    historyDB = getHisotry("SearchHistory")
+    print(historyDB)
     return render_template('history.html', historyDB=historyDB, username=username)
 
 @app.route('/add-to-watchlist', methods=['POST', 'GET'])
