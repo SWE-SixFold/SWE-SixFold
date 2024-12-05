@@ -12,7 +12,6 @@ TODO
     bio?
     update username and passwords?
     recommended????
-    reviews
 """
 
 app = Flask(__name__)
@@ -66,7 +65,6 @@ def addingMovieToDB(movie_title, db):
     else:
         print("User is not logged in.")
 
-
 def addingMovieID_ToDB(movie_id, db):
     username = session.get('username', 'Guest')
     if username != 'Guest':
@@ -86,6 +84,35 @@ def addingMovieID_ToDB(movie_id, db):
             print("user not found")
         cursor.close()
         connection.close()
+
+def addNote(db):
+    data = request.get_json()  # Get the JSON data sent by the client
+    note_text = data.get('note', '').strip()  # Extract the note text
+
+    username = session.get('username', 'Guest')  # Get the username from the session
+    if username != 'Guest' and note_text:
+        connection = connect_to_mysql()
+        cursor = connection.cursor()
+
+        cursor.execute("SELECT id FROM users WHERE username = %s;", (username,))
+        user_id_row = cursor.fetchone()
+
+        user_id = user_id_row[0] if user_id_row else None
+
+        if user_id:
+            cursor.execute(f"INSERT INTO {db} (user_id, movie_id) VALUES (%s, %s);", (user_id, movie_id))
+            connection.commit()
+            print(f"{movie_id} added to {db}")
+        else:
+            print("user not found")
+        cursor.close()
+        connection.close()
+
+        print(f"Note from {username} {user_id}: {note_text}")  # Print the note to the terminal
+
+        return jsonify({'status': 'success', 'message': 'Note saved.'})
+    
+    return jsonify({'status': 'error', 'message': 'Note or user is invalid.'})
 
 def clear_movies_from_db(db):
     username = session.get('username', 'Guest')  # Correct method is 'get'
@@ -568,6 +595,10 @@ def add_to_favorites():
     
     # Respond back to the client
     return jsonify({"message": f"Movie Title = {data.get('title')} '{movie_id}' added to favorites!"})
+
+@app.route('/save_note', methods=['POST'])
+def save_note():
+
 
 @app.route('/clear-watchlist', methods=['POST'])
 def clear_watchlist():

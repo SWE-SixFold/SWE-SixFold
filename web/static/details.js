@@ -185,10 +185,31 @@ function toggleNoteBox() {
 // Function to save a note
 function saveNote() {
     const noteInput = document.getElementById("note-input");
-    if (noteInput.value.trim() !== "") {
-        alert(`Note saved: ${noteInput.value}`);
-        noteInput.value = "";
-        toggleNoteBox();
+    const noteText = noteInput.value.trim();
+
+    if (noteText !== "") {
+        // Sending the note to Flask using Fetch API (AJAX)
+        fetch('/save_note', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ note: noteText })  // Sending the note as JSON
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.status === 'success') {
+                alert(`Note saved: ${noteText}`);
+                noteInput.value = "";
+                toggleNoteBox();  // Hide the input box after saving
+            } else {
+                alert("Error saving note.");
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            alert("Failed to save note.");
+        });
     } else {
         alert("Please enter a note before saving.");
     }
