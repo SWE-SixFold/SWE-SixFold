@@ -598,7 +598,7 @@ def add_to_favorites():
 
 @app.route('/save_note', methods=['POST'])
 def save_note():
-
+    return
 
 @app.route('/clear-watchlist', methods=['POST'])
 def clear_watchlist():
