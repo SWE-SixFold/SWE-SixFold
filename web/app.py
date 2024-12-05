@@ -368,8 +368,8 @@ def home():
     image_base_url = "https://image.tmdb.org/t/p/w500"
 
     # Check if the user is logged in
-    if 'username' not in session:
-        return redirect('/login')  # Redirect to the login page
+    #if 'username' not in session:
+        #return redirect('/login')  # Redirect to the login page
 
     username = session.get('username', 'Guest')
     watchlist_movies = getMovieIDInfoFromDB("Watchlist")[:3]

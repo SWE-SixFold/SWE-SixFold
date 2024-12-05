@@ -335,6 +335,10 @@ footer a:hover {
     background-color: #f8f8f8;
     border-radius: 8px;
     border: 1px solid #ccc;
+    width: 100%; /* Ensure it doesn’t overflow */
+    box-sizing: border-box; /* Include padding/borders in the width calculation */
+    max-height: 250px; /* Set a max-height to prevent it from taking too much vertical space */
+    overflow-y: auto; /* Allow vertical scrolling if content exceeds max-height */
 }
 
 .recommended-movies-section h2 {
@@ -358,6 +362,7 @@ footer a:hover {
     padding: 10px;
     background-color: #fff;
     transition: transform 0.2s, box-shadow 0.2s;
+    box-sizing: border-box; /* Include padding/borders in the width calculation */
 }
 
 .recommended-item:hover {
@@ -375,3 +380,17 @@ footer a:hover {
     font-size: 0.9rem;
     color: #666;
 }
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+    /* Adjust max height for smaller screens */
+    .recommended-movies-section {
+        max-height: 300px; /* Smaller max height for mobile */
+    }
+
+    /* Adjust item size for mobile screens */
+    .recommended-item {
+        width: 120px; /* Smaller items */
+    }
+}
+
