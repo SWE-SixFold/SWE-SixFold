@@ -7,64 +7,6 @@ h1 {
     padding-top: 50px;
 }
 
-/* Styling for the Movie History Container */
-div {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 20px;
-    justify-content: center;
-    padding: 20px;
-}
-
-/* Styling for each movie item */
-.movie-item {
-    width: 250px;
-    background-color: #fff;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    padding: 15px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-    text-align: center;
-    transition: transform 0.2s, box-shadow 0.2s ease-in-out;
-    margin-top: 100px;
-}
-
-/* Movie poster image styling */
-.movie-item img {
-    width: 100%;
-    height: auto;
-    border-radius: 8px;
-    margin-bottom: 10px;
-}
-
-/* Movie title styling */
-.movie-item h3 {
-    font-size: 1.2rem;
-    font-weight: bold;
-    margin-bottom: 10px;
-    color: #333;
-}
-
-/* Movie plot description styling */
-.movie-item p {
-    font-size: 0.9rem;
-    color: #555;
-    margin-bottom: 15px;
-    line-height: 1.4;
-}
-
-/* IMDb link styling */
-.movie-item a {
-    color: #007aff;
-    text-decoration: none;
-    font-size: 0.9rem;
-    transition: color 0.3s ease;
-}
-
-.movie-item a:hover {
-    color: #005bb5;
-}
-
 /* No movies found message styling */
 p {
     text-align: center;
