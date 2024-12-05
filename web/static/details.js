@@ -1,6 +1,9 @@
 // Function to expand the details box with the selected poster
 function expandDetails(event, posterUrl, title, ratings, plot, imdbUrl, imdb_id) {
     console.log("Poster clicked:", title, ratings, plot, imdbUrl); // Log data for debugging
+    
+    document.getElementById('current-movie-title').value = title; // Store the title
+    console.log(`Movie selected: ${title}`); // Debugging log
 
     const detailsBox = document.getElementById("details-box");
     const noteInput = document.getElementById("note-input");
@@ -186,22 +189,26 @@ function toggleNoteBox() {
 function saveNote() {
     const noteInput = document.getElementById("note-input");
     const noteText = noteInput.value.trim();
+    const movieTitle = document.getElementById("current-movie-title").value; // Get the title
 
-    if (noteText !== "") {
-        // Sending the note to Flask using Fetch API (AJAX)
+    if (noteText !== "" && movieTitle !== "") {
+        // Sending the note and title to Flask using Fetch API (AJAX)
         fetch('/save_note', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify({ note: noteText })  // Sending the note as JSON
+            body: JSON.stringify({ 
+                note: noteText, 
+                movie_title: movieTitle  // Include the movie title
+            })
         })
         .then(response => response.json())
         .then(data => {
             if (data.status === 'success') {
-                alert(`Note saved: ${noteText}`);
-                noteInput.value = "";
-                toggleNoteBox();  // Hide the input box after saving
+                alert(`Note saved for "${movieTitle}": ${noteText}`);
+                noteInput.value = ""; // Clear the input
+                toggleNoteBox(); // Hide the note box
             } else {
                 alert("Error saving note.");
             }
@@ -211,9 +218,10 @@ function saveNote() {
             alert("Failed to save note.");
         });
     } else {
-        alert("Please enter a note before saving.");
+        alert("Please enter a note and ensure the movie title is available.");
     }
 }
+
 
 // Function to discard a note
 function discardNote() {

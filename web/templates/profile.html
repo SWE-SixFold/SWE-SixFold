@@ -113,15 +113,17 @@
         <!-- Notes Section Under Favorites -->
         <h3>Notes</h3>
         <div class="notes-gallery">
+            {% if notes %}
+                {% for note in notes %}
+                <div class="note-card">
+                    <strong>{{ note[0] }}: </strong> {{ note[1] }}
+                </div>
+                {% endfor %}
+            {% else %}
             <div class="note-card">
-                <strong>Movie 1: </strong> Amazing movie, must-watch!
+                <strong>No notes yet</strong>
             </div>
-            <div class="note-card">
-                <strong>Movie 2: </strong> Loved the storyline!
-            </div>
-            <div class="note-card">
-                <strong>Movie 3: </strong> Can't wait to see the sequel!
-            </div>
+            {% endif %}
         </div>
 
     </div>

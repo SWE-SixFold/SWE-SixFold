@@ -85,35 +85,6 @@ def addingMovieID_ToDB(movie_id, db):
         cursor.close()
         connection.close()
 
-def addNote(db):
-    data = request.get_json()  # Get the JSON data sent by the client
-    note_text = data.get('note', '').strip()  # Extract the note text
-
-    username = session.get('username', 'Guest')  # Get the username from the session
-    if username != 'Guest' and note_text:
-        connection = connect_to_mysql()
-        cursor = connection.cursor()
-
-        cursor.execute("SELECT id FROM users WHERE username = %s;", (username,))
-        user_id_row = cursor.fetchone()
-
-        user_id = user_id_row[0] if user_id_row else None
-
-        if user_id:
-            cursor.execute(f"INSERT INTO {db} (user_id, movie_id) VALUES (%s, %s);", (user_id, movie_id))
-            connection.commit()
-            print(f"{movie_id} added to {db}")
-        else:
-            print("user not found")
-        cursor.close()
-        connection.close()
-
-        print(f"Note from {username} {user_id}: {note_text}")  # Print the note to the terminal
-
-        return jsonify({'status': 'success', 'message': 'Note saved.'})
-    
-    return jsonify({'status': 'error', 'message': 'Note or user is invalid.'})
-
 def clear_movies_from_db(db):
     username = session.get('username', 'Guest')  # Correct method is 'get'
 
@@ -401,6 +372,35 @@ def getMovieIDInfoFromDB(db):
             print("User not found in database.")
     return []
 
+def getNotes():
+    username = session.get('username', 'Guest')
+    # Return preloaded movies_data for Guest user
+    if username == 'Guest':
+        notes = (("Home alone", "Amazing movie", "date"), ("The Grinch", "Cool xmas movie!", "date"))
+        return notes  # Use preloaded data for Guest
+
+    connection = connect_to_mysql()
+    cursor = connection.cursor()
+
+    if connection:
+        
+        cursor.execute("SELECT id FROM users WHERE username = %s;", (username,))
+        user_id_row = cursor.fetchone()
+        user_id = user_id_row[0] if user_id_row else None
+
+        if user_id:
+            cursor.execute("SELECT movie_title, note, created_at FROM MovieNotes WHERE user_id = %s", (user_id,))
+            notes = cursor.fetchall()
+
+            #note[0] = movie title
+            #note[1] = movie note
+            #note[3] = date taken
+
+            cursor.close()
+            connection.close()
+
+            return notes
+
 def getHisotry(db):
         movies_data = ["Home alone", "Transformers", "Georgia State"]
 
@@ -507,7 +507,7 @@ def login():
             return redirect(url_for('login'))  # Stay on the login page
     
     # Render login.html for GET requests
-    return render_template('login.html')
+    return render_template('index.html')
 
 @app.route('/logout')
 def logout():
@@ -559,8 +559,10 @@ def results():
 def profile():
     watchlist_movies = getMovieIDInfoFromDB("Watchlist")
     favorite_movies = getMovieIDInfoFromDB("FavoriteMovies")
+    notes = getNotes()
+
     username = session.get('username', 'Guest')
-    return render_template('profile.html', username = username, watchlist = watchlist_movies, favorites = favorite_movies)
+    return render_template('profile.html', username = username, watchlist = watchlist_movies, favorites = favorite_movies, notes = notes)
 
 @app.route('/settings')
 def settings():
@@ -598,7 +600,40 @@ def add_to_favorites():
 
 @app.route('/save_note', methods=['POST'])
 def save_note():
-    return
+    # Get JSON data sent from the client
+    data = request.get_json()
+    movie_title = data.get('movie_title', '').strip()  # Extract the movie title
+    note_text = data.get('note', '').strip()  # Extract the note text
+
+    # Get the username from the session
+    username = session.get('username', 'Guest')
+
+    # Validate the data
+    if username != 'Guest' and movie_title and note_text:
+        connection = connect_to_mysql()
+        cursor = connection.cursor()
+
+        # Get user_id from the username
+        cursor.execute("SELECT id FROM users WHERE username = %s;", (username,))
+        user_id_row = cursor.fetchone()
+        user_id = user_id_row[0] if user_id_row else None
+
+        if user_id:
+            # Insert the note into the MovieNotes table
+            cursor.execute("INSERT INTO MovieNotes (user_id, movie_title, note) VALUES (%s, %s, %s);", (user_id, movie_title, note_text))
+            connection.commit()
+
+            # Print the note and movie title to the terminal
+            print(f"Note from {username}: Movie - {movie_title}, Note - {note_text}")
+            
+            cursor.close()
+            connection.close()
+
+            # Return success response
+            return jsonify({'status': 'success', 'message': 'Note saved.'})
+
+    # Return error if validation fails
+    return jsonify({'status': 'error', 'message': 'Movie title or note is invalid.'})
 
 @app.route('/clear-watchlist', methods=['POST'])
 def clear_watchlist():
