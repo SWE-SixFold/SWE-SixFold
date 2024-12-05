@@ -401,7 +401,7 @@ def getNotes():
 
             return notes
 
-def getHisotry(db):
+def getHistory(db):
         movies_data = ["Home alone", "Transformers", "Georgia State"]
 
         key = "96ae5860"
@@ -574,7 +574,7 @@ def settings():
 @app.route('/history')
 def history():
     username = session.get('username', 'Guest')
-    historyDB = getHisotry("SearchHistory")
+    historyDB = getHistory("SearchHistory")
     print(historyDB)
     return render_template('history.html', historyDB=historyDB, username=username)
 
