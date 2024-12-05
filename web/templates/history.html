@@ -4,8 +4,38 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>History</title>
+    <link rel="stylesheet" href="static/history.css">
+    <link rel="stylesheet" href="static/reset.css">
+    <link rel="stylesheet" href="static/global.css">
+    <link rel="stylesheet" href="static/header.css">
+    <link rel="stylesheet" href="static/dropdown.css">
+    <link rel="stylesheet" href="static/forms.css">
+    <link rel="stylesheet" href="static/buttons.css">
+    <link rel="stylesheet" href="static/dark-mode.css">
+    <link rel="stylesheet" href="static/footer.css">
+    <link rel="stylesheet" href="static/settings.css">
 </head>
 <body>
+    <!-- Top Icons Section for Consistent Navigation -->
+    <div class="top-icons">
+        <div class="dark-mode-icon" onclick="toggleDarkMode()">
+            <img src="static/images/dark.png" alt="Dark Mode">
+        </div>
+        <div class="username">
+            <p> {{ username }} </p>
+        </div>
+        <div class="profile-icon" onclick="toggleMenu()">
+            <img src="{{ image_url }}" alt="Profile">
+            <div class="dropdown-menu" id="dropdownMenu">
+                <a href="{{ url_for('profile') }}">Manage Profile</a>
+                <a href="{{ url_for('history') }}">History</a>
+                <a href="{{ url_for('settings') }}">Settings</a>
+                <a href="{{ url_for('logout') }}">Log Out</a>
+            </div>
+        </div>
+    </div>
+    
+    
     <h1>Search History</h1>
 
     {% if historyDB %}
@@ -22,6 +52,10 @@
 {% else %}
     <p>No movies found in your history.</p>
 {% endif %}
+
+    <!-- JavaScript for Dark Mode and Dropdown -->
+    <script src="static/settings.js"></script>
+    <script src="static/functions.js" defer></script>
 
 </body>
 </html>
