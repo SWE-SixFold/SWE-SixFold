@@ -438,7 +438,7 @@ def logout():
     session.pop('username', None)
     flash('You have been logged out.')
     print("YOU LOGGED OUT")
-    return redirect(url_for('home'))
+    return redirect(url_for('login'))
 
 @app.route('/register')
 def register():

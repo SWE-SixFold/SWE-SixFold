@@ -30,10 +30,8 @@
             <img src="{{ image_url }}" alt="Profile">
             <div class="dropdown-menu" id="dropdownMenu">
                 <a href="{{ url_for('profile') }}">Profile</a>
-                <a href="#" onclick="showLoginModal()">LoginButton(temp)</a>
                 <a href="#">History</a>
-                
-                <a href="{{ url_for('settings') }}">Settings</a> <!-- onclick="showLoginModal() -->
+                <a href="{{ url_for('settings') }}">Settings</a>
                 <a href="{{ url_for('logout') }}">Log Out</a>
                 <a href="{{ url_for('home') }}">Back to Home</a>
             </div>
