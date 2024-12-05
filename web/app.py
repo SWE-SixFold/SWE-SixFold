@@ -507,7 +507,7 @@ def login():
             return redirect(url_for('login'))  # Stay on the login page
     
     # Render login.html for GET requests
-    return render_template('index.html')
+    return render_template('login.html')
 
 @app.route('/logout')
 def logout():
