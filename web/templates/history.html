@@ -1,9 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>History</title>
+
+    <!-- Stylesheets -->
     <link rel="stylesheet" href="static/history.css">
     <link rel="stylesheet" href="static/reset.css">
     <link rel="stylesheet" href="static/global.css">
@@ -15,6 +18,7 @@
     <link rel="stylesheet" href="static/footer.css">
     <link rel="stylesheet" href="static/settings.css">
 </head>
+
 <body>
     <!-- Top Icons Section for Consistent Navigation -->
     <div class="top-icons">
@@ -22,7 +26,7 @@
             <img src="static/images/dark.png" alt="Dark Mode">
         </div>
         <div class="username">
-            <p> {{ username }} </p>
+            <p>{{ username }}</p>
         </div>
         <div class="profile-icon" onclick="toggleMenu()">
             <img src="{{ image_url }}" alt="Profile">
@@ -31,26 +35,36 @@
                 <a href="{{ url_for('history') }}">History</a>
                 <a href="{{ url_for('settings') }}">Settings</a>
                 <a href="{{ url_for('logout') }}">Log Out</a>
+                <a href="{{ url_for('home') }}">Home</a>
             </div>
         </div>
     </div>
-    
-    
-    <h1>Search History</h1>
 
-    {% if historyDB %}
-    <div>
-        {% for movie in historyDB %}
-            <p>{{ movie }}</p>
-        {% endfor %}
+    <!-- Main Content -->
+    <div class="history-container">
+        <h1>Search History</h1>
+
+        <div class="clear-button-container">
+            <button type="submit" class="clear-button">Clear History</button>
+        </div>
+
+        <!-- Check if there is any history in the database -->
+        {% if historyDB %}
+        <div class="movie-list">
+            {% for movie in historyDB %}
+            <div class="movie-item">
+                <p>{{ movie }}</p>
+            </div>
+            {% endfor %}
+        </div>
+        {% else %}
+        <p>No movies found in your history.</p>
+        {% endif %}
     </div>
-{% else %}
-    <p>No movies found in your history.</p>
-{% endif %}
 
     <!-- JavaScript for Dark Mode and Dropdown -->
     <script src="static/settings.js"></script>
     <script src="static/functions.js" defer></script>
-
 </body>
+
 </html>
