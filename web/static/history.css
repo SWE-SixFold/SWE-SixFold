@@ -1,24 +1,35 @@
-/* General Styles for History Page */
-h1 {
+/* Style for the history container */
+.history-container {
     text-align: center;
-    font-size: 2rem;
-    color: #333;
-    margin-top: 40px;
-    padding-top: 50px;
+    margin: 20px;
 }
 
-/* No movies found message styling */
-p {
-    text-align: center;
-    color: #555;
+.clear-button-container {
+    text-align: center; /* Center the button horizontally */
+    margin-top: 20px; /* Optional: add some space above the button */
+}
+
+.clear-button {
+    padding: 10px 20px;
     font-size: 1rem;
-    margin-top: 20px;
+    background-color: #007aff;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
 }
 
-/* Responsive Styles */
-@media (max-width: 768px) {
-    .movie-item {
-        width: 100%;
-        max-width: 300px;
-    }
+.clear-button:hover {
+    background-color: #005bb5;
+}
+
+/* Optional: Add margin to the h1 for better spacing */
+h1 {
+    margin-bottom: 15px;
+}
+
+.movie-item p {
+    text-align: center;
+    margin-top: 20px;
+    margin-bottom: 20px;
 }
