@@ -50,7 +50,7 @@
         <div class="profile-nav">
             <ul>
                 <li><a href="#fav-section">Favorite Movies</a></li>
-                <li><a href="#">Notes</a></li>
+                <li><a href="#note-section">Notes</a></li>
                 <li><a href="#wl-section">Watchlist</a></li>
             </ul>
         </div>
@@ -111,22 +111,26 @@
         </div>
             
         <!-- Notes Section Under Favorites -->
-        <h3>Notes</h3>
-        <div class="notes-gallery">
-            {% if notes %}
-                {% for note in notes %}
+        <div class="notes-section" id="note-section"></div>
+            <h2 class="notes-header">Notes
+                <form action="#" method="POST">
+                    <button type="submit" class="clear-button">Clear Notes</button>
+                </form>
+            </h2>
+            <div class="notes-gallery">
+                {% if notes %}
+                    {% for note in notes %}
+                    <div class="note-card">
+                        <strong>{{ note[0] }}: </strong> {{ note[1] }}
+                    </div>
+                    {% endfor %}
+                {% else %}
                 <div class="note-card">
-                    <strong>{{ note[0] }}: </strong> {{ note[1] }}
+                    <strong>No notes yet</strong>
                 </div>
-                {% endfor %}
-            {% else %}
-            <div class="note-card">
-                <strong>No notes yet</strong>
+                {% endif %}
             </div>
-            {% endif %}
         </div>
-
-    </div>
 
     <!-- JavaScript for Dark Mode and Dropdown -->
     <script src="static/settings.js"></script>
