@@ -645,6 +645,16 @@ def clear_favorites():
     clear_movies_from_db("FavoriteMovies")
     return redirect(url_for("profile"))
 
+@app.route('/clear-notes', methods=['POST'])
+def clear_notes():
+    clear_movies_from_db("MovieNotes")
+    return redirect(url_for("profile"))
+
+@app.route('/clear_history', methods=['POST'])
+def clear_history():
+    clear_movies_from_db("SearchHistory")
+    return redirect(url_for("history"))
+
 #not needed since its on profile now
 @app.route('/watchlist')
 def watchlist():
