@@ -22,3 +22,9 @@ header .logo {
     height: 40px;
     border-radius: 50%;
 }
+
+.notes-header {
+    display: flex;
+    justify-content: space-between; /* Pushes items to opposite sides */
+    align-items: center; /* Aligns items vertically */
+}

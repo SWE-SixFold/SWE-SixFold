@@ -72,7 +72,7 @@
 .clear-button {
     font-size: 0.9rem;
     padding: 5px 10px;
-    margin-left: 15px;
+    margin-left: 0px;
     background-color: #ffffff;
     color: #ff4141;
     border: 1px solid rgb(255, 163, 163);
