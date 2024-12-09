@@ -19,11 +19,13 @@ Make sure to install all required dependencies into the terminal by installing a
 ## How to Run
 
 1. Download all files from the SWE-SixFold repository.
-2. Open the downloaded folder in Visual Studio Code.
-
-3. Locate the Python file named app.py in the web folder (web/app.py).
-4. Open app.py and run it.
-5. After running, you should see output in the VS Code terminal. Click the link saying http://127... to open the website in your browser.
+2. download and setup mysql community edition
+3. create database using data/dump-sixFold-202412061013.sql script
+4. create user that have access to database (on mysql)
+5. add mysql user info to app.py on the connect_to_mysql() function
+6. Locate the Python file named app.py in the web folder (web/app.py).
+7. Open app.py and run it.
+8. After running, you should see output in the VS Code terminal. Click the link saying http://127... to open the website in your browser.
 
 ## Research/Documentation
 

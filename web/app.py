@@ -23,9 +23,9 @@ def connect_to_mysql():
         # Do not touch these settings
         connection = pymysql.connect(
             host= socket.gethostbyname(socket.gethostname()), #gets local ip address
-            user='sixfold1',
-            password='10312018',
-            database='sixFold'
+            user='sixfold1', #change to your mysql user
+            password='10312018', #mysql user password
+            database='sixFold' 
         )
         return connection
     except pymysql.MySQLError as e:
